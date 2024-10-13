@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useAdminCreate } from "./useAdminCreate"; // Ensure correct path to your custom hook
+import { useAdminCreate } from "../../service/mutation/useAdminCreate"; // Ensure correct path to your custom hook
 import { ToastContainer, toast } from "react-toastify"; // Import ToastContainer and toast
 import "react-toastify/dist/ReactToastify.css"; // Import toast styles
 
@@ -16,8 +16,8 @@ export const AdminCreate = () => {
     mutate(formData, {
       onSuccess: () => {
         // Reset form data after successful creation
-        setFormData({ email: "", password: "" });
         toast.success("Admin muvaffaqiyatli yaratildi!"); // Show success toast
+        setFormData({ email: "", password: "" });
       },
       onError: () => {
         toast.error(error.message); // Show error toast

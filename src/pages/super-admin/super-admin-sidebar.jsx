@@ -22,12 +22,12 @@ export const SuperAdminSideBar = () => {
         >
           All Admin
         </Link>
-        {/* <Link
-          to="/super-admin/admin-delete"
+        <Link
+          to="/super-admin/profile"
           className="block px-4 py-2 rounded-md text-lg font-medium bg-gray-700 hover:bg-gray-600 transition duration-200"
         >
-          Admin Delete
-        </Link> */}
+          Profile
+        </Link>
       </div>
     </div>
   );

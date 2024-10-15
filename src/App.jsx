@@ -15,6 +15,7 @@ import { AdminProfile } from "./pages/admin/admin-profile";
 import { AdminDetailPage } from "./pages/super-admin/users-detail-page";
 import { ProtectedRoute } from "./pages/auth/protected"; // Himoyalangan marshrutlar uchun
 import { NotFoundPage } from "./pages/404/404"; // 404 sahifa
+import { Categories } from "./pages/admin/categories";
 
 const App = () => {
   return (
@@ -31,6 +32,8 @@ const App = () => {
             <Route path="create-vacancy" element={<CreateCacansy />} />
             <Route path="profile" element={<AdminProfile />} />
             <Route path="update-profile" element={<ProfileEditPage />} />
+            <Route path="Categories" element={<Categories/>} />
+
           </Route>
         </Route>
 

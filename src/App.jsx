@@ -1,6 +1,5 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-
 import { Login } from "./pages/auth/login";
 import { AdminLayout } from "./pages/admin/admin-layout";
 import { CreateProduct } from "./pages/admin/create-product";
@@ -14,30 +13,43 @@ import { Profile } from "./pages/super-admin/profile";
 import { ProfileEditPage } from "./pages/super-admin/update-profile";
 import { AdminProfile } from "./pages/admin/admin-profile";
 import { AdminDetailPage } from "./pages/super-admin/users-detail-page";
+import { ProtectedRoute } from "./pages/auth/protected"; // Himoyalangan marshrutlar uchun
+import { NotFoundPage } from "./pages/404/404"; // 404 sahifa
 
 const App = () => {
   return (
     <div>
       <ToastContainer />
       <Routes>
+        {/* Login sahifasi */}
         <Route path="/" element={<Login />} />
 
-        <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<CreateProduct />} />
-          <Route path="create-vacancy" element={<CreateCacansy />} />
-          <Route path="profile" element={<AdminProfile />} />
-          <Route path="update-profile" element={<ProfileEditPage />} />
+        {/* Admin yo'nalishlari */}
+        <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<CreateProduct />} />
+            <Route path="create-vacancy" element={<CreateCacansy />} />
+            <Route path="profile" element={<AdminProfile />} />
+            <Route path="update-profile" element={<ProfileEditPage />} />
+          </Route>
         </Route>
 
-        <Route path="/super-admin" element={<SuperAdminLayout />}>
-          <Route path="admin-create" element={<AdminCreate />} />
-          <Route path="admin-change" element={<AdminChange />} />
-          <Route path="/super-admin/detail-page/:id" element={<AdminDetailPage />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="update-profile" element={<ProfileEditPage />} />
+        {/* Super-admin yo'nalishlari */}
+        <Route element={<ProtectedRoute allowedRoles={["superadmin"]} />}>
+          <Route path="/super-admin" element={<SuperAdminLayout />}>
+            <Route path="admin-create" element={<AdminCreate />} />
+            <Route path="admin-change" element={<AdminChange />} />
+            <Route
+              path="/super-admin/detail-page/:id"
+              element={<AdminDetailPage />}
+            />
+            <Route path="profile" element={<Profile />} />
+            <Route path="update-profile" element={<ProfileEditPage />} />
+          </Route>
         </Route>
 
-        <Route path="*" element={<h1>lorem...</h1>} />
+        {/* 404 sahifa */}
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </div>
   );

@@ -2,10 +2,16 @@ import { useForm } from "react-hook-form";
 import { useLogin } from "./uselogin";
 import { useNavigate } from "react-router-dom";
 import { saveState } from "../../config/stroge";
+import { toast } from "react-toastify";
 
 export const Login = () => {
-  const { register, handleSubmit, formState } = useForm();
-  const { mutate } = useLogin();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
+  const { mutate, isLoading } = useLogin();
   const navigate = useNavigate();
 
   const submit = (data) => {
@@ -13,31 +19,34 @@ export const Login = () => {
       onSuccess: (res) => {
         console.log(res);
 
-        // Save tokens and role
+        // Token va rolni saqlash
         saveState("user", {
           access_token: res.access_token,
           refresh_token: res.refresh_token,
           role: res.role,
         });
 
-        // Role-based navigation
+        // Foydalanuvchining ro'liga qarab yo'naltirish
         if (res.role === "admin") {
           navigate("/admin");
+          toast.success("login qilindi!",{autoClose:3000,hideProgressBar:true});
         } else if (res.role === "superadmin") {
           navigate("/super-admin");
+          toast.success("login qilindi!",{autoClose:3000,});
         } else {
-          navigate("/"); // Default route
+          navigate("/"); // Default sahifa
         }
       },
       onError: (error) => {
         console.error("Login failed:", error);
+        toast.error("login yoki password xato",{position:"top-center"});
       },
     });
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-80">
+      <div className="bg-white p-8 rounded-lg shadow-md max-w-lg w-full">
         <h2 className="text-2xl font-semibold mb-6 text-center">Login</h2>
         <form onSubmit={handleSubmit(submit)}>
           <div className="mb-4">
@@ -49,16 +58,12 @@ export const Login = () => {
               type="email"
               id="email"
               className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-                formState.errors.email
-                  ? "border-red-500"
-                  : "focus:ring-blue-500"
+                errors.email ? "border-red-500" : "focus:ring-blue-500"
               }`}
               placeholder="Enter your email"
             />
-            {formState.errors.email && (
-              <p className="text-red-500 text-sm">
-                {formState.errors.email.message}
-              </p>
+            {errors.email && (
+              <p className="text-red-500 text-sm">{errors.email.message}</p>
             )}
           </div>
           <div className="mb-6">
@@ -70,23 +75,22 @@ export const Login = () => {
               type="password"
               id="password"
               className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-                formState.errors.password
-                  ? "border-red-500"
-                  : "focus:ring-blue-500"
+                errors.password ? "border-red-500" : "focus:ring-blue-500"
               }`}
               placeholder="Enter your password"
             />
-            {formState.errors.password && (
-              <p className="text-red-500 text-sm">
-                {formState.errors.password.message}
-              </p>
+            {errors.password && (
+              <p className="text-red-500 text-sm">{errors.password.message}</p>
             )}
           </div>
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition-colors"
+            className={`w-full bg-blue-500 text-white py-2 rounded-lg transition-colors ${
+              isLoading ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-600"
+            }`}
+            disabled={isLoading}
           >
-            Login
+            {isLoading ? "Logging in..." : "Login"}
           </button>
         </form>
       </div>

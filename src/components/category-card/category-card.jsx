@@ -32,7 +32,7 @@ const CategoryCard = ({ category }) => {
       : `/admin/categories-detail/${category.id}`;
 
   return (
-    <div className="border rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-200">
+    <div className="border rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-500">
       <Link to={detailLink}>
         <h3 className="text-xl font-bold mb-2 text-blue-500 underline text-end p-2 bg-blue-300 w-fit">
           detail

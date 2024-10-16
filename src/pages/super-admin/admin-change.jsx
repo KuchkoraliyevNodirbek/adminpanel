@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import { useGetAllAdmin } from "../../service/query/useGetAllAdmin"; // Ensure correct path to your hook
 import { ListCard } from "../../components/list-card/list-card";
+import { Loading } from "../../components/loading/loading";
 
 export const AdminChange = () => {
   const navigate = useNavigate(); // Initialize navigate
@@ -13,7 +14,7 @@ export const AdminChange = () => {
 
   console.log(data);
 
-  if (isLoading) return <div>Yuklanmoqda...</div>;
+  if (isLoading) return <Loading/>
   if (isError) return <div>Xatolik: {error?.message}</div>;
 
   // Filter by role

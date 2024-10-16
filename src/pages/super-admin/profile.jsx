@@ -2,12 +2,13 @@ import React from "react";
 import { useGetProfile } from "../../service/query/useGetProfile"; // Profil ma'lumotlarini olish hooki
 import { useNavigate } from "react-router-dom";
 import { ProfileCard } from "../../components/profile-card/profile-card";
+import { Loading } from "../../components/loading/loading";
 
 export const Profile = () => {
   const { data, isLoading, isError, error } = useGetProfile();
   const navigate = useNavigate();
 
-  if (isLoading) return <div>Yuklanmoqda...</div>;
+  if (isLoading) return <Loading/>
   if (isError) return <div>Xatolik: {error?.message}</div>;
 
   return (

@@ -51,7 +51,7 @@ const App = () => {
         {/* Super-admin yo'nalishlari */}
         <Route element={<ProtectedRoute allowedRoles={["superadmin"]} />}>
           <Route path="/super-admin" element={<SuperAdminLayout />}>
-            <Route index element={<AdminCreate />} />
+            <Route path="admin-create" element={<AdminCreate />} />
             <Route path="admin-change" element={<AdminChange />} />
             <Route
               path="/super-admin/detail-page/:id"

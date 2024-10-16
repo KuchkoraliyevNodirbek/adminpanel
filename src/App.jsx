@@ -16,6 +16,9 @@ import { AdminDetailPage } from "./pages/super-admin/users-detail-page";
 import { ProtectedRoute } from "./pages/auth/protected"; // Himoyalangan marshrutlar uchun
 import { NotFoundPage } from "./pages/404/404"; // 404 sahifa
 import { Categories } from "./pages/admin/categories";
+import EditCategory from "./pages/admin/admin-update-category";
+import { CategoryDetailPage } from "./pages/admin/admin-category-detail";
+import { CreateCategory } from "./pages/admin/create-category";
 
 const App = () => {
   return (
@@ -33,6 +36,9 @@ const App = () => {
             <Route path="profile" element={<AdminProfile />} />
             <Route path="update-profile" element={<ProfileEditPage />} />
             <Route path="Categories" element={<Categories/>} />
+            <Route path="create-Categories" element={<CreateCategory/>} />
+            <Route path="/admin/categories-update/:id" element={<EditCategory/>} />
+            <Route path="/admin/categories-detail/:id" element={<CategoryDetailPage />} />
 
           </Route>
         </Route>
@@ -48,6 +54,10 @@ const App = () => {
             />
             <Route path="profile" element={<Profile />} />
             <Route path="update-profile" element={<ProfileEditPage />} />
+            <Route path="Categories" element={<Categories/>} />
+            <Route path="create-Categories" element={<CreateCategory/>} />
+            <Route path="/super-admin/categories-update/:id" element={<EditCategory/>} />
+            <Route path="/super-admin/categories-detail/:id" element={<CategoryDetailPage />} />
           </Route>
         </Route>
 

@@ -22,7 +22,6 @@ export const ProfileEditPage = () => {
     email: "",
     image_url: "", // Boshqa joyga URL saqlash
   });
-  console.log();
 
   const [selectedFile, setSelectedFile] = useState(null); // Yuklangan faylni saqlash
   const [uploading, setUploading] = useState(false); // Fayl yuklanayotganligini kuzatish

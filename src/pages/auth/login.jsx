@@ -29,17 +29,20 @@ export const Login = () => {
         // Foydalanuvchining ro'liga qarab yo'naltirish
         if (res.role === "admin") {
           navigate("/admin");
-          toast.success("login qilindi!",{autoClose:3000,hideProgressBar:true});
+          toast.success("login qilindi!", {
+            autoClose: 3000,
+            hideProgressBar: true,
+          });
         } else if (res.role === "superadmin") {
           navigate("/super-admin");
-          toast.success("login qilindi!",{autoClose:3000,});
+          toast.success("login qilindi!", { autoClose: 3000 });
         } else {
           navigate("/"); // Default sahifa
         }
       },
       onError: (error) => {
         console.error("Login failed:", error);
-        toast.error("login yoki password xato",{position:"top-center"});
+        toast.error("login yoki password xato", { position: "top-center" });
       },
     });
   };

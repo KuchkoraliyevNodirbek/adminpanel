@@ -1,9 +1,9 @@
 import React from "react";
 import CategoriesList from "../../components/category-List/category-List";
-import CreateCategoryForm from "../../components/create-category-form/create-category-form";
 import { CategoriesFilter } from "../../components/category-filter/category-filter";
 import { Link } from "react-router-dom";
 import { loadState } from "../../config/stroge";
+import { Button, Row, Col } from "antd";
 
 export const Categories = () => {
   const role = loadState("user");
@@ -12,23 +12,28 @@ export const Categories = () => {
     role.role === "superadmin"
       ? `/super-admin/create-categories`
       : `/admin/create-categories`;
+
   return (
     <div className="relative">
-      
       <div className="top-0 sticky p-3 bg-white border-2 border-b-blue-500">
-        {/* <CreateCategoryForm/> */}
-
-        <Link to={detailLink}>
-          <button className="bg-blue-500 hover:bg-green-500 text-white px-2 py-2 border-2 border-blue-500 rounded max-w-96 w-full absolute ">
-            Category yaratish
-          </button>
-        </Link>
-        <div className="">
-          <CategoriesFilter />
-        </div>
+        <Row justify="space-between" align="middle">
+          <Col>
+            <Link to={detailLink}>
+              <Button
+                type="primary"
+                style={{ width: "100%", borderColor: "#3b82f6" }}
+              >
+                Category yaratish
+              </Button>
+            </Link>
+          </Col>
+          <Col>
+            <CategoriesFilter />
+          </Col>
+        </Row>
       </div>
 
-      <div className="">
+      <div>
         <CategoriesList />
       </div>
     </div>

@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { Card, Avatar, Button, Typography, Modal } from "antd";
+
+const { Text, Title } = Typography;
 
 export const formatPhoneNumber = (phone) => {
   if (!phone) return "Ma'lumot yo'q";
@@ -41,73 +44,65 @@ export const ProfileCard = ({
     setIsModalOpen(false); // Modalni yopish
   };
 
-  const handleModalClick = (e) => {
-    // Agar modalga bosilsa, uni yop
-    if (e.target === e.currentTarget) {
-      handleModalClose();
-    }
-  };
-
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-md">
-      <div className="flex flex-col gap-5 items-center space-x-4 mb-6">
-        <img
+    <Card className="max-w-2xl mx-auto p-6 shadow-md rounded-md">
+      <div className="flex flex-col gap-5 items-center mb-6">
+        <Avatar
           src={image_url || "http://via.placeholder.com/128"}
-          alt="Profile"
+          size={128}
           onClick={handleImageClick} // Bosganda modal ochiladi
-          className="w-32 h-32 object-cover rounded-full hover:scale-125 transition-all duration-300 border-4 border-red-900 cursor-zoom-in"
+          className="hover:scale-125 transition-all duration-300 border-4 border-red-900 cursor-zoom-in"
         />
-        <div>
-          <h2 className="text-xl font-semibold">
-            {first_name} {last_name}
-          </h2>
-        </div>
+        <Title level={2}>
+          {first_name} {last_name}
+        </Title>
       </div>
 
       <div className="space-y-4">
         <div className="flex gap-3 items-center border p-3">
-          <label className="font-medium">Roli:</label>
-          <p className="text-gray-700">{role}</p>
+          <Text strong>Roli:</Text>
+          <Text className="text-gray-700">{role}</Text>
         </div>
         <div className="flex gap-3 items-center border p-3 relative">
-          <label className="font-medium">Telefon raqam:</label>
+          <Text strong>Telefon raqam:</Text>
           <div className="flex items-center justify-between">
-            <p className="text-gray-700">{formatPhoneNumber(phone_number)}</p>
+            <Text className="text-gray-700">
+              {formatPhoneNumber(phone_number)}
+            </Text>
           </div>
-          <button
+          <Button
             onClick={handleCopyPhoneNumber}
-            className={`p-1 font-medium text-sm rounded-md transition-all absolute top-1 right-1  ${
-              copyMessage ? "bg-green-500 text-white" : "bg-blue-500 text-white"
-            } `}
+            type={copyMessage ? "primary" : "default"}
+            className="absolute top-1 right-1"
           >
             {copyMessage || "Nusxalash"}
-          </button>
+          </Button>
         </div>
         <div className="flex gap-3 items-center border p-3">
-          <label className="font-medium">Email:</label>
-          <p className="text-gray-700">{email || "Ma'lumot yo'q"}</p>
+          <Text strong>Email:</Text>
+          <Text className="text-gray-700">{email || "Ma'lumot yo'q"}</Text>
         </div>
         <div className="flex gap-3 items-center border p-3">
-          <label className="font-medium">Tug'ilgan sana:</label>
-          <p className="text-gray-700">{date_of_birth || "Ma'lumot yo'q"}</p>
+          <Text strong>Tug'ilgan sana:</Text>
+          <Text className="text-gray-700">
+            {date_of_birth || "Ma'lumot yo'q"}
+          </Text>
         </div>
       </div>
 
       {/* Modal rasmni to'liq ko'rsatish */}
-      {isModalOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 cursor-zoom-out"
-          onClick={handleModalClick} // Modalni bosilganda yopish
-        >
-          <div className="relative cursor-no-drop">
-            <img
-              src={image_url || "http://via.placeholder.com/128"}
-              alt="Profile"
-              className="max-w-3xl w-full  object-cover rounded-sm" // Bir xil o'lcham
-            />
-          </div>
-        </div>
-      )}
-    </div>
+      <Modal
+        visible={isModalOpen}
+        onCancel={handleModalClose}
+        footer={null}
+        closeIcon={<span className="text-white">X</span>} // Custom close icon
+      >
+        <img
+          src={image_url || "http://via.placeholder.com/128"}
+          alt="Profile"
+          className="w-full object-cover" // Bir xil o'lcham
+        />
+      </Modal>
+    </Card>
   );
 };

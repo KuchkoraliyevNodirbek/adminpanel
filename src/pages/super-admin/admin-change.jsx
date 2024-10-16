@@ -1,92 +1,100 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
-import { useGetAllAdmin } from "../../service/query/useGetAllAdmin"; // Ensure correct path to your hook
-import { ListCard } from "../../components/list-card/list-card";
+import { useNavigate } from "react-router-dom";
+import { useGetAllAdmin } from "../../service/query/useGetAllAdmin";
+import { Table, Tag, Button } from "antd";
 import { Loading } from "../../components/loading/loading";
+import { useAdminDelete } from "../../service/mutation/useAdminDelete";
+import { toast } from "react-toastify";
 
 export const AdminChange = () => {
-  const navigate = useNavigate(); // Initialize navigate
-  const [limit, setLimit] = useState(10); // Set limit
-  const [offset, setOffset] = useState(0); // Set offset
+  const navigate = useNavigate();
+  const [limit, setLimit] = useState(10);
+  const [offset, setOffset] = useState(0);
   const { data, isLoading, isError, error } = useGetAllAdmin(limit, offset);
+  const { mutate, error: deleteError, isPending } = useAdminDelete();
 
-  // Setup the delete mutation
-
-  console.log(data);
-
-  if (isLoading) return <Loading/>
+  if (isLoading) return <Loading />;
   if (isError) return <div>Xatolik: {error?.message}</div>;
 
-  // Filter by role
+  // Prepare data for table
   const superAdmins =
     data?.users?.filter((user) => user.role === "superadmin") || [];
   const admins = data?.users?.filter((user) => user.role === "admin") || [];
   const users = data?.users?.filter((user) => user.role === "user") || [];
+  const allAdmins = [...superAdmins, ...admins, ...users];
 
-  // Check if there is more data for pagination
-  const hasMoreData = data?.users?.length === limit;
+  // Handle delete operation
+  const handleDelete = (id) => {
+    mutate(id, {
+      onSuccess: () => {
+        toast.success("Admin muvaffaqiyatli o'chirildi!");
+      },
+      onError: () => {
+        toast.error(deleteError?.message);
+      },
+    });
+  };
+
+  // Define table columns
+  const columns = [
+    {
+      title: "Image",
+      dataIndex: "image_url",
+      render: (text, record) => (
+        <img
+          src={record.image_url || "https://via.placeholder.com/80"}
+          alt="Admin"
+          style={{ width: 50, height: 50, borderRadius: "50%" }}
+        />
+      ),
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+    },
+    {
+      title: "Role",
+      dataIndex: "role",
+      render: (role) => (
+        <Tag
+          color={
+            role === "superadmin" ? "gold" : role === "admin" ? "blue" : "green"
+          }
+        >
+          {role.toUpperCase()}
+        </Tag>
+      ),
+    },
+    {
+      title: "Action",
+      dataIndex: "id",
+      render: (id, record) => (
+        <div>
+          <Button
+            type="link"
+            onClick={() => navigate(`/super-admin/detail-page/${id}`)}
+          >
+            View
+          </Button>
+          {record.role !== "superadmin" && (
+            <Button danger onClick={() => handleDelete(id)} loading={isPending}>
+              Delete
+            </Button>
+          )}
+        </div>
+      ),
+    },
+  ];
 
   return (
     <div className="p-4">
       <h2 className="text-2xl font-bold mb-4">Hamma Adminlar</h2>
-
-      {/* SuperAdmins */}
-      {superAdmins.length > 0 && (
-        <div>
-          <h3 className="text-xl font-semibold mt-4">SuperAdmins</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {superAdmins.map((admin) => (
-              <ListCard role={admin} key={superAdmins.id}/>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Adminlar */}
-      {admins.length > 0 && (
-        <div>
-          <h3 className="text-xl font-semibold mt-4">Admins</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {admins?.map((admin) => (
-              <ListCard role={admin} key={admin.id} />
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Userlar */}
-      {users.length > 0 && (
-        <div>
-          <h3 className="text-xl font-semibold mt-4">Users</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {users.map((user) => (
-              <ListCard role={user} key={user.id} />
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Navigation buttons */}
-      <div className="flex justify-between mt-4">
-        <button
-          onClick={() => setOffset((prev) => Math.max(prev - limit, 0))} // Previous
-          disabled={offset === 0}
-          className="py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-        >
-          Oldingi
-        </button>
-        <button
-          onClick={() => {
-            if (hasMoreData) {
-              setOffset((prev) => prev + limit); // Next
-            }
-          }} // Next
-          disabled={!hasMoreData} // Disable if no more data
-          className="py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-        >
-          Keyingi
-        </button>
-      </div>
+      <Table
+        columns={columns}
+        dataSource={allAdmins}
+        rowKey="id"
+        pagination={false}
+      />
     </div>
   );
 };

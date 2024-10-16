@@ -35,18 +35,23 @@ const App = () => {
             <Route path="create-vacancy" element={<CreateCacansy />} />
             <Route path="profile" element={<AdminProfile />} />
             <Route path="update-profile" element={<ProfileEditPage />} />
-            <Route path="Categories" element={<Categories/>} />
-            <Route path="create-Categories" element={<CreateCategory/>} />
-            <Route path="/admin/categories-update/:id" element={<EditCategory/>} />
-            <Route path="/admin/categories-detail/:id" element={<CategoryDetailPage />} />
-
+            <Route path="Categories" element={<Categories />} />
+            <Route path="create-Categories" element={<CreateCategory />} />
+            <Route
+              path="/admin/categories-update/:id"
+              element={<EditCategory />}
+            />
+            <Route
+              path="/admin/categories-detail/:id"
+              element={<CategoryDetailPage />}
+            />
           </Route>
         </Route>
 
         {/* Super-admin yo'nalishlari */}
         <Route element={<ProtectedRoute allowedRoles={["superadmin"]} />}>
           <Route path="/super-admin" element={<SuperAdminLayout />}>
-            <Route path="admin-create" element={<AdminCreate />} />
+            <Route index element={<AdminCreate />} />
             <Route path="admin-change" element={<AdminChange />} />
             <Route
               path="/super-admin/detail-page/:id"
@@ -54,10 +59,16 @@ const App = () => {
             />
             <Route path="profile" element={<Profile />} />
             <Route path="update-profile" element={<ProfileEditPage />} />
-            <Route path="Categories" element={<Categories/>} />
-            <Route path="create-Categories" element={<CreateCategory/>} />
-            <Route path="/super-admin/categories-update/:id" element={<EditCategory/>} />
-            <Route path="/super-admin/categories-detail/:id" element={<CategoryDetailPage />} />
+            <Route path="Categories" element={<Categories />} />
+            <Route path="create-Categories" element={<CreateCategory />} />
+            <Route
+              path="/super-admin/categories-update/:id"
+              element={<EditCategory />}
+            />
+            <Route
+              path="/super-admin/categories-detail/:id"
+              element={<CategoryDetailPage />}
+            />
           </Route>
         </Route>
 

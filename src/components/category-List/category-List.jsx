@@ -12,16 +12,19 @@ import { Loading } from '../loading/loading';
 
   const { data, error, isLoading } = useGetCategories('', limit, offset); 
 
+  console.log(data);
+  
+
 
   if (isLoading) return <Loading/>
   if (error) return <p>Xatolik: {error.message}</p>; 
 
   // Kategoriyalardan totalCount ni olish
-  const totalCount =  data.totalCount || 20;
+  const totalCount =  data.Count || 0;
 
-  const currentCategories = data.categories || []; 
+  const currentCategories = data.Categories?.categories || []; 
   
-  // console.log(data);
+  console.log(currentCategories);
   
 
   return (

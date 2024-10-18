@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 
 export const CategoriesFilter = () => {
   const [searchTerm, setSearchTerm] = useState(""); // Qidiruv uchun input qiymati
-  const debouncedSearchTerm = useDebounce(searchTerm, 500); // 1 soniya debounce qilish
+  const debouncedSearchTerm = useDebounce(searchTerm, 500); // 0.5 soniya debounce qilish
 
   const {
     data,
@@ -18,6 +18,9 @@ export const CategoriesFilter = () => {
   } = useGetCategories(debouncedSearchTerm); // Debounced qiymatdan foydalanish
 
   if (error) return <div>Xatolik yuz berdi</div>;
+
+  console.log(data);
+  
 
   const role = loadState("user");
 
@@ -55,8 +58,8 @@ export const CategoriesFilter = () => {
           <div className="col-span-3 text-center text-gray-500 font-semibold">
             Yuklanmoqda...
           </div>
-        ) : debouncedSearchTerm && data.categories?.length > 0 ? (
-          data.categories.map((category) => (
+        ) : debouncedSearchTerm && data?.Count > 0 ? (
+          data.Categories?.categories.map((category) => (
             <CategoryCard key={category.id} category={category} />
           ))
         ) : (

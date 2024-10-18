@@ -58,7 +58,7 @@ export const AdminLayout = () => {
           collapsible
           collapsed={collapsed}
         >
-          <AdminSideBar collapsed={collapsed} />
+          <AdminSideBar collapsed={collapsed} closeDrawer={closeDrawer} />
         </Sider>
         <Layout>
           <Header className="p-0 flex justify-between items-center shadow-md bg-primary">
@@ -111,7 +111,7 @@ export const AdminLayout = () => {
             bodyStyle={{padding:0}}
             headerStyle={{background:"#001529", color:"white"}}
           >
-            <AdminSideBar collapsed={false} />
+            <AdminSideBar collapsed={false} closeDrawer={closeDrawer} />
           </Drawer>
         </Layout>
       </Layout>

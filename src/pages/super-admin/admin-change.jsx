@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGetAllAdmin } from "../../service/query/useGetAllAdmin";
-import { Table, Tag, Button } from "antd";
+import { Table, Tag, Button, Tooltip } from "antd";
 import { Loading } from "../../components/loading/loading";
 import { useAdminDelete } from "../../service/mutation/useAdminDelete";
 import { toast } from "react-toastify";
+
+import { DeleteOutlined, InfoCircleOutlined } from "@ant-design/icons";
 
 export const AdminChange = () => {
   const navigate = useNavigate();
@@ -22,6 +24,9 @@ export const AdminChange = () => {
   const admins = data?.users?.filter((user) => user.role === "admin") || [];
   const users = data?.users?.filter((user) => user.role === "user") || [];
   const allAdmins = [...superAdmins, ...admins, ...users];
+
+  console.log(allAdmins);
+  
 
   // Handle delete operation
   const handleDelete = (id) => {
@@ -53,7 +58,7 @@ export const AdminChange = () => {
       dataIndex: "email",
     },
     {
-      title: "Role",
+      title: "Roli",
       dataIndex: "role",
       render: (role) => (
         <Tag
@@ -66,21 +71,33 @@ export const AdminChange = () => {
       ),
     },
     {
-      title: "Action",
+      title: "Harakatlar",
       dataIndex: "id",
       render: (id, record) => (
-        <div>
+        <div className="space-x-5">
+          <Tooltip title="Batafsil Ko'rish">
+
           <Button
-            type="link"
+            icon={<InfoCircleOutlined />}
+            type="default"
             onClick={() => navigate(`/super-admin/detail-page/${id}`)}
-          >
-            View
-          </Button>
+            className="bg-blue-500 text-white"
+          ></Button>
+          </Tooltip>
+
+          <Tooltip title="O'chirish">
+
           {record.role !== "superadmin" && (
-            <Button danger onClick={() => handleDelete(id)} loading={isPending}>
-              Delete
+            <Button
+              onClick={() => handleDelete(id)}
+              loading={isPending}
+              className="bg-red-500 text-white"
+            >
+              <DeleteOutlined />
             </Button>
           )}
+          </Tooltip>
+
         </div>
       ),
     },
@@ -93,7 +110,7 @@ export const AdminChange = () => {
         columns={columns}
         dataSource={allAdmins}
         rowKey="id"
-        pagination={false}
+        pagination={true}
       />
     </div>
   );

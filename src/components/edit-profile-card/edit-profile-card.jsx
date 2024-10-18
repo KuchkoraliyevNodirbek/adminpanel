@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { PhoneNumberInput } from "../phone-number-card/phone-number-card"; // Telefon raqami input komponentini import qilish
+import { Button } from "antd";
 
 export const EditProfileCard = ({
   formData,
@@ -25,8 +26,7 @@ export const EditProfileCard = ({
 
   return (
     <>
-      <h1 className="text-xl font-bold mb-1">Profilni Yangilash</h1>
-      <div className="max-w-2xl mx-auto p-3 bg-white shadow-md rounded-md">
+      <div className="max-w-2xl mx-auto p-3 md:p-6 bg-white shadow-primary shadow-md rounded-md">
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Tanlangan rasmni oldindan ko'rish */}
           {previewImage ? (
@@ -94,7 +94,9 @@ export const EditProfileCard = ({
           <PhoneNumberInput
             value={formData.phone_number}
             onChange={(newValue) =>
-              handleChange({ target: { name: "phone_number", value: newValue } })
+              handleChange({
+                target: { name: "phone_number", value: newValue },
+              })
             }
           />
           <div>
@@ -112,12 +114,12 @@ export const EditProfileCard = ({
           {uploading && <div>Rasm yuklanmoqda...</div>}
 
           <div className="flex justify-center">
-            <button
+            <Button
               type="submit"
-              className="py-2 px-4 bg-green-600 text-white rounded-md hover:bg-green-700 w-1/2"
+              className="p-5 bg-primary hover:bg-dark  text-white rounded-md w-1/2"
             >
               Saqlash
-            </button>
+            </Button>
           </div>
         </form>
       </div>

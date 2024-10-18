@@ -9,7 +9,7 @@ export const ProtectedRoute = ({ allowedRoles }) => {
 
   if (!userRole) {
     // Agar foydalanuvchi login qilmagan bo'lsa
-    toast.error("Iltimos Login qiling!", {
+    toast.error("Kirish Uchun Login Qiling!", {
       position: "top-center",
       autoClose: 3000,
       hideProgressBar: true,
@@ -20,9 +20,9 @@ export const ProtectedRoute = ({ allowedRoles }) => {
   if (!allowedRoles.includes(userRole)) {
     // Agar foydalanuvchi ruxsat berilmagan marshrutga kirishga harakat qilsa
     toast.error(
-      `Bu sahifaga kirish uchun ${allowedRoles.join(
+      `Bu Sahifaga Kirish Uchun ${allowedRoles.join(
         ", "
-      )} roli talab qilinadi!`,
+      )} Roli Talab Qilinadi!`,
       {
         position: "top-center",
         autoClose: 3000,

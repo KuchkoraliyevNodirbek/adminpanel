@@ -1,25 +1,33 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { UserOutlined, AppstoreOutlined } from "@ant-design/icons"; // Ant Design ikonalarini import qilamiz
+import { Menu } from "antd";
 
-export const AdminSideBar = () => {
+import { LogoIcon } from "../../assets/LogoIcon";
+
+export const AdminSideBar = ({ collapsed }) => {
+  const location = useLocation();
   return (
-    <div className="h-full p-6 bg-gray-800 text-white shadow-lg">
-      <h1 className="text-2xl font-bold mb-8 text-center">Admin Sidebar</h1>
-
-      <div className="space-y-4">
-        <Link
-          to="/admin/profile"
-          className="block px-4 py-2 rounded-md text-lg font-medium bg-gray-700 hover:bg-gray-600 transition duration-200"
-        >
-          Profile
-        </Link>
-        <Link
-          to="/admin/categories"
-          className="block px-4 py-2 rounded-md text-lg font-medium bg-gray-700 hover:bg-gray-600 transition duration-200"
-        >
-          Categories
-        </Link>
-      </div>
+    <div className="py-2 pt-0 text-white">
+      <Menu
+         selectedKeys={[location.pathname]} // Aktiv menyu elementini yo'l bo'yicha tanlash
+         defaultSelectedKeys={[location.pathname]} // Sahifa yangilanganda aktiv bo'lib turishi uchun
+        // theme="dark"
+        mode="inline"
+        className="bg-primary h-full"
+      >
+        <div className="hidden p-1 py-3 md:flex justify-center static top-0">
+          <LogoIcon />
+        </div>
+        <Menu.Item key="/admin/categories" icon={<AppstoreOutlined />}>
+          <Link to="/admin/categories">
+            Kategoriyalar
+          </Link>
+        </Menu.Item>
+        <Menu.Item key="/admin/profile" icon={<UserOutlined />}>
+          <Link to="/admin/profile">Profil</Link>
+        </Menu.Item>
+      </Menu>
     </div>
   );
 };

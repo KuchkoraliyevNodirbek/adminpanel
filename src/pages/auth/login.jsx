@@ -30,29 +30,30 @@ export const Login = () => {
         // Redirect based on user's role
         if (res.role === "admin") {
           navigate("/admin");
-          toast.success("Login successful!", {
+          toast.success("kirish muvaffaqiyatli", {
             autoClose: 3000,
             hideProgressBar: true,
           });
         } else if (res.role === "superadmin") {
           navigate("/super-admin");
-          toast.success("Login successful!", { autoClose: 3000 });
+          toast.success("kirish muvaffaqiyatli", { autoClose: 3000 });
         } else {
           navigate("/"); // Default page
         }
       },
       onError: (error) => {
         console.error("Login failed:", error);
-        toast.error("Incorrect login or password", { position: "top-center" });
+        toast.error("Login Yoki Parol Noto'g'ri", { position: "top-center" });
+        toast.error("Maydonlarni Tekshiring!", { position: "top-center" });
       },
     });
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md max-w-lg w-full">
+    <div className="min-h-screen flex items-center justify-center bg-dark p-3">
+      <div className="bg-white p-8 rounded-lg shadow-lg shadow-primary max-w-lg w-full">
         <Typography.Title level={2} className="text-center mb-6">
-          Login
+          Kirish
         </Typography.Title>
         <Form onFinish={handleSubmit(submit)} layout="vertical">
           <Form.Item
@@ -63,19 +64,21 @@ export const Login = () => {
             <Input
               {...register("email", { required: "Email is required" })}
               type="email"
-              placeholder="Enter your email"
+              placeholder="exsample@gmail.com"
               onChange={(e) => setValue("email", e.target.value)}
+              className="p-2"
             />
           </Form.Item>
           <Form.Item
-            label="Password"
+            label="Parol"
             validateStatus={errors.password ? "error" : ""}
             help={errors.password ? errors.password.message : null}
           >
             <Input.Password
               {...register("password", { required: "Password is required" })}
-              placeholder="Enter your password"
+              placeholder="********"
               onChange={(e) => setValue("password", e.target.value)}
+              className="p-2"
             />
           </Form.Item>
           <Form.Item>
@@ -85,6 +88,7 @@ export const Login = () => {
               block
               loading={isLoading}
               disabled={isLoading}
+              className="p-5 mt-5"
             >
               {isLoading ? "Logging in..." : "Login"}
             </Button>

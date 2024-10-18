@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Pagination } from 'antd'; 
-import CategoryCard from '../category-card/category-card';
+import {CategoryCard} from '../category-card/category-card';
 import { useGetCategories } from '../../service/query/useGetCategoriesList'; 
 import { Loading } from '../loading/loading';
 
-const CategoriesList = () => {
+ export const CategoriesList = () => {
   const [limit, setLimit] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   
@@ -17,19 +17,19 @@ const CategoriesList = () => {
   if (error) return <p>Xatolik: {error.message}</p>; 
 
   // Kategoriyalardan totalCount ni olish
-  const totalCount = data && data[0] ? data[0].totalCount : 0;
+  const totalCount =  data.totalCount || 20;
 
-  const currentCategories = data || []; 
+  const currentCategories = data.categories || []; 
   
-  console.log(data);
+  // console.log(data);
   
 
   return (
     <div className="bg-white p-4 rounded shadow-md">
       <h2 className="text-2xl font-bold mb-4">Kategoriyalar</h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {currentCategories.map((category) => (
+      <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
+        {currentCategories?.map((category) => (
           <CategoryCard key={category.id} category={category}/>
         ))}
       </div>
@@ -56,4 +56,4 @@ const CategoriesList = () => {
   );
 };
 
-export default CategoriesList;
+// export default CategoriesList;

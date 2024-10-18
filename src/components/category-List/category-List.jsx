@@ -12,7 +12,7 @@ import { Loading } from '../loading/loading';
 
   const { data, error, isLoading } = useGetCategories('', limit, offset); 
 
-  console.log(data);
+  // console.log(data);
   
 
 
@@ -24,7 +24,7 @@ import { Loading } from '../loading/loading';
 
   const currentCategories = data.Categories?.categories || []; 
   
-  console.log(currentCategories);
+  // console.log(currentCategories);
   
 
   return (
@@ -58,5 +58,3 @@ import { Loading } from '../loading/loading';
     </div>
   );
 };
-
-// export default CategoriesList;

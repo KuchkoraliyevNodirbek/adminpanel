@@ -9,7 +9,7 @@ import { ConfigProvider } from 'antd';
 createRoot(document.getElementById("root")).render(
   <QueryClientProvider client={client}>
     <BrowserRouter>
-      <ConfigProvider theme={{ token: { colorPrimary: '#00b96b' } }}>
+      <ConfigProvider theme={{ token: { colorPrimary: '#2C3033' } }}>
         <App />
       </ConfigProvider>
     </BrowserRouter>

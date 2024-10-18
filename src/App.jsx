@@ -1,24 +1,28 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import { Login } from "./pages/auth/login";
-import { AdminLayout } from "./pages/admin/admin-layout";
-import { CreateProduct } from "./pages/admin/create-product";
-import { CreateCacansy } from "./pages/admin/create-vacansy";
-import { SuperAdminLayout } from "./pages/super-admin/super-admin-layout";
-import { AdminChange } from "./pages/super-admin/admin-change";
-import { AdminCreate } from "./pages/super-admin/admin-create";
+
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Profile } from "./pages/super-admin/profile";
-import { ProfileEditPage } from "./pages/super-admin/update-profile";
-import { AdminProfile } from "./pages/admin/admin-profile";
+
+import { Login } from "./pages/auth/login";
+
+import { AdminLayout } from "./pages/admin/admin-layout";
+import { SuperAdminLayout } from "./pages/super-admin/super-admin-layout";
+
+import { AdminCreate } from "./pages/super-admin/admin-create";
+import { AdminChange } from "./pages/super-admin/admin-change";
 import { AdminDetailPage } from "./pages/super-admin/users-detail-page";
+
+import { Profile } from "./pages/profile/profile";
+import { ProfileEditPage } from "./pages/profile/update-profile";
+
 import { ProtectedRoute } from "./pages/auth/protected"; // Himoyalangan marshrutlar uchun
 import { NotFoundPage } from "./pages/404/404"; // 404 sahifa
-import { Categories } from "./pages/admin/categories";
-import EditCategory from "./pages/admin/admin-update-category";
-import { CategoryDetailPage } from "./pages/admin/admin-category-detail";
-import { CreateCategory } from "./pages/admin/create-category";
+
+import { Categories } from "./pages/categories/categories";
+import { CreateCategory } from "./pages/categories/create-category";
+import { CategoryDetailPage } from "./pages/categories/category-detail";
+import EditCategory from "./pages/categories/update-category";
 
 const App = () => {
   return (
@@ -31,12 +35,10 @@ const App = () => {
         {/* Admin yo'nalishlari */}
         <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
           <Route path="/admin" element={<AdminLayout />}>
-            <Route index element={<CreateProduct />} />
-            <Route path="create-vacancy" element={<CreateCacansy />} />
-            <Route path="profile" element={<AdminProfile />} />
+            <Route path="profile" element={<Profile />} />
             <Route path="update-profile" element={<ProfileEditPage />} />
-            <Route path="Categories" element={<Categories />} />
-            <Route path="create-Categories" element={<CreateCategory />} />
+            <Route path="categories" element={<Categories />} />
+            <Route path="create-categories" element={<CreateCategory />} />
             <Route
               path="/admin/categories-update/:id"
               element={<EditCategory />}
@@ -59,8 +61,8 @@ const App = () => {
             />
             <Route path="profile" element={<Profile />} />
             <Route path="update-profile" element={<ProfileEditPage />} />
-            <Route path="Categories" element={<Categories />} />
-            <Route path="create-Categories" element={<CreateCategory />} />
+            <Route path="categories" element={<Categories />} />
+            <Route path="create-categories" element={<CreateCategory />} />
             <Route
               path="/super-admin/categories-update/:id"
               element={<EditCategory />}

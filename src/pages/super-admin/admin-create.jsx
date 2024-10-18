@@ -25,9 +25,9 @@ export const AdminCreate = () => {
   };
 
   return (
-    <div className="p-6 max-w-md mx-auto bg-white rounded-xl shadow-md space-y-6">
+    <div className="p-6 mt-5 shadow-primary max-w-lg mx-auto bg-white rounded-xl shadow-md space-y-6">
       <Typography.Title level={2} className="text-center">
-        Create New Admin
+        Yangi Admin Yaratish
       </Typography.Title>
       <Form onFinish={handleSubmit} layout="vertical">
         <Form.Item
@@ -41,11 +41,12 @@ export const AdminCreate = () => {
             value={formData.email}
             onChange={handleChange}
             required
+            className="p-2"
           />
         </Form.Item>
 
         <Form.Item
-          label="Password"
+          label="Parol"
           validateStatus={isError && error.message ? "error" : ""}
         >
           <Input.Password
@@ -53,12 +54,19 @@ export const AdminCreate = () => {
             value={formData.password}
             onChange={handleChange}
             required
+            className="p-2"
           />
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit" block loading={isLoading}>
-            {isLoading ? "Creating..." : "Create Admin"}
+          <Button
+            type="primary"
+            htmlType="submit"
+            block
+            loading={isLoading}
+            className="p-5 mt-5"
+          >
+            {isLoading ? "Creating..." : "Admin Yaratish"}
           </Button>
         </Form.Item>
       </Form>

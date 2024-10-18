@@ -6,7 +6,7 @@ export const useDeleteCategory = () => {
 
   return useMutation({
     mutationFn: (id) =>
-      gatewayRequest.delete(`https://gateway.axadjonovsardorbek.uz/categories/delete?id=${id}`).then((res) => res.data), // URLni yangilash
+      gatewayRequest.delete(`/categories/delete?id=${id}`).then((res) => res.data), // URLni yangilash
     onSuccess: (res) => {
       console.log("Kategoriyangiz muvaffaqiyatli o'chirildi:", res);
       // Kategoriyalar ro'yxatini yangilash

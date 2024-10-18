@@ -15,8 +15,12 @@ export const PhoneNumberInput = ({ value, onChange }) => {
     if (number.length === 0) return "";
     if (number.length <= 3) return number; // 3 ta raqamdan kam bo'lsa, o'zgarishsiz ko'rsatish
     if (number.length <= 5) return `${number.slice(0, 2)}-${number.slice(2)}`; // 3-5 raqamlar uchun format
-    if (number.length <= 7) return `${number.slice(0, 2)}-${number.slice(2, 5)}-${number.slice(5)}`; // 5-7 raqamlar uchun format
-    return `${number.slice(0, 2)}-${number.slice(2, 5)}-${number.slice(5, 7)}-${number.slice(7, 9)}`; // 9 ta raqam uchun to'liq format
+    if (number.length <= 7)
+      return `${number.slice(0, 2)}-${number.slice(2, 5)}-${number.slice(5)}`; // 5-7 raqamlar uchun format
+    return `${number.slice(0, 2)}-${number.slice(2, 5)}-${number.slice(
+      5,
+      7
+    )}-${number.slice(7, 9)}`; // 9 ta raqam uchun to'liq format
   };
 
   const handleInputChange = (e) => {

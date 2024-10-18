@@ -1,19 +1,25 @@
 import React from "react";
+import { Button, Space, Tooltip, Typography } from "antd";
 import { useDeleteCategory } from "../../service/mutation/useDeleteCategory";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { loadState } from "../../config/stroge";
+import {
+  EditOutlined,
+  DeleteOutlined,
+  InfoCircleOutlined,
+} from "@ant-design/icons";
 
-const CategoryCard = ({ category }) => {
+const { Text } = Typography;
+
+export const CategoryCard = ({ category }) => {
   const { mutate: deleteCategory, isLoading } = useDeleteCategory();
-
-  // LocalStorage'dan ro'lni olish
   const role = loadState("user");
 
   const handleDelete = () => {
     deleteCategory(category.id, {
       onSuccess: () => {
-        toast.success(`${category.name || "Kategoriya"} o'chirildi`);
+        toast.success(`${category.name.uz || "Kategoriya"} o'chirildi`);
       },
       onError: () => {
         toast.error(`Kategoriya o'chirishda xato yuz berdi!`);
@@ -21,7 +27,6 @@ const CategoryCard = ({ category }) => {
     });
   };
 
-  // Tahrirlash linki manzilini rolega qarab aniqlash
   const updateLink =
     role.role === "superadmin"
       ? `/super-admin/categories-update/${category.id}`
@@ -32,40 +37,59 @@ const CategoryCard = ({ category }) => {
       : `/admin/categories-detail/${category.id}`;
 
   return (
-    <div className="border rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-500">
-      <Link to={detailLink}>
-        <h3 className="text-xl font-bold mb-2 text-blue-500 underline text-end p-2 bg-blue-300 w-fit">
-          detail
-        </h3>
-      </Link>
-      <h3 className="text-xl font-bold mb-2">{category.name.uz || "N/A"}</h3>
-      <h3 className="text-xl font-bold mb-2">{category.name.en || "N/A"}</h3>
-      <h3 className="text-xl font-bold mb-2">{category.name.ru || "N/A"}</h3>
-
-      <div className="mt-4">
-        <p>
-          <strong>ID:</strong> {category.id}
-        </p>
+    <div className="p-4 bg-white rounded-lg border shadow-sm shadow-primary flex flex-col md:flex-row items-center justify-between w-full mb-4">
+      <div className="w-full md:flex-1">
+        {/* Category Name Fields */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
+          <Text className="text-lg text-start">
+            {category.name.uz || "N/A"}
+          </Text>
+          <Text className="text-lg text-start">
+            {category.name.en || "N/A"}
+          </Text>
+          <Text className="text-lg text-start">
+            {category.name.ru || "N/A"}
+          </Text>
+        </div>
       </div>
-      <div className="flex justify-between mt-4">
-        <Link
-          to={updateLink} // Rolga qarab linkni aniqlash
-          className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition-colors duration-200"
-        >
-          Tahrirlash
-        </Link>
-        <button
+
+      {/* Action Buttons */}
+      <div className="flex  space-x-14 mt-4 md:mt-0">
+        <Tooltip title="Batafsil ko'rish">
+          <Link to={detailLink}>
+            <Button
+              className="bg-blue-500 text-white"
+              type="default"
+              icon={<InfoCircleOutlined />}
+            />
+          </Link>
+        </Tooltip>
+
+        <Tooltip title="Tahrirlash">
+          <Link to={updateLink}>
+            <Button
+              className="bg-yellow-500 hover:bg-yellow-700"
+              type="primary"
+              icon={<EditOutlined />}
+            />
+          </Link>
+        </Tooltip>
+
+        <Tooltip title="O'chirish">
+        <Button
+          type="default"
+          loading={isLoading}
           onClick={handleDelete}
-          className={`bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition-colors duration-200 ${
-            isLoading ? "opacity-50 cursor-not-allowed" : ""
-          }`}
           disabled={isLoading}
-        >
-          {isLoading ? "O'chirilyapti..." : "O'chirish"}
-        </button>
+          icon={<DeleteOutlined />}
+          className="bg-red-500 text-white"
+        />
+
+        </Tooltip>
+
       </div>
     </div>
   );
 };
 
-export default CategoryCard;
+// export default CategoryCard;

@@ -11,17 +11,16 @@ import { LogoIcon } from "../../assets/LogoIcon";
 
 export const SuperAdminSideBar = ({ collapsed, closeDrawer }) => {
   const handleMenuItemClick = () => {
-    if (closeDrawer) closeDrawer(); // Modalni yopish
+    if (closeDrawer) closeDrawer(); // Close the drawer/modal
   };
 
   const location = useLocation();
 
   return (
     <Menu
-      // theme="light"
       mode={collapsed ? "vertical" : "inline"}
-      selectedKeys={[location.pathname]} // Aktiv menyu elementini yo'l bo'yicha tanlash
-      defaultSelectedKeys={[location.pathname]} // Sahifa yangilanganda aktiv bo'lib turishi uchun
+      selectedKeys={[location.pathname]} // Highlight active menu item
+      defaultSelectedKeys={[location.pathname]} // Keep active on refresh
       style={{
         backgroundColor: "#CDCDCD",
         color: "#e0e0e0",
@@ -31,14 +30,15 @@ export const SuperAdminSideBar = ({ collapsed, closeDrawer }) => {
       <div className="hidden p-1 py-3 md:flex justify-center static top-0">
         <LogoIcon />
       </div>
+
       <Menu.Item
-        className=""
         key="/super-admin/admin-create"
         icon={<UserAddOutlined />}
         onClick={handleMenuItemClick}
       >
-        <span className="menu-text ">Admin Yaratish</span>
-        <Link to="/super-admin/admin-create" />
+        <Link to="/super-admin/admin-create">
+          <span className="menu-text">Admin Yaratish</span>
+        </Link>
       </Menu.Item>
 
       <Menu.Item
@@ -46,8 +46,9 @@ export const SuperAdminSideBar = ({ collapsed, closeDrawer }) => {
         icon={<TeamOutlined />}
         onClick={handleMenuItemClick}
       >
-        <span className="menu-text ">Hamma Adminlar</span>
-        <Link to="/super-admin/admin-change" />
+        <Link to="/super-admin/admin-change">
+          <span className="menu-text">Hamma Adminlar</span>
+        </Link>
       </Menu.Item>
 
       <Menu.Item
@@ -55,8 +56,9 @@ export const SuperAdminSideBar = ({ collapsed, closeDrawer }) => {
         icon={<AppstoreOutlined />}
         onClick={handleMenuItemClick}
       >
-        <span className="menu-text ">Kategoriyalar</span>
-        <Link to="/super-admin/categories" />
+        <Link to="/super-admin/categories">
+          <span className="menu-text">Kategoriyalar</span>
+        </Link>
       </Menu.Item>
 
       <Menu.Item
@@ -64,8 +66,19 @@ export const SuperAdminSideBar = ({ collapsed, closeDrawer }) => {
         icon={<UserOutlined />}
         onClick={handleMenuItemClick}
       >
-        <span className="menu-text ">Profil</span>
-        <Link to="/super-admin/profile" />
+        <Link to="/super-admin/profile">
+          <span className="menu-text">Profil</span>
+        </Link>
+      </Menu.Item>
+
+      <Menu.Item
+        key="/super-admin/authors"
+        icon={<UserAddOutlined />}
+        onClick={handleMenuItemClick}
+      >
+        <Link to="/super-admin/authors">
+          <span className="menu-text">Authors</span>
+        </Link>
       </Menu.Item>
     </Menu>
   );

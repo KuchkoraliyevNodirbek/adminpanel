@@ -24,6 +24,11 @@ import { CreateCategory } from "./pages/categories/create-category";
 import { CategoryDetailPage } from "./pages/categories/category-detail";
 import EditCategory from "./pages/categories/update-category";
 
+import { Authors } from "./pages/authors/authors";
+import { CreateAuthors } from "./pages/authors/create-authors";
+import EditAuthors from "./pages/authors/update-authors";
+import { AuthorsDetailPage } from "./pages/authors/authors-detail";
+
 const App = () => {
   return (
     <div>
@@ -39,12 +44,9 @@ const App = () => {
             <Route path="update-profile" element={<ProfileEditPage />} />
             <Route path="categories" element={<Categories />} />
             <Route path="create-categories" element={<CreateCategory />} />
+            <Route path="categories-update/:id" element={<EditCategory />} />
             <Route
-              path="/admin/categories-update/:id"
-              element={<EditCategory />}
-            />
-            <Route
-              path="/admin/categories-detail/:id"
+              path="categories-detail/:id"
               element={<CategoryDetailPage />}
             />
           </Route>
@@ -55,22 +57,21 @@ const App = () => {
           <Route path="/super-admin" element={<SuperAdminLayout />}>
             <Route path="admin-create" element={<AdminCreate />} />
             <Route path="admin-change" element={<AdminChange />} />
-            <Route
-              path="/super-admin/detail-page/:id"
-              element={<AdminDetailPage />}
-            />
+            <Route path="detail-page/:id" element={<AdminDetailPage />} />
             <Route path="profile" element={<Profile />} />
             <Route path="update-profile" element={<ProfileEditPage />} />
             <Route path="categories" element={<Categories />} />
             <Route path="create-categories" element={<CreateCategory />} />
+            <Route path="categories-update/:id" element={<EditCategory />} />
             <Route
-              path="/super-admin/categories-update/:id"
-              element={<EditCategory />}
-            />
-            <Route
-              path="/super-admin/categories-detail/:id"
+              path="categories-detail/:id"
               element={<CategoryDetailPage />}
             />
+            {/* Move Authors route inside SuperAdminLayout */}
+            <Route path="authors" element={<Authors />} />
+            <Route path="create-authors" element={<CreateAuthors />} />
+            <Route path="authors-update/:id" element={<EditAuthors />} />
+            <Route path="authors-detail/:id" element={<AuthorsDetailPage />} />
           </Route>
         </Route>
 

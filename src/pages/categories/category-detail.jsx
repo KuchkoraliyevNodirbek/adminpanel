@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
-import { useGetCategoryById } from "../../service/query/useGetCategoryById"; // Kategoriyani ID bo'yicha olish uchun hook
+import { useGetCategoryById } from "../../service/query/useGetCAtegoryById"; // Kategoriyani ID bo'yicha olish uchun hook
 import { Loading } from "../../components/loading/loading";
 import { loadState } from "../../config/stroge";
 

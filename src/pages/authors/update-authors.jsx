@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useGetAuthorsById } from "../../service/query/useGetAuthorsbyId"; // Hook to get author by ID
-import {useUpdateAuthors} "../../service/mutation/useUpdateAuthors"; // Hook to update author
+import { useGetAuthorsById } from "../../service/query/useGetAuthorsById"; // Hook to get author by ID
+import { useUpdateAuthors } from "../../service/mutation/useUpdateAuthors"; // Hook to update author
 import { toast } from "react-toastify";
 import { Loading } from "../../components/loading/loading";
 

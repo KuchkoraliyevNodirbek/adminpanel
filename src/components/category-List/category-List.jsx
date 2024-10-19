@@ -14,8 +14,6 @@ import { Loading } from '../loading/loading';
 
   // console.log(data);
   
-
-
   if (isLoading) return <Loading/>
   if (error) return <p>Xatolik: {error.message}</p>; 
 
@@ -26,7 +24,6 @@ import { Loading } from '../loading/loading';
   
   // console.log(currentCategories);
   
-
   return (
     <div className="bg-white p-4 rounded shadow-md">
       <h2 className="text-2xl font-bold mb-4">Kategoriyalar</h2>
@@ -39,7 +36,6 @@ import { Loading } from '../loading/loading';
 
       <div className="flex justify-center items-center mt-4">
         <Pagination
-        
           current={currentPage}
           total={totalCount} 
           pageSize={limit}

@@ -7,14 +7,12 @@ import { Loading } from "../loading/loading";
 export const CategoriesList = () => {
   const [limit, setLimit] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
-
+const { data, error, isLoading } = useGetCategories("", limit, offset);
   // console.log(data);
   
   if (isLoading) return <Loading/>
   if (error) return <p>Xatolik: {error.message}</p>; 
   const offset = (currentPage - 1) * limit; // Offset hisoblash
-
-  const { data, error, isLoading } = useGetCategories("", limit, offset);
 
   // Kategoriyalardan totalCount ni olish
   const totalCount = data?.Count || 0; // Agar data bo'lmasa, 0 deb olamiz

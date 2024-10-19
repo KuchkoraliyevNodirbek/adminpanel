@@ -12,39 +12,20 @@ export const CategoriesList = () => {
 
   const { data, error, isLoading } = useGetCategories("", limit, offset);
 
-<<<<<<< HEAD
   if (isLoading) return <Loading />;
   if (error) return <p>Xatolik: {error.message}</p>;
 
   // Kategoriyalardan totalCount ni olish
-  const totalCount = data.totalCount || 20;
+  const totalCount = data?.totalCount || 20; // Agar data bo'lmasa, 20 deb olamiz
 
-  const currentCategories = data.categories || [];
-
-  console.log(data);
-=======
-  // console.log(data);
-  
-
-
-  if (isLoading) return <Loading/>
-  if (error) return <p>Xatolik: {error.message}</p>; 
-
-  // Kategoriyalardan totalCount ni olish
-  const totalCount =  data.Count || 0;
-
-  const currentCategories = data.Categories?.categories || []; 
-  
-  // console.log(currentCategories);
-  
->>>>>>> 3a54dad6dcaf588216a1697f5df955718b8404b3
+  const currentCategories = data?.categories || [];
 
   return (
     <div className="bg-white p-4 rounded shadow-md">
       <h2 className="text-2xl font-bold mb-4">Kategoriyalar</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
-        {currentCategories?.map((category) => (
+        {currentCategories.map((category) => (
           <CategoryCard key={category.id} category={category} />
         ))}
       </div>
@@ -69,8 +50,3 @@ export const CategoriesList = () => {
     </div>
   );
 };
-<<<<<<< HEAD
-
-// export default CategoriesList;
-=======
->>>>>>> 3a54dad6dcaf588216a1697f5df955718b8404b3

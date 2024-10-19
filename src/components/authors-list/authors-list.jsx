@@ -16,7 +16,7 @@ export const AuthorsList = () => {
   if (error) return <p>Xatolik: {error.message}</p>;
 
   // Getting total count of authors
-  const totalCount = data?.totalCount || 0; // Ensure to handle if data is undefined
+  const totalCount = data?.count || 0; // Ensure to handle if data is undefined
   const currentAuthors = data?.authors || []; // Ensure to handle if authors is undefined
 
   return (

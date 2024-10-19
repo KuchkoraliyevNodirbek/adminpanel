@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
-import { useGetAuthorsById } from "../../service/query/useGetAuthorsById"; // Hook to get author by ID
+import { useGetAuthorsById } from "../../service/query/useGetAuthorsbyId";
 import { Loading } from "../../components/loading/loading";
 import { loadState } from "../../config/stroge";
 

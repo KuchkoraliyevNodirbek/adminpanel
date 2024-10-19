@@ -12,6 +12,7 @@ export const CategoriesList = () => {
 
   const { data, error, isLoading } = useGetCategories("", limit, offset);
 
+<<<<<<< HEAD
   if (isLoading) return <Loading />;
   if (error) return <p>Xatolik: {error.message}</p>;
 
@@ -21,6 +22,22 @@ export const CategoriesList = () => {
   const currentCategories = data.categories || [];
 
   console.log(data);
+=======
+  // console.log(data);
+  
+
+
+  if (isLoading) return <Loading/>
+  if (error) return <p>Xatolik: {error.message}</p>; 
+
+  // Kategoriyalardan totalCount ni olish
+  const totalCount =  data.Count || 0;
+
+  const currentCategories = data.Categories?.categories || []; 
+  
+  // console.log(currentCategories);
+  
+>>>>>>> 3a54dad6dcaf588216a1697f5df955718b8404b3
 
   return (
     <div className="bg-white p-4 rounded shadow-md">
@@ -52,5 +69,8 @@ export const CategoriesList = () => {
     </div>
   );
 };
+<<<<<<< HEAD
 
 // export default CategoriesList;
+=======
+>>>>>>> 3a54dad6dcaf588216a1697f5df955718b8404b3

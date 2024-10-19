@@ -49,6 +49,11 @@ const App = () => {
               path="categories-detail/:id"
               element={<CategoryDetailPage />}
             />
+            {/* Move Authors route inside SuperAdminLayout */}
+            <Route path="authors" element={<Authors />} />
+            <Route path="create-authors" element={<CreateAuthors />} />
+            <Route path="authors-update/:id" element={<EditAuthors />} />
+            <Route path="authors-detail/:id" element={<AuthorsDetailPage />} />
           </Route>
         </Route>
 

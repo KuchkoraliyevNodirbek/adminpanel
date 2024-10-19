@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useGetCategoryById } from "../../service/query/useGetCategoryById"; // Hook to get category
+import { useGetCategoryById } from "../../service/query/useGetCAtegoryById"; // Hook to get category
 import { useUpdateCategory } from "../../service/mutation/useUpdateCategory"; // Hook to update category
 import { toast } from "react-toastify";
 import { Loading } from "../../components/loading/loading";

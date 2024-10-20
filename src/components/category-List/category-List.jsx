@@ -7,7 +7,7 @@ import { Loading } from "../loading/loading";
 export const CategoriesList = () => {
   const [limit, setLimit] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
-  const offset = (currentPage - 1) * limit; // Offset hisoblash
+    const offset = (currentPage - 1) * limit; // Offset hisoblash
 const { data, error, isLoading } = useGetCategories("", limit, offset);
   // console.log(data);
   

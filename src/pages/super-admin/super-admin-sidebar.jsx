@@ -6,6 +6,7 @@ import {
   TeamOutlined,
   AppstoreOutlined,
   UserOutlined,
+  EnvironmentOutlined,
 } from "@ant-design/icons";
 import { LogoIcon } from "../../assets/LogoIcon";
 
@@ -60,6 +61,14 @@ export const SuperAdminSideBar = ({ collapsed, closeDrawer }) => {
           <span className="menu-text">Kategoriyalar</span>
         </Link>
       </Menu.Item>
+
+      <Menu.Item
+          key="/super-admin/cities"
+          icon={< EnvironmentOutlined />}
+          onClick={handleMenuItemClick}
+        >
+          <Link to="cities">Cities</Link>
+        </Menu.Item>
 
       <Menu.Item
         key="/super-admin/profile"

@@ -28,6 +28,12 @@ import { Authors } from "./pages/authors/authors";
 import { CreateAuthors } from "./pages/authors/create-authors";
 import EditAuthors from "./pages/authors/update-authors";
 import { AuthorsDetailPage } from "./pages/authors/authors-detail";
+import { Cities } from "./pages/cities/cities";
+import { CreateCities } from "./pages/cities/create-cities";
+import { EditCities } from "./pages/cities/update-cities";
+import { CitiesDetail } from "./pages/cities/cities-detail";
+import { CreateDistrict } from "./pages/districts/create-district";
+import { UpdateDistrict } from "./pages/districts/update-district";
 
 import Books from "./pages/books/Books";
 
@@ -56,6 +62,14 @@ const App = () => {
             <Route path="create-authors" element={<CreateAuthors />} />
             <Route path="authors-update/:id" element={<EditAuthors />} />
             <Route path="authors-detail/:id" element={<AuthorsDetailPage />} />
+
+            <Route path="cities" element={<Cities />} />
+            <Route path="create-cities" element={<CreateCities />} />
+            <Route path="cities-update/:id" element={<EditCities />} />
+            <Route path="cities-detail/:id" element={<CitiesDetail />} />
+
+            <Route path="create-district/:id" element={<CreateDistrict />} />
+            <Route path="update-district/:id" element={<UpdateDistrict />} />
           </Route>
         </Route>
 
@@ -80,7 +94,17 @@ const App = () => {
             <Route path="authors-update/:id" element={<EditAuthors />} />
             <Route path="authors-detail/:id" element={<AuthorsDetailPage />} />
 
+<<<<<<< HEAD
             <Route path="books" element={<Books />} />
+=======
+            <Route path="cities" element={<Cities />} />
+            <Route path="create-cities" element={<CreateCities />} />
+            <Route path="cities-update/:id" element={<EditCities />} />
+            <Route path="cities-detail/:id" element={<CitiesDetail />} />
+
+            <Route path="create-district/:id" element={<CreateDistrict />} />
+            <Route path="update-district/:id" element={<UpdateDistrict />} />
+>>>>>>> 233ec8feeac8fb94b56a08921993cb68ed78f40d
           </Route>
         </Route>
 

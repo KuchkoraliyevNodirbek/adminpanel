@@ -4,6 +4,7 @@ import {
   UserOutlined,
   AppstoreOutlined,
   UserAddOutlined,
+  EnvironmentOutlined,
 } from "@ant-design/icons"; // Ant Design ikonalarini import qilamiz
 import { Menu } from "antd";
 
@@ -42,6 +43,14 @@ export const AdminSideBar = ({ collapsed, closeDrawer }) => {
           onClick={handleMenuItemClick}
         >
           <Link to="authors">Authors</Link>
+        </Menu.Item>
+
+        <Menu.Item
+          key="/admin/cities"
+          icon={< EnvironmentOutlined />}
+          onClick={handleMenuItemClick}
+        >
+          <Link to="cities">Cities</Link>
         </Menu.Item>
         
         <Menu.Item

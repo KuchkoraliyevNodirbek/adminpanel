@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { PhoneNumberInput } from "../phone-number-card/phone-number-card"; // Telefon raqami input komponentini import qilish
-import { Button } from "antd";
 
 export const EditProfileCard = ({
   formData,
@@ -114,12 +113,12 @@ export const EditProfileCard = ({
           {uploading && <div>Rasm yuklanmoqda...</div>}
 
           <div className="flex justify-center">
-            <Button
+            <button
               type="submit"
-              className="p-5 bg-primary hover:bg-dark  text-white rounded-md w-1/2"
+              className="p-3 bg-primary hover:bg-dark  text-white rounded-md w-1/2"
             >
-              Saqlash
-            </Button>
+               {uploading ? "saqlanmoqda" :"Saqlash"}
+            </button>
           </div>
         </form>
       </div>

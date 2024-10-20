@@ -1,32 +1,32 @@
 import React, { useState } from "react";
 import { Pagination } from "antd";
-import { CategoryCard } from "../category-card/category-card";
-import { useGetCategories } from "../../service/query/useGetCategoriesList";
 import { Loading } from "../loading/loading";
+import { CitiesCard } from "../cities-card/cities-card";
+import { useGetCitiesList } from "../../service/query/useGetCitiesList";
 
-export const CategoriesList = () => {
+export const CitiesList = () => {
   const [limit, setLimit] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
-    const offset = (currentPage - 1) * limit; // Offset hisoblash
-const { data, error, isLoading } = useGetCategories("", limit, offset);
-  // console.log(data);
-  
-  if (isLoading) return <Loading/>
-  if (error) return <p>Xatolik: {error.message}</p>; 
+  const offset = (currentPage - 1) * limit; // Offset hisoblash
+  const { data, error, isLoading } = useGetCitiesList("", limit, offset);
+  console.log(data);
+
+  if (isLoading) return <Loading />;
+  if (error) return <p>Xatolik: {error.message}</p>;
 
   // Kategoriyalardan totalCount ni olish
   const totalCount = data?.Count || 0; // Agar data bo'lmasa, 0 deb olamiz
 
-  const currentCategories = data.Categories?.categories || []; 
-  
-  // console.log(currentCategories);
+  const currentCategories = data.Cities?.cities || [];
+
+  console.log(currentCategories);
   return (
     <div className="bg-white p-4 rounded shadow-md">
-      <h2 className="text-2xl font-bold mb-4">Kategoriyalar</h2>
+      <h2 className="text-2xl font-bold mb-4">Shaharlar</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
         {currentCategories.map((category) => (
-          <CategoryCard key={category.id} category={category} />
+          <CitiesCard key={category.id} category={category} />
         ))}
       </div>
 

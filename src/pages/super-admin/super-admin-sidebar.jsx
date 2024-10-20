@@ -2,10 +2,12 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu } from "antd";
 import {
-  UserAddOutlined,
-  TeamOutlined,
-  AppstoreOutlined,
-  UserOutlined,
+  UserAddOutlined, // For adding an admin
+  TeamOutlined, // For listing all admins
+  AppstoreAddOutlined, // For categories (changed from AppstoreOutlined)
+  UserOutlined, // For profile
+  BookOutlined, // For books (new icon)
+  ReadOutlined, // For authors (new icon)
 } from "@ant-design/icons";
 import { LogoIcon } from "../../assets/LogoIcon";
 
@@ -53,7 +55,7 @@ export const SuperAdminSideBar = ({ collapsed, closeDrawer }) => {
 
       <Menu.Item
         key="/super-admin/categories"
-        icon={<AppstoreOutlined />}
+        icon={<AppstoreAddOutlined />} // Changed icon for categories
         onClick={handleMenuItemClick}
       >
         <Link to="/super-admin/categories">
@@ -73,11 +75,21 @@ export const SuperAdminSideBar = ({ collapsed, closeDrawer }) => {
 
       <Menu.Item
         key="/super-admin/authors"
-        icon={<UserAddOutlined />}
+        icon={<ReadOutlined />} // New icon for authors
         onClick={handleMenuItemClick}
       >
         <Link to="/super-admin/authors">
           <span className="menu-text">Authors</span>
+        </Link>
+      </Menu.Item>
+
+      <Menu.Item
+        key="/super-admin/books"
+        icon={<BookOutlined />} // New icon for books
+        onClick={handleMenuItemClick}
+      >
+        <Link to="/super-admin/books">
+          <span className="menu-text">Books</span>
         </Link>
       </Menu.Item>
     </Menu>

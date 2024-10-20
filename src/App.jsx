@@ -29,6 +29,8 @@ import { CreateAuthors } from "./pages/authors/create-authors";
 import EditAuthors from "./pages/authors/update-authors";
 import { AuthorsDetailPage } from "./pages/authors/authors-detail";
 
+import Books from "./pages/books/Books";
+
 const App = () => {
   return (
     <div>
@@ -77,6 +79,8 @@ const App = () => {
             <Route path="create-authors" element={<CreateAuthors />} />
             <Route path="authors-update/:id" element={<EditAuthors />} />
             <Route path="authors-detail/:id" element={<AuthorsDetailPage />} />
+
+            <Route path="books" element={<Books />} />
           </Route>
         </Route>
 

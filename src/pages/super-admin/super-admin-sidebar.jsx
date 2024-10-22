@@ -2,20 +2,13 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu } from "antd";
 import {
-<<<<<<< HEAD
   UserAddOutlined, // For adding an admin
   TeamOutlined, // For listing all admins
   AppstoreAddOutlined, // For categories (changed from AppstoreOutlined)
   UserOutlined, // For profile
   BookOutlined, // For books (new icon)
   ReadOutlined, // For authors (new icon)
-=======
-  UserAddOutlined,
-  TeamOutlined,
-  AppstoreOutlined,
-  UserOutlined,
-  EnvironmentOutlined,
->>>>>>> 233ec8feeac8fb94b56a08921993cb68ed78f40d
+  EnvironmentOutlined, // For cities
 } from "@ant-design/icons";
 import { LogoIcon } from "../../assets/LogoIcon";
 
@@ -72,12 +65,14 @@ export const SuperAdminSideBar = ({ collapsed, closeDrawer }) => {
       </Menu.Item>
 
       <Menu.Item
-          key="/super-admin/cities"
-          icon={< EnvironmentOutlined />}
-          onClick={handleMenuItemClick}
-        >
-          <Link to="cities">Cities</Link>
-        </Menu.Item>
+        key="/super-admin/cities"
+        icon={<EnvironmentOutlined />}
+        onClick={handleMenuItemClick}
+      >
+        <Link to="/super-admin/cities">
+          <span className="menu-text">Cities</span>
+        </Link>
+      </Menu.Item>
 
       <Menu.Item
         key="/super-admin/profile"

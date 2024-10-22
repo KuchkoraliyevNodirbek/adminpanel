@@ -1,35 +1,20 @@
 import { useQuery } from "@tanstack/react-query";
 import { gatewayRequest } from "../../config/geteway-request";
 
-export const useGetBooks = (filters = {}, limit = 10, offset = 0) => {
+export const useGetBooks = (limit = 10, offset = 0) => {
   return useQuery({
-    queryKey: ["getBooks", filters, limit, offset],
+    queryKey: ["getBooks", limit, offset], // Query key for caching
     queryFn: async () => {
-      const {
-        price_from = "",
-        price_to = "",
-        publisher_id = "",
-        category_id = "",
-        translator_id = "",
-        author_id = "",
-        language_id = "",
-        city_id = "",
-        district_id = "",
-        title = "",
-        writing_type = "",
-      } = filters;
-
-      const response = await gatewayRequest.get(
-        `/books/list?price_from=${price_from}&price_to=${price_to}&publisher_id=${publisher_id}&category_id=${category_id}&translator_id=${translator_id}&author_id=${author_id}&language_id=${language_id}&city_id=${city_id}&district_id=${district_id}&title=${title}&writing_type=${writing_type}&limit=${limit}&offset=${offset}`
-      );
-
-      return response.data;
+      // Fetch books from the API
+      const response = await gatewayRequest.get(`/books/list?limit=${limit}&offset=${offset}`);
+      return response.data; // Ensure response.data has the expected structure
     },
     onSuccess: (data) => {
-      console.log("Books list:", data);
+      console.log("Books list:", data); // Log books on success
     },
     onError: (error) => {
-      console.error("Error fetching books:", error);
+      console.error("Error fetching books:", error); // Log error on failure
     },
+    // Retry configuration can be added here if necessary
   });
 };

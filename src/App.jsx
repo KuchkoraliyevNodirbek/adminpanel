@@ -34,6 +34,11 @@ import { EditCities } from "./pages/cities/update-cities";
 import { CitiesDetail } from "./pages/cities/cities-detail";
 import { CreateDistrict } from "./pages/districts/create-district";
 import { UpdateDistrict } from "./pages/districts/update-district";
+import { Languages } from "./pages/languages/languages";
+import { CreateLanguages } from "./pages/languages/create-languages";
+import { EditLanguages } from "./pages/languages/update-languages";
+import { Publishers } from "./pages/publishers/publishers";
+import { PublisherDetail } from "./pages/publishers/publishers-detail";
 
 const App = () => {
   return (
@@ -68,6 +73,15 @@ const App = () => {
 
             <Route path="create-district/:id" element={<CreateDistrict />} />
             <Route path="update-district/:id" element={<UpdateDistrict />} />
+
+            <Route path="languages" element={<Languages />} />
+            <Route path="create-languages" element={<CreateLanguages />} />
+            <Route path="languages-update/:id" element={<EditLanguages />} />
+
+            <Route path="publishers" element={<Publishers />} />
+            <Route path="publishers-detail/:id" element={<PublisherDetail />} />
+
+
           </Route>
         </Route>
 
@@ -99,6 +113,13 @@ const App = () => {
 
             <Route path="create-district/:id" element={<CreateDistrict />} />
             <Route path="update-district/:id" element={<UpdateDistrict />} />
+
+            <Route path="languages" element={<Languages />} />
+            <Route path="create-languages" element={<CreateLanguages />} />
+            <Route path="languages-update/:id" element={<EditLanguages />} />
+
+            <Route path="publishers" element={<Publishers />} />
+            <Route path="publishers-detail/:id" element={<PublisherDetail />} />
           </Route>
         </Route>
 

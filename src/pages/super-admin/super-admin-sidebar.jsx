@@ -10,6 +10,14 @@ import {
   GlobalOutlined,
   BookOutlined,
   BankOutlined,
+  UserAddOutlined, // For adding an admin
+  TeamOutlined, // For listing all admins
+  AppstoreAddOutlined, // For categories (changed from AppstoreOutlined)
+  UserOutlined, // For profile
+  BookOutlined, // For books (new icon)
+  ReadOutlined, // For authors (new icon)
+  EnvironmentOutlined, // For cities
+
 } from "@ant-design/icons";
 import { LogoIcon } from "../../assets/LogoIcon";
 
@@ -57,7 +65,7 @@ export const SuperAdminSideBar = ({ collapsed, closeDrawer }) => {
 
       <Menu.Item
         key="/super-admin/categories"
-        icon={<AppstoreOutlined />}
+        icon={<AppstoreAddOutlined />} // Changed icon for categories
         onClick={handleMenuItemClick}
       >
         <Link to="/super-admin/categories">
@@ -68,6 +76,17 @@ export const SuperAdminSideBar = ({ collapsed, closeDrawer }) => {
       <Menu.Item
         key="/super-admin/cities"
         icon={<EnvironmentOutlined />}
+
+        onClick={handleMenuItemClick}
+      >
+        <Link to="/super-admin/cities">
+          <span className="menu-text">Cities</span>
+        </Link>
+      </Menu.Item>
+
+      <Menu.Item
+        key="/super-admin/profile"
+        icon={<UserOutlined />}
         onClick={handleMenuItemClick}
       >
         <Link to="cities">Cities</Link>
@@ -83,7 +102,7 @@ export const SuperAdminSideBar = ({ collapsed, closeDrawer }) => {
 
       <Menu.Item
         key="/super-admin/authors"
-        icon={<UserAddOutlined />}
+        icon={<ReadOutlined />} // New icon for authors
         onClick={handleMenuItemClick}
       >
         <Link to="/super-admin/authors">
@@ -92,6 +111,7 @@ export const SuperAdminSideBar = ({ collapsed, closeDrawer }) => {
       </Menu.Item>
 
       <Menu.Item
+
           key="/super-admin/publishers"
           icon={<BankOutlined />}
           onClick={handleMenuItemClick}
@@ -106,6 +126,14 @@ export const SuperAdminSideBar = ({ collapsed, closeDrawer }) => {
       >
         <Link to="/super-admin/profile">
           <span className="menu-text">Profil</span>
+
+        key="/super-admin/books"
+        icon={<BookOutlined />} // New icon for books
+        onClick={handleMenuItemClick}
+      >
+        <Link to="/super-admin/books">
+          <span className="menu-text">Books</span>
+
         </Link>
       </Menu.Item>
     </Menu>

@@ -16,8 +16,8 @@ import { AdminDetailPage } from "./pages/super-admin/users-detail-page";
 import { Profile } from "./pages/profile/profile";
 import { ProfileEditPage } from "./pages/profile/update-profile";
 
-import { ProtectedRoute } from "./pages/auth/protected"; // Himoyalangan marshrutlar uchun
-import { NotFoundPage } from "./pages/404/404"; // 404 sahifa
+import { ProtectedRoute } from "./pages/auth/protected";
+import { NotFoundPage } from "./pages/404/404";
 
 import { Categories } from "./pages/categories/categories";
 import { CreateCategory } from "./pages/categories/create-category";
@@ -34,21 +34,16 @@ import { EditCities } from "./pages/cities/update-cities";
 import { CitiesDetail } from "./pages/cities/cities-detail";
 import { CreateDistrict } from "./pages/districts/create-district";
 import { UpdateDistrict } from "./pages/districts/update-district";
-import { Languages } from "./pages/languages/languages";
-import { CreateLanguages } from "./pages/languages/create-languages";
-import { EditLanguages } from "./pages/languages/update-languages";
-import { Publishers } from "./pages/publishers/publishers";
-import { PublisherDetail } from "./pages/publishers/publishers-detail";
 
 const App = () => {
   return (
     <div>
       <ToastContainer />
       <Routes>
-        {/* Login sahifasi */}
+        {/* Login page */}
         <Route path="/" element={<Login />} />
 
-        {/* Admin yo'nalishlari */}
+        {/* Admin routes */}
         <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
           <Route path="/admin" element={<AdminLayout />}>
             <Route path="profile" element={<Profile />} />
@@ -60,7 +55,6 @@ const App = () => {
               path="categories-detail/:id"
               element={<CategoryDetailPage />}
             />
-            {/* Move Authors route inside SuperAdminLayout */}
             <Route path="authors" element={<Authors />} />
             <Route path="create-authors" element={<CreateAuthors />} />
             <Route path="authors-update/:id" element={<EditAuthors />} />
@@ -85,7 +79,7 @@ const App = () => {
           </Route>
         </Route>
 
-        {/* Super-admin yo'nalishlari */}
+        {/* Super-admin routes */}
         <Route element={<ProtectedRoute allowedRoles={["superadmin"]} />}>
           <Route path="/super-admin" element={<SuperAdminLayout />}>
             <Route path="admin-create" element={<AdminCreate />} />
@@ -100,7 +94,6 @@ const App = () => {
               path="categories-detail/:id"
               element={<CategoryDetailPage />}
             />
-            {/* Move Authors route inside SuperAdminLayout */}
             <Route path="authors" element={<Authors />} />
             <Route path="create-authors" element={<CreateAuthors />} />
             <Route path="authors-update/:id" element={<EditAuthors />} />
@@ -113,17 +106,10 @@ const App = () => {
 
             <Route path="create-district/:id" element={<CreateDistrict />} />
             <Route path="update-district/:id" element={<UpdateDistrict />} />
-
-            <Route path="languages" element={<Languages />} />
-            <Route path="create-languages" element={<CreateLanguages />} />
-            <Route path="languages-update/:id" element={<EditLanguages />} />
-
-            <Route path="publishers" element={<Publishers />} />
-            <Route path="publishers-detail/:id" element={<PublisherDetail />} />
           </Route>
         </Route>
 
-        {/* 404 sahifa */}
+        {/* 404 page */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </div>

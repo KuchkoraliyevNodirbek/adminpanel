@@ -27,17 +27,13 @@ import { EditCities } from "./pages/cities/update-cities";
 import { CitiesDetail } from "./pages/cities/cities-detail";
 import { CreateDistrict } from "./pages/districts/create-district";
 import { UpdateDistrict } from "./pages/districts/update-district";
-<<<<<<< HEAD
 import { Languages } from "./pages/languages/languages";
 import { EditLanguages } from "./pages/languages/update-languages";
 import { CreateLanguages } from "./pages/languages/create-languages";
 import { Publishers } from "./pages/publishers/publishers";
 import { PublisherDetail } from "./pages/publishers/publishers-detail";
-import Books from "./pages/books/Books";
-=======
 import { Books } from "./pages/books/Books";
 import { BookDetail } from "./pages/books/book-detail";
->>>>>>> 9115649 (Resolve merge conflicts)
 
 const App = () => {
   return (
@@ -76,8 +72,6 @@ const App = () => {
 
             <Route path="publishers" element={<Publishers />} />
             <Route path="publishers-detail/:id" element={<PublisherDetail />} />
-
-
           </Route>
         </Route>
 

@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
 import { Form, Input, Button, notification } from "antd";
 import { useParams, useNavigate } from "react-router-dom";
-import { useGetDistrictsById } from "../../service/query/useGetDistrictsbyId";
+import { useGetDistrictsById } from "../../service/query/useGetDistrictsById";
 import { useUpdateDistrict } from "../../service/mutation/useUpdateDistrict";
 import { Loading } from "../../components/loading/loading";
-
 
 export const UpdateDistrict = () => {
   const { id } = useParams(); // URL'dan ID olamiz
@@ -54,10 +53,15 @@ export const UpdateDistrict = () => {
     );
   };
 
-  if (isLoading) return <Loading/>
+  if (isLoading) return <Loading />;
 
   return (
-    <Form className="border-2 max-w-screen-sm mx-auto p-5 shadow-md shadow-primary rounded-md" form={form} onFinish={onFinish} layout="vertical">
+    <Form
+      className="border-2 max-w-screen-sm mx-auto p-5 shadow-md shadow-primary rounded-md"
+      form={form}
+      onFinish={onFinish}
+      layout="vertical"
+    >
       <Form.Item
         label="Tuman nomi (UZ)"
         name="uz"
@@ -90,4 +94,3 @@ export const UpdateDistrict = () => {
     </Form>
   );
 };
-

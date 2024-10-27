@@ -12,7 +12,9 @@ import {
   SendOutlined,
 } from "@ant-design/icons";
 import { useGetCitiesById } from "../../service/query/useGetCitiesById";
-import { useGetDistrictsById } from "../../service/query/useGetDistrictsbyId";
+// import { useGetDistrictsById } from "../../service/query/useGetDistrictsbyId";
+import { useGetDistrictsById } from "../../service/query/useGetDistrictsById";
+
 
 export const PublisherDetail = () => {
   const { id } = useParams();

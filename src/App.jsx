@@ -1,29 +1,22 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { Login } from "./pages/auth/login";
-
 import { AdminLayout } from "./pages/admin/admin-layout";
 import { SuperAdminLayout } from "./pages/super-admin/super-admin-layout";
-
 import { AdminCreate } from "./pages/super-admin/admin-create";
 import { AdminChange } from "./pages/super-admin/admin-change";
 import { AdminDetailPage } from "./pages/super-admin/users-detail-page";
-
 import { Profile } from "./pages/profile/profile";
 import { ProfileEditPage } from "./pages/profile/update-profile";
-
 import { ProtectedRoute } from "./pages/auth/protected";
 import { NotFoundPage } from "./pages/404/404";
-
 import { Categories } from "./pages/categories/categories";
 import { CreateCategory } from "./pages/categories/create-category";
 import { CategoryDetailPage } from "./pages/categories/category-detail";
 import EditCategory from "./pages/categories/update-category";
-
 import { Authors } from "./pages/authors/authors";
 import { CreateAuthors } from "./pages/authors/create-authors";
 import EditAuthors from "./pages/authors/update-authors";
@@ -34,12 +27,17 @@ import { EditCities } from "./pages/cities/update-cities";
 import { CitiesDetail } from "./pages/cities/cities-detail";
 import { CreateDistrict } from "./pages/districts/create-district";
 import { UpdateDistrict } from "./pages/districts/update-district";
+<<<<<<< HEAD
 import { Languages } from "./pages/languages/languages";
 import { EditLanguages } from "./pages/languages/update-languages";
 import { CreateLanguages } from "./pages/languages/create-languages";
 import { Publishers } from "./pages/publishers/publishers";
 import { PublisherDetail } from "./pages/publishers/publishers-detail";
 import Books from "./pages/books/Books";
+=======
+import { Books } from "./pages/books/Books";
+import { BookDetail } from "./pages/books/book-detail";
+>>>>>>> 9115649 (Resolve merge conflicts)
 
 const App = () => {
   return (
@@ -65,12 +63,10 @@ const App = () => {
             <Route path="create-authors" element={<CreateAuthors />} />
             <Route path="authors-update/:id" element={<EditAuthors />} />
             <Route path="authors-detail/:id" element={<AuthorsDetailPage />} />
-
             <Route path="cities" element={<Cities />} />
             <Route path="create-cities" element={<CreateCities />} />
             <Route path="cities-update/:id" element={<EditCities />} />
             <Route path="cities-detail/:id" element={<CitiesDetail />} />
-
             <Route path="create-district/:id" element={<CreateDistrict />} />
             <Route path="update-district/:id" element={<UpdateDistrict />} />
 
@@ -104,12 +100,10 @@ const App = () => {
             <Route path="create-authors" element={<CreateAuthors />} />
             <Route path="authors-update/:id" element={<EditAuthors />} />
             <Route path="authors-detail/:id" element={<AuthorsDetailPage />} />
-
             <Route path="cities" element={<Cities />} />
             <Route path="create-cities" element={<CreateCities />} />
             <Route path="cities-update/:id" element={<EditCities />} />
             <Route path="cities-detail/:id" element={<CitiesDetail />} />
-
             <Route path="create-district/:id" element={<CreateDistrict />} />
             <Route path="update-district/:id" element={<UpdateDistrict />} />
 
@@ -121,6 +115,7 @@ const App = () => {
             <Route path="publishers-detail/:id" element={<PublisherDetail />} />
 
             <Route path="books" element={<Books />} />
+            <Route path="books-detail/:id" element={<BookDetail />} />
           </Route>
         </Route>
 

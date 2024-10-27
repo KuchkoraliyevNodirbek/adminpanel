@@ -1,117 +1,130 @@
 import React, { useState } from "react";
-import { Input, Button, Form } from "antd"; // Importing Ant Design components
-import { loadState } from "../../config/stroge"; // Import to access user role
-import { useDebounce } from "../../hooks/useDebounce/useDebounce"; // Import the debounce hook
+import { useDebounce } from "../../hooks/useDebounce/useDebounce"; // Debounce hook for search
+import { useGetBooks } from "../../service/query/useGetBooks"; // Hook to fetch books
+import { BookCard } from "../bookCard/BookCard"; // BookCard component
+import { Select, Input, Form, Button, Spin } from "antd";
 
-export const BooksFilter = ({ onFilterChange }) => {
+const { Option } = Select;
+
+export const BooksFilter = () => {
   const [filters, setFilters] = useState({
-    price_from: "",
-    price_to: "",
-    publisher_id: "",
-    category_id: "",
-    translator_id: "",
-    author_id: "",
-    language_id: "",
-    city_id: "",
-    district_id: "",
     title: "",
-    writing_type: "",
+    author: "",
+    year: "",
+    genre: "",
+    publisher: "",
   });
+  const [searchTriggered, setSearchTriggered] = useState(false); // New state to track search
 
-  const [debouncedFilters, setDebouncedFilters] = useState(filters); // State for debounced filters
-  const role = loadState("user"); // Load user role
+  const debouncedFilters = useDebounce(filters, 500); // Debounce filters
+  const { data, isLoading, error } = useGetBooks(
+    searchTriggered ? debouncedFilters : {}
+  ); // Use debounced filters only if search is triggered
 
-  const detailLink =
-    role.role === "superadmin"
-      ? `/super-admin/create-books`
-      : `/admin/create-books`; // Change this to your book creation route
+  if (error)
+    return <div className="text-red-500 text-center">Xatolik yuz berdi</div>;
 
-  // Debounce filters on change
-  const debouncedFilterChange = useDebounce((updatedFilters) => {
-    setDebouncedFilters(updatedFilters); // Update the debounced filters
-    onFilterChange(updatedFilters); // Notify the parent of the filter change
-  }, 500); // 500ms debounce
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    const updatedFilters = { ...filters, [name]: value };
-    setFilters(updatedFilters); // Update local filters state
-    debouncedFilterChange(updatedFilters); // Call debounced function
+  const handleChange = (key, value) => {
+    setFilters((prev) => ({ ...prev, [key]: value }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onFilterChange(filters); // Send filter parameters
+  const handleSearch = () => {
+    setSearchTriggered(true); // Set search triggered to true when button is clicked
   };
 
   return (
-    <Form
-      onFinish={handleSubmit}
-      className="bg-white p-4 rounded shadow-md space-y-4"
-    >
-      <h2 className="text-lg font-semibold">Filter Books</h2>
-      <Form.Item>
-        <Input
-          name="title"
-          value={filters.title}
-          onChange={handleInputChange}
-          placeholder="Title"
-          className="border border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-        />
-      </Form.Item>
-      <Form.Item>
-        <div className="flex gap-4">
-          <Input
-            type="number"
-            name="price_from"
-            value={filters.price_from}
-            onChange={handleInputChange}
-            placeholder="Price From"
-            className="flex-1"
-          />
-          <Input
-            type="number"
-            name="price_to"
-            value={filters.price_to}
-            onChange={handleInputChange}
-            placeholder="Price To"
-            className="flex-1"
-          />
+    <div className="w-full p-6 bg-white rounded-lg shadow-lg">
+      {/* Search and Filter Form */}
+      <h2 className="text-xl font-semibold mb-4 text-gray-800 text-center">
+        Kitoblar uchun filtrlar
+      </h2>
+      <Form layout="vertical">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Title Filter */}
+          <Form.Item label="Kitob nomi">
+            <Input
+              placeholder="Kitob nomi"
+              value={filters.title}
+              onChange={(e) => handleChange("title", e.target.value)}
+              className="rounded-md border border-gray-300"
+            />
+          </Form.Item>
+
+          {/* Author Filter */}
+          <Form.Item label="Muallif">
+            <Input
+              placeholder="Muallif"
+              value={filters.author}
+              onChange={(e) => handleChange("author", e.target.value)}
+              className="rounded-md border border-gray-300"
+            />
+          </Form.Item>
+
+          {/* Publisher Filter */}
+          <Form.Item label="Nashriyot">
+            <Input
+              placeholder="Nashriyot"
+              value={filters.publisher}
+              onChange={(e) => handleChange("publisher", e.target.value)}
+              className="rounded-md border border-gray-300"
+            />
+          </Form.Item>
+
+          {/* Year Filter */}
+          <Form.Item label="Yili">
+            <Input
+              placeholder="Yili"
+              value={filters.year}
+              onChange={(e) => handleChange("year", e.target.value)}
+              className="rounded-md border border-gray-300"
+            />
+          </Form.Item>
+
+          {/* Genre Filter */}
+          <Form.Item label="Janr">
+            <Select
+              placeholder="Janr"
+              value={filters.genre}
+              onChange={(value) => handleChange("genre", value)}
+              className="rounded-md border border-gray-300"
+            >
+              <Option value="">Barchasi</Option>
+              <Option value="fantasy">Fantaziya</Option>
+              <Option value="history">Tarixiy</Option>
+              <Option value="science">Ilmiy</Option>
+              {/* Add more genres as needed */}
+            </Select>
+          </Form.Item>
         </div>
-      </Form.Item>
 
-      {/* Conditional fields based on role */}
-      {role.role === "superadmin" && (
+        {/* Search Button */}
         <Form.Item>
-          <Input
-            name="category_id"
-            value={filters.category_id}
-            onChange={handleInputChange}
-            placeholder="Category ID"
-            className="border border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-          />
+          <Button
+            type="primary"
+            onClick={handleSearch} // Trigger search on button click
+            className="w-full rounded-md bg-blue-600 hover:bg-blue-700 transition"
+          >
+            Qidirish
+          </Button>
         </Form.Item>
-      )}
+      </Form>
 
-      {role.role === "admin" && (
-        <Form.Item>
-          <Input
-            name="publisher_id"
-            value={filters.publisher_id}
-            onChange={handleInputChange}
-            placeholder="Publisher ID"
-            className="border border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-          />
-        </Form.Item>
-      )}
-
-      {/* Add more conditional fields as needed */}
-
-      <Form.Item>
-        <Button type="primary" htmlType="submit" className="w-full">
-          Apply Filters
-        </Button>
-      </Form.Item>
-    </Form>
+      {/* Books List */}
+      <div className="grid grid-cols-1 gap-4 max-h-96 overflow-y-auto mt-4">
+        {isLoading ? (
+          <div className="text-center text-gray-500 font-semibold">
+            <Spin tip="Yuklanmoqda..." />
+          </div>
+        ) : searchTriggered && data.books?.length > 0 ? (
+          data.books.map((book) => <BookCard key={book.id} book={book} />)
+        ) : (
+          searchTriggered && (
+            <div className="text-center text-red-500 font-semibold">
+              Hech qanday kitob topilmadi
+            </div>
+          )
+        )}
+      </div>
+    </div>
   );
 };

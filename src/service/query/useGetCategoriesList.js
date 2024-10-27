@@ -1,25 +1,4 @@
-// import { useQuery } from "@tanstack/react-query";
-// import { gatewayRequest } from "../../config/geteway-request";
 
-// export const useGetCategories = (name = "", limit = 1, offset = 3) => {
-//   return useQuery({
-//     queryKey: ["getCategories", name, limit, offset], // Query key
-//     queryFn: async () => {
-//       const response = await gatewayRequest.get(
-//         `/categories/list?name=${name}&limit=${limit}&offset=${offset}`
-//       );
-//       // Total countni alohida qaytaramiz
-//       return response.data.categories
-      
-//     },
-//     onSuccess: (data) => {
-//       console.log("Categories list:", data.categories); // Log categories on success
-//     },
-//     onError: (error) => {
-//       console.error("Error fetching categories:", error); // Log error on failure
-//     },
-//   });
-// };
 
 
 import { useQuery } from "@tanstack/react-query";

@@ -1,6 +1,6 @@
-import React from "react";
-import { Button, Space, Tooltip, Typography } from "antd";
-import { useDeleteAuthor } from "../../service/mutation/useDeleteAuthors"; // Update the hook to delete authors
+import React, { useState } from "react";
+import { Button, Space, Tooltip, Typography, Modal } from "antd";
+import { useDeleteAuthor } from "../../service/mutation/useDeleteAuthors";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { loadState } from "../../config/stroge";
@@ -13,16 +13,21 @@ import {
 const { Text } = Typography;
 
 export const AuthorsCard = ({ author }) => {
-  const { mutate: deleteAuthor, isLoading } = useDeleteAuthor(); // Use the new delete hook
+  const { mutate: deleteAuthor, isLoading } = useDeleteAuthor();
   const role = loadState("user");
+
+  // State for the confirmation modal
+  const [confirmVisible, setConfirmVisible] = useState(false);
 
   const handleDelete = () => {
     deleteAuthor(author.id, {
       onSuccess: () => {
         toast.success(`${author.name || "Muallif"} o'chirildi`);
+        setConfirmVisible(false); // Close modal on success
       },
       onError: () => {
         toast.error(`Muallifni o'chirishda xato yuz berdi!`);
+        setConfirmVisible(false); // Close modal on error
       },
     });
   };
@@ -50,7 +55,7 @@ export const AuthorsCard = ({ author }) => {
       </div>
 
       {/* Action Buttons */}
-      <div className="flex  space-x-14 mt-4 md:mt-0">
+      <div className="flex space-x-14 mt-4 md:mt-0">
         <Tooltip title="Batafsil ko'rish">
           <Link to={detailLink}>
             <Button
@@ -75,13 +80,27 @@ export const AuthorsCard = ({ author }) => {
           <Button
             type="default"
             loading={isLoading}
-            onClick={handleDelete}
+            onClick={() => setConfirmVisible(true)} // Show confirmation modal
             disabled={isLoading}
             icon={<DeleteOutlined />}
             className="bg-red-500 text-white"
           />
         </Tooltip>
       </div>
+
+      {/* Confirmation Modal */}
+      <Modal
+        title="O'chirishni tasdiqlang"
+        visible={confirmVisible}
+        onOk={handleDelete}
+        onCancel={() => setConfirmVisible(false)}
+        okText="O'chirish"
+        cancelText="Bekor qilish"
+      >
+        <p>Muallifni o'chirishni tasdiqlaysizmi?</p>
+      </Modal>
     </div>
   );
 };
+
+// export default AuthorsCard;

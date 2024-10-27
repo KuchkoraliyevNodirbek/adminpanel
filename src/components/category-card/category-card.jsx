@@ -1,5 +1,5 @@
-import React from "react";
-import { Button, Space, Tooltip, Typography } from "antd";
+import React, { useState } from "react";
+import { Button, Space, Tooltip, Typography, Modal } from "antd";
 import { useDeleteCategory } from "../../service/mutation/useDeleteCategory";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
@@ -16,13 +16,18 @@ export const CategoryCard = ({ category }) => {
   const { mutate: deleteCategory, isLoading } = useDeleteCategory();
   const role = loadState("user");
 
+  // States for confirmation modal
+  const [confirmVisible, setConfirmVisible] = useState(false);
+
   const handleDelete = () => {
     deleteCategory(category.id, {
       onSuccess: () => {
         toast.success(`${category.name.uz || "Kategoriya"} o'chirildi`);
+        setConfirmVisible(false); // Close modal on success
       },
       onError: () => {
         toast.error(`Kategoriya o'chirishda xato yuz berdi!`);
+        setConfirmVisible(false); // Close modal on error
       },
     });
   };
@@ -54,7 +59,7 @@ export const CategoryCard = ({ category }) => {
       </div>
 
       {/* Action Buttons */}
-      <div className="flex  space-x-14 mt-4 md:mt-0">
+      <div className="flex space-x-14 mt-4 md:mt-0">
         <Tooltip title="Batafsil ko'rish">
           <Link to={detailLink}>
             <Button
@@ -76,18 +81,28 @@ export const CategoryCard = ({ category }) => {
         </Tooltip>
 
         <Tooltip title="O'chirish">
-        <Button
-          type="default"
-          loading={isLoading}
-          onClick={handleDelete}
-          disabled={isLoading}
-          icon={<DeleteOutlined />}
-          className="bg-red-500 text-white"
-        />
-
+          <Button
+            type="default"
+            loading={isLoading}
+            onClick={() => setConfirmVisible(true)} // Show confirmation modal
+            disabled={isLoading}
+            icon={<DeleteOutlined />}
+            className="bg-red-500 text-white"
+          />
         </Tooltip>
-
       </div>
+
+      {/* Confirmation Modal */}
+      <Modal
+        title="O'chirishni tasdiqlang"
+        visible={confirmVisible}
+        onOk={handleDelete}
+        onCancel={() => setConfirmVisible(false)}
+        okText="O'chirish"
+        cancelText="Bekor qilish"
+      >
+        <p>Kategoriyani o'chirishni tasdiqlaysizmi?</p>
+      </Modal>
     </div>
   );
 };

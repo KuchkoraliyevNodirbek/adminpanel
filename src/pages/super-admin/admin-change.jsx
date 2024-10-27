@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGetAllAdmin } from "../../service/query/useGetAllAdmin";
-import { Table, Tag, Button, Tooltip } from "antd";
+import { Table, Tag, Button, Tooltip, Modal } from "antd";
 import { Loading } from "../../components/loading/loading";
 import { useAdminDelete } from "../../service/mutation/useAdminDelete";
 import { toast } from "react-toastify";
@@ -15,6 +15,10 @@ export const AdminChange = () => {
   const { data, isLoading, isError, error } = useGetAllAdmin(limit, offset);
   const { mutate, error: deleteError, isPending } = useAdminDelete();
 
+  // State to manage confirmation modal
+  const [confirmVisible, setConfirmVisible] = useState(false);
+  const [deleteId, setDeleteId] = useState(null); // State to hold ID of the admin to be deleted
+
   if (isLoading) return <Loading />;
   if (isError) return <div>Xatolik: {error?.message}</div>;
 
@@ -26,16 +30,22 @@ export const AdminChange = () => {
   const allAdmins = [...superAdmins, ...admins, ...users];
 
   console.log(allAdmins);
-  
 
   // Handle delete operation
   const handleDelete = (id) => {
-    mutate(id, {
+    setDeleteId(id); // Store the ID of the admin to be deleted
+    setConfirmVisible(true); // Show confirmation modal
+  };
+
+  const confirmDelete = () => {
+    mutate(deleteId, {
       onSuccess: () => {
         toast.success("Admin muvaffaqiyatli o'chirildi!");
+        setConfirmVisible(false); // Hide modal after successful deletion
       },
       onError: () => {
         toast.error(deleteError?.message);
+        setConfirmVisible(false); // Hide modal on error
       },
     });
   };
@@ -76,28 +86,25 @@ export const AdminChange = () => {
       render: (id, record) => (
         <div className="space-x-5">
           <Tooltip title="Batafsil Ko'rish">
-
-          <Button
-            icon={<InfoCircleOutlined />}
-            type="default"
-            onClick={() => navigate(`/super-admin/detail-page/${id}`)}
-            className="bg-blue-500 text-white"
-          ></Button>
+            <Button
+              icon={<InfoCircleOutlined />}
+              type="default"
+              onClick={() => navigate(`/super-admin/detail-page/${id}`)}
+              className="bg-blue-500 text-white"
+            ></Button>
           </Tooltip>
 
           <Tooltip title="O'chirish">
-
-          {record.role !== "superadmin" && (
-            <Button
-              onClick={() => handleDelete(id)}
-              loading={isPending}
-              className="bg-red-500 text-white"
-            >
-              <DeleteOutlined />
-            </Button>
-          )}
+            {record.role !== "superadmin" && (
+              <Button
+                onClick={() => handleDelete(id)} // Trigger delete with confirmation
+                loading={isPending}
+                className="bg-red-500 text-white"
+              >
+                <DeleteOutlined />
+              </Button>
+            )}
           </Tooltip>
-
         </div>
       ),
     },
@@ -112,6 +119,18 @@ export const AdminChange = () => {
         rowKey="id"
         pagination={true}
       />
+
+      {/* Confirmation Modal */}
+      <Modal
+        title="O'chirishni tasdiqlang"
+        visible={confirmVisible}
+        onOk={confirmDelete}
+        onCancel={() => setConfirmVisible(false)}
+        okText="O'chirish"
+        cancelText="Bekor qilish"
+      >
+        <p>Adminni o'chirishni tasdiqlaysizmi?</p>
+      </Modal>
     </div>
   );
 };

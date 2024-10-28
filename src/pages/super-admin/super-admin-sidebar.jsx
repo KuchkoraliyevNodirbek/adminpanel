@@ -39,7 +39,7 @@ export const SuperAdminSideBar = ({ collapsed, closeDrawer }) => {
 
       <Menu.Item
         key="/super-admin/admin-create"
-        icon={<UserAddOutlined/>}
+        icon={<UserAddOutlined />}
         onClick={handleMenuItemClick}
       >
         <Link to="/super-admin/admin-create">
@@ -54,6 +54,16 @@ export const SuperAdminSideBar = ({ collapsed, closeDrawer }) => {
       >
         <Link to="/super-admin/admin-change">
           <span className="menu-text">Hamma Adminlar</span>
+        </Link>
+      </Menu.Item>
+
+      <Menu.Item
+        key="/super-admin/all-users"
+        icon={<TeamOutlined />}
+        onClick={handleMenuItemClick}
+      >
+        <Link to="/super-admin/all-users">
+          <span className="menu-text">Hamma Userlar</span>
         </Link>
       </Menu.Item>
 
@@ -75,14 +85,6 @@ export const SuperAdminSideBar = ({ collapsed, closeDrawer }) => {
         <Link to="/super-admin/cities">
           <span className="menu-text">Cities</span>
         </Link>
-      </Menu.Item>
-
-      <Menu.Item
-        key="/super-admin/profile"
-        icon={<UserOutlined />}
-        onClick={handleMenuItemClick}
-      >
-        <Link to="cities">Cities</Link>
       </Menu.Item>
 
       <Menu.Item
@@ -112,21 +114,22 @@ export const SuperAdminSideBar = ({ collapsed, closeDrawer }) => {
       </Menu.Item>
 
       <Menu.Item
-        key="/super-admin/profile"
-        icon={<UserOutlined />}
-        onClick={handleMenuItemClick}
-      >
-        <Link to="/super-admin/profile">
-          <span className="menu-text">Profil</span>
-        </Link>
-      </Menu.Item>
-      <Menu.Item
         key="/super-admin/books"
         icon={<BookOutlined />} // New icon for books
         onClick={handleMenuItemClick}
       >
         <Link to="/super-admin/books">
           <span className="menu-text">Books</span>
+        </Link>
+      </Menu.Item>
+
+      <Menu.Item
+        key="/super-admin/profile"
+        icon={<UserOutlined />}
+        onClick={handleMenuItemClick}
+      >
+        <Link to="/super-admin/profile">
+          <span className="menu-text">Profil</span>
         </Link>
       </Menu.Item>
     </Menu>

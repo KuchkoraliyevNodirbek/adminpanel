@@ -24,7 +24,7 @@ const { data, error, isLoading } = useGetCategories("", limit, offset);
     <div className="bg-white p-4 rounded shadow-md">
       <h2 className="text-2xl font-bold mb-4">Kategoriyalar</h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-1">
         {currentCategories.map((category) => (
           <CategoryCard key={category.id} category={category} />
         ))}

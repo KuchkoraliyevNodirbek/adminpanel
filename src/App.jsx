@@ -34,6 +34,7 @@ import { Publishers } from "./pages/publishers/publishers";
 import { PublisherDetail } from "./pages/publishers/publishers-detail";
 import { Books } from "./pages/books/Books";
 import { BookDetail } from "./pages/books/book-detail";
+import { AllUsers } from "./pages/super-admin/all-users";
 
 const App = () => {
   return (
@@ -72,6 +73,9 @@ const App = () => {
 
             <Route path="publishers" element={<Publishers />} />
             <Route path="publishers-detail/:id" element={<PublisherDetail />} />
+
+            <Route path="books" element={<Books />} />
+            <Route path="books-detail/:id" element={<BookDetail />} />
           </Route>
         </Route>
 
@@ -80,6 +84,7 @@ const App = () => {
           <Route path="/super-admin" element={<SuperAdminLayout />}>
             <Route path="admin-create" element={<AdminCreate />} />
             <Route path="admin-change" element={<AdminChange />} />
+            <Route path="all-users" element={<AllUsers />} />
             <Route path="detail-page/:id" element={<AdminDetailPage />} />
             <Route path="profile" element={<Profile />} />
             <Route path="update-profile" element={<ProfileEditPage />} />

@@ -3,11 +3,11 @@ import { Link, useLocation } from "react-router-dom";
 import {
   UserOutlined,
   AppstoreOutlined,
-  UserAddOutlined,
   EnvironmentOutlined,
   GlobalOutlined,
   BookOutlined,
   BankOutlined,
+  ReadOutlined,
 } from "@ant-design/icons"; // Ant Design ikonalarini import qilamiz
 import { Menu } from "antd";
 
@@ -42,7 +42,7 @@ export const AdminSideBar = ({ collapsed, closeDrawer }) => {
 
       <Menu.Item
         key="/admin/authors"
-        icon={<UserAddOutlined />}
+        icon={<ReadOutlined />}
         onClick={handleMenuItemClick}
       >
         <Link to="authors">Authors</Link>
@@ -70,6 +70,16 @@ export const AdminSideBar = ({ collapsed, closeDrawer }) => {
         onClick={handleMenuItemClick}
       >
         <Link to="publishers">Publishers</Link>
+      </Menu.Item>
+
+      <Menu.Item
+        key="/admin/books"
+        icon={<BookOutlined />} // New icon for books
+        onClick={handleMenuItemClick}
+      >
+        <Link to="/admin/books">
+          <span className="menu-text">Books</span>
+        </Link>
       </Menu.Item>
 
       <Menu.Item

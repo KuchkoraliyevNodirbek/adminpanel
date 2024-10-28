@@ -5,9 +5,9 @@ import { useGetAllAdmin } from "../../service/query/useGetAllAdmin";
 import { useAdminDelete } from "../../service/mutation/useAdminDelete";
 import { toast } from "react-toastify";
 import { DeleteOutlined, InfoCircleOutlined } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
-export const AdminChange = () => {
+export const AllUsers = () => {
   const [limit, setLimit] = useState(10); // Har bir sahifadagi foydalanuvchilar soni
   const [currentPage, setCurrentPage] = useState(1); // Hozirgi sahifa
   const offset = (currentPage - 1) * limit; // Offset hisoblash
@@ -16,18 +16,16 @@ export const AdminChange = () => {
   const [confirmVisible, setConfirmVisible] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   if (isLoading) return <Loading />;
   if (isError) return <div>Xatolik: {error?.message}</div>;
 
-  const users =
-    data?.users?.filter(
-      (user) => user.role === "admin" || user.role === "superadmin"
-    ) || [];
+  const users = data?.users?.filter((user) => user.role === "user") || [];
   const totalCount = data?.count || 0; // Umumiy foydalanuvchilar soni
 
   console.log(totalCount);
+  console.log(users.length);
 
   const handleDelete = (id) => {
     setDeleteId(id);
@@ -50,7 +48,7 @@ export const AdminChange = () => {
   return (
     <div className="p-4 max-w-full mx-auto">
       <h2 className="text-2xl font-bold mb-4 text-center md:text-left">
-        Hamma Adminlar
+        Hamma Foydalanuvchilar
       </h2>
       <List
         grid={{ gutter: 10, xs: 1, sm: 1, md: 1, lg: 1, column: 1 }}
@@ -78,7 +76,7 @@ export const AdminChange = () => {
                     {user.role.toUpperCase()}
                   </Tag>
                 </div>
-                <div className="max-w-48 min-w-48  text-center md:text-start">
+                <div className="max-w-48 min-w-48 text-center md:text-start">
                   <p className="font-bold text-xs md:text-base">{user.email}</p>
                 </div>
                 <div className="flex space-x-5 w-fit">

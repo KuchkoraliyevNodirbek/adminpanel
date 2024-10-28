@@ -1,5 +1,5 @@
-import React from "react";
-import { Button, Tooltip, Typography } from "antd";
+import React, { useState } from "react";
+import { Button, Tooltip, Typography, Modal } from "antd";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { loadState } from "../../config/stroge";
@@ -11,16 +11,27 @@ const { Text } = Typography;
 export const LanguagesCard = ({ category }) => {
   const { mutate: deleteCategory, isLoading } = useDeleteLanguages();
   const role = loadState("user");
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showDeleteConfirm = () => {
+    setIsModalVisible(true);
+  };
 
   const handleDelete = () => {
     deleteCategory(category.id, {
       onSuccess: () => {
         toast.success(`${category.name.uz || "Til"} o'chirildi`);
+        setIsModalVisible(false);
       },
       onError: () => {
         toast.error(`Kategoriya o'chirishda xato yuz berdi!`);
+        setIsModalVisible(false);
       },
     });
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
   };
 
   const updateLink =
@@ -46,7 +57,7 @@ export const LanguagesCard = ({ category }) => {
       </div>
 
       {/* Action Buttons */}
-      <div className="flex  space-x-14 mt-4 md:mt-0">
+      <div className="flex space-x-14 mt-4 md:mt-0">
         <Tooltip title="Tahrirlash">
           <Link to={updateLink}>
             <Button
@@ -61,13 +72,26 @@ export const LanguagesCard = ({ category }) => {
           <Button
             type="default"
             loading={isLoading}
-            onClick={handleDelete}
+            onClick={showDeleteConfirm}
             disabled={isLoading}
             icon={<DeleteOutlined />}
             className="bg-red-500 text-white"
           />
         </Tooltip>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      <Modal
+        title="O'chirishni tasdiqlash"
+        visible={isModalVisible}
+        onOk={handleDelete}
+        onCancel={handleCancel}
+        okText="Tasdiqlash"
+        cancelText="Bekor qilish"
+        okButtonProps={{ loading: isLoading }}
+      >
+        <p>{category.name.uz || "Til"} o'chirilsinmi?</p>
+      </Modal>
     </div>
   );
 };

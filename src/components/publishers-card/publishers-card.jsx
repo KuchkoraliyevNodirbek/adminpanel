@@ -1,14 +1,27 @@
 import React, { useState } from "react";
-import { Card, Button, Tooltip, Switch, message } from "antd";
-import { PhoneOutlined, InfoCircleOutlined } from "@ant-design/icons";
+import { Button, Tooltip, Switch, message, Modal } from "antd";
+import {
+  PhoneOutlined,
+  InfoCircleOutlined,
+  DeleteOutlined,
+} from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { loadState } from "../../config/stroge";
 import { useChangeStatus } from "../../service/mutation/useChangePublisherStatus";
+import { useDeletePublisher } from "../../service/mutation/useDeletePublisher";
+import { toast } from "react-toastify";
 
 export const PublisherCard = ({ publisher }) => {
   const role = loadState("user");
   const [status, setStatus] = useState(publisher.status === "true"); // String qiymatini Boolean ga aylantirish
   const { mutate, isLoading } = useChangeStatus();
+
+  const [confirmVisible, setConfirmVisible] = useState(false);
+  const {
+    mutate: deltePublisher,
+    error: deleteError,
+    isPending,
+  } = useDeletePublisher();
 
   const detailLink =
     role.role === "superadmin"
@@ -25,10 +38,27 @@ export const PublisherCard = ({ publisher }) => {
         },
         onError: () => {
           message.error("Xatolik yuz berdi, qayta urinib ko'ring!");
-          setStatus(!checked); // Xatolik yuz bersa, avvalgi holatga qaytarish
+          setStatus(!checked);
         },
       }
     );
+  };
+
+  const handleDelete = () => {
+    setConfirmVisible(true);
+  };
+
+  const confirmDelete = () => {
+    deltePublisher(publisher.id, {
+      onSuccess: () => {
+        toast.success("Nashriyot muvaffaqiyatli o'chirildi!");
+        setConfirmVisible(false);
+      },
+      onError: () => {
+        toast.error(deleteError?.message);
+        setConfirmVisible(false);
+      },
+    });
   };
 
   return (
@@ -51,7 +81,7 @@ export const PublisherCard = ({ publisher }) => {
           {publisher.type}
         </p>
 
-        <div className="flex gap-16 justify-center items-center">
+        <div className="flex gap-5 w-full md:w-fit md:gap-16 justify-center items-center">
           <Tooltip title="status o'zgartirish">
             <div className="flex items-center gap-2">
               <Switch
@@ -71,8 +101,30 @@ export const PublisherCard = ({ publisher }) => {
               ></Button>
             </Link>
           </Tooltip>
+
+          <Tooltip title="O'chirish">
+            <Button
+              type="default"
+              loading={isPending}
+              onClick={handleDelete}
+              disabled={isPending}
+              icon={<DeleteOutlined />}
+              className="bg-red-500 text-white"
+            />
+          </Tooltip>
         </div>
       </div>
+
+      <Modal
+        title="O'chirishni tasdiqlang"
+        visible={confirmVisible}
+        onOk={confirmDelete}
+        onCancel={() => setConfirmVisible(false)}
+        okText="O'chirish"
+        cancelText="Bekor qilish"
+      >
+        <p>Nashriyotchini o'chirishni tasdiqlaysizmi?</p>
+      </Modal>
     </div>
   );
 };

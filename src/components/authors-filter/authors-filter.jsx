@@ -1,20 +1,17 @@
 import React, { useState } from "react";
-import { useGetAuthors } from "../../service/query/useGetAuthors"; // Hook to fetch authors
-import { useDebounce } from "../../hooks/useDebounce/useDebounce"; // Debounce hook for search
-import { AuthorsCard } from "../authors-card/authors-card"; // AuthorsCard component
+import { useGetAuthors } from "../../service/query/useGetAuthors";
+import { useDebounce } from "../../hooks/useDebounce/useDebounce";
+import { AuthorsCard } from "../authors-card/authors-card";
 import { loadState } from "../../config/stroge";
-import { Button } from "antd";
+import { Button, Input } from "antd";
 import { Link } from "react-router-dom";
+import { SearchOutlined } from "@ant-design/icons";
 
 export const AuthorsFilter = () => {
-  const [searchTerm, setSearchTerm] = useState(""); // Search input value
-  const debouncedSearchTerm = useDebounce(searchTerm, 500); // Debounce for 500ms
+  const [searchTerm, setSearchTerm] = useState("");
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
-  const {
-    data,
-    isLoading,
-    error,
-  } = useGetAuthors(debouncedSearchTerm); // Use debounced value in fetching authors
+  const { data, isLoading, error } = useGetAuthors(debouncedSearchTerm);
 
   if (error) return <div>Xatolik yuz berdi</div>;
 
@@ -27,7 +24,6 @@ export const AuthorsFilter = () => {
 
   return (
     <div className="w-full">
-      {/* Search input */}
       <div className="flex flex-wrap justify-between gap-10">
         <div className="w-fit">
           <Link to={detailLink}>
@@ -37,16 +33,16 @@ export const AuthorsFilter = () => {
           </Link>
         </div>
         <div className="flex items-center w-full max-w-screen-sm justify-end">
-          <input
+          <Input
+            suffix={<SearchOutlined />}
             type="text"
             placeholder="Muallifni qidiring"
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)} // Update search input value
+            onChange={(e) => setSearchTerm(e.target.value)}
             className="border-2 rounded p-2 mb-4 w-full max-w-screen-sm focus:outline-dark border-primary"
           />
         </div>
       </div>
-      {/* Authors list */}
       <div className="grid grid-cols-1 gap-4 min-h-[0px] transition-all duration-1000 max-h-96 overflow-y-scroll overflow-hidden">
         {isLoading ? (
           <div className="col-span-3 text-center text-gray-500 font-semibold">

@@ -1,20 +1,17 @@
 import React, { useState } from "react";
-import { useDebounce } from "../../hooks/useDebounce/useDebounce"; // Debounce hookni import qilish
+import { useDebounce } from "../../hooks/useDebounce/useDebounce";
 import { loadState } from "../../config/stroge";
-import { Button } from "antd";
+import { Button, Input } from "antd";
 import { Link } from "react-router-dom";
 import { useGetLanguagesList } from "../../service/query/useGetLanguagesList";
 import { LanguagesCard } from "../languages-card/languages-card";
+import { SearchOutlined } from "@ant-design/icons";
 
 export const LanguagesFilter = () => {
-  const [searchTerm, setSearchTerm] = useState(""); // Qidiruv uchun input qiymati
-  const debouncedSearchTerm = useDebounce(searchTerm, 500); // 0.5 soniya debounce qilish
+  const [searchTerm, setSearchTerm] = useState("");
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
-  const {
-    data,
-    isLoading,
-    error,
-  } = useGetLanguagesList(debouncedSearchTerm); // Debounced qiymatdan foydalanish
+  const { data, isLoading, error } = useGetLanguagesList(debouncedSearchTerm);
 
   if (error) return <div>Xatolik yuz berdi</div>;
 
@@ -29,7 +26,6 @@ export const LanguagesFilter = () => {
 
   return (
     <div className="w-full">
-      {/* Qidiruv inputi */}
       <div className="flex flex-wrap justify-between gap-10">
         <div className="w-fit">
           <Link to={detailLink}>
@@ -39,19 +35,18 @@ export const LanguagesFilter = () => {
           </Link>
         </div>
         <div className="flex items-center w-full max-w-screen-sm justify-end ">
-          <input
+          <Input
+            suffix={<SearchOutlined />}
             type="text"
             placeholder="Tilni qidiring"
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)} // Qidiruv qiymatini yangilash
+            onChange={(e) => setSearchTerm(e.target.value)}
             className="border-2 rounded p-2 mb-4 w-full max-w-screen-sm focus:outline-dark border-primary"
           />
         </div>
       </div>
-      {/* Kategoriyalar bo'sh bo'lsa ham joy saqlash */}
       <div className="grid grid-cols-1 min-h-[0px] transition-all duration-1000  max-h-96 overflow-y-scroll overflow-hidden">
         {" "}
-        {/* Bo'sh holatda ham 100px balandlik */}
         {isLoading ? (
           <div className="col-span-3 text-center text-gray-500 font-semibold">
             Yuklanmoqda...

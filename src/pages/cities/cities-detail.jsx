@@ -8,7 +8,7 @@ import { ArrowLeftOutlined } from "@ant-design/icons";
 import { loadState } from "../../config/stroge";
 
 export const CitiesDetail = () => {
-  const { id } = useParams(); // URL dan id ni olish
+  const { id } = useParams();
   const { data: category, isLoading, error } = useGetCitiesById(id);
 
   if (isLoading) return <Loading />;
@@ -16,11 +16,8 @@ export const CitiesDetail = () => {
 
   const user = loadState("user");
 
-
   const backLink =
-    user.role === "superadmin"
-      ? `/super-admin/cites`
-      : `/admin/cities`;
+    user.role === "superadmin" ? `/super-admin/cities` : `/admin/cities`;
 
   return (
     <div className="max-w-screen-lg w-full mx-auto p-0 md:p-3">
@@ -38,13 +35,13 @@ export const CitiesDetail = () => {
       <div className="border rounded-lg p-6 shadow-primary shadow-md transition-shadow duration-300 bg-white">
         <div className="grid md:grid-cols-3 justify-center ">
           <h3 className="text-base md:text-2xl font-semibold text-gray-800 mb-4">
-            {category.name.uz || "N/A"} {/* O'zbekcha nomni ko'rsatish */}
+            {category.name.uz || "N/A"}
           </h3>
           <h3 className="text-base md:text-2xl font-semibold text-gray-800 mb-4">
-            {category.name.en || "N/A"} {/* O'zbekcha nomni ko'rsatish */}
+            {category.name.en || "N/A"}
           </h3>
           <h3 className="text-base md:text-2xl font-semibold text-gray-800 mb-4">
-            {category.name.ru || "N/A"} {/* O'zbekcha nomni ko'rsatish */}
+            {category.name.ru || "N/A"}
           </h3>
         </div>
 

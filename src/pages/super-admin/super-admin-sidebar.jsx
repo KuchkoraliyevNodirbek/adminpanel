@@ -132,6 +132,16 @@ export const SuperAdminSideBar = ({ collapsed, closeDrawer }) => {
           <span className="menu-text">Profil</span>
         </Link>
       </Menu.Item>
+
+      <Menu.Item
+        key="/super-admin/vacancies"
+        icon={<UserOutlined />}
+        onClick={handleMenuItemClick}
+      >
+        <Link to="/super-admin/vacancies">
+          <span className="menu-text">Vacancies</span>
+        </Link>
+      </Menu.Item>
     </Menu>
   );
 };

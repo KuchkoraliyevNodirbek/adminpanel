@@ -36,6 +36,8 @@ import { Books } from "./pages/books/Books";
 import { BookDetail } from "./pages/books/book-detail";
 import { AllUsers } from "./pages/super-admin/all-users";
 
+import { Vacancies } from "./pages/vacancies/vacancies";
+
 const App = () => {
   return (
     <div>
@@ -115,6 +117,9 @@ const App = () => {
 
             <Route path="books" element={<Books />} />
             <Route path="books-detail/:id" element={<BookDetail />} />
+
+
+            <Route path="vacancies" element={<Vacancies />} />
           </Route>
         </Route>
 

@@ -89,6 +89,14 @@ export const AdminSideBar = ({ collapsed, closeDrawer }) => {
       >
         <Link to="/admin/profile">Profil</Link>
       </Menu.Item>
+
+      <Menu.Item
+        key="/admin/vacancies"
+        icon={<UserOutlined />}
+        onClick={handleMenuItemClick}
+      >
+        <Link to="/admin/vacancies">Vacanciesa</Link>
+      </Menu.Item>
     </Menu>
   );
 };

@@ -37,6 +37,7 @@ import { BookDetail } from "./pages/books/book-detail";
 import { AllUsers } from "./pages/super-admin/all-users";
 
 import { Vacancies } from "./pages/vacancies/vacancies";
+import { VacanciesDetail } from "./pages/vacancies/vacancies-detail";
 
 const App = () => {
   return (
@@ -78,6 +79,9 @@ const App = () => {
 
             <Route path="books" element={<Books />} />
             <Route path="books-detail/:id" element={<BookDetail />} />
+
+            <Route path="vacancies" element={<Vacancies />} />
+            <Route path="vacancies-detail/:id" element={<VacanciesDetail />} />
           </Route>
         </Route>
 
@@ -118,8 +122,8 @@ const App = () => {
             <Route path="books" element={<Books />} />
             <Route path="books-detail/:id" element={<BookDetail />} />
 
-
             <Route path="vacancies" element={<Vacancies />} />
+            <Route path="vacancies-detail/:id" element={<VacanciesDetail />} />
           </Route>
         </Route>
 

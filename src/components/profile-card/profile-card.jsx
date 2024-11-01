@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Card, Avatar, Button, Typography, Modal } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import { CopyOutlined, CheckOutlined } from "@ant-design/icons";
+import { LogoIcon } from "../../assets/LogoIcon";
 
 const { Text, Title } = Typography;
 
@@ -49,12 +50,18 @@ export const ProfileCard = ({
   return (
     <Card className="max-w-sm md:max-w-lg lg:max-w-2xl mx-auto p-0 md:p-3 shadow-md shadow-primary rounded-md">
       <div className="flex flex-col items-center mb-6">
-        <Avatar
-          src={image_url || "http://via.placeholder.com/128"}
-          size={128}
-          onClick={handleImageClick} // Bosganda modal ochiladi
-          className="hover:scale-125 transition-all duration-300 border-4 border-primary cursor-zoom-in"
-        />
+        {image_url ? (
+          <Avatar
+            src={image_url}
+            size={128}
+            onClick={handleImageClick} // Bosganda modal ochiladi
+            className="hover:scale-125 transition-all duration-300 border-4 border-dark cursor-zoom-in"
+          />
+        ) : (
+          <div className="flex justify-center items-center bg-primary border-4 border-dark  w-32 h-32 rounded-full">
+            <LogoIcon />
+          </div>
+        )}
         <Title level={2} className="text-center text-xl md:text-2xl">
           {first_name} {last_name}
         </Title>

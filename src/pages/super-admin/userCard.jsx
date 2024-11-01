@@ -4,6 +4,7 @@ import { DeleteOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useAdminDelete } from "../../service/mutation/useAdminDelete";
 import { toast } from "react-toastify";
+import { LogoIcon } from "../../assets/LogoIcon";
 
 export const UserCard = ({ user }) => {
   const [confirmVisible, setConfirmVisible] = useState(false);
@@ -31,11 +32,17 @@ export const UserCard = ({ user }) => {
     <div className="border border-dark p-3 rounded-md">
       <div className="flex gap-5 justify-center items-center flex-wrap md:justify-between">
         <div className="flex gap-5 md:gap-20 items-center flex-col md:flex-row">
-          <img
-            src={user.image_url || "https://via.placeholder.com/80"}
-            alt="User"
-            className="w-20 h-20 rounded-full object-cover"
-          />
+          {user.image_url ? (
+            <img
+              src={user.image_url}
+              alt="User"
+              className="w-20 h-20 rounded-full object-cover border-2 border-dark"
+            />
+          ) : (
+            <div className="w-20 h-20 rounded-full border-2 border-dark flex items-center justify-center bg-primary p-2">
+              <LogoIcon />
+            </div>
+          )}
           <Tag
             className="mx-auto"
             color={

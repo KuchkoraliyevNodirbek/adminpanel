@@ -49,7 +49,7 @@ export const ProfileCard = ({
   return (
     <Flex
       vertical
-      className="max-w-sm md:max-w-lg w-full lg:max-w-2xl p-3 md:p-5 shadow-md shadow-dark rounded-md"
+      className="max-w-sm md:max-w-lg w-full mx-auto lg:max-w-2xl p-3 md:p-5 shadow-md shadow-dark rounded-md"
     >
       <Flex vertical justify="center" align="center" className="mb-6">
         {image_url ? (

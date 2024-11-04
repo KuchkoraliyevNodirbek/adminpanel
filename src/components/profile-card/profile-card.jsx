@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, Avatar, Button, Typography, Modal } from "antd";
+import { Avatar, Button, Typography, Modal, Flex } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import { CopyOutlined, CheckOutlined } from "@ant-design/icons";
 import { LogoIcon } from "../../assets/LogoIcon";
@@ -8,7 +8,6 @@ const { Text, Title } = Typography;
 
 export const formatPhoneNumber = (phone) => {
   if (!phone) return "Ma'lumot yo'q";
-  // Telefon raqamini to'g'ri formatda ko'rsatish
   return phone.replace(
     /(\+\d{3})(\d{2})(\d{3})(\d{2})(\d{2})/,
     "$1 $2-$3-$4-$5"
@@ -25,14 +24,14 @@ export const ProfileCard = ({
   role,
 }) => {
   const [copyMessage, setCopyMessage] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false); // Modalni boshqarish uchun state
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleCopyPhoneNumber = () => {
     navigator.clipboard
       .writeText(phone_number)
       .then(() => {
         setCopyMessage(`${phone_number}`);
-        setTimeout(() => setCopyMessage(""), 1000); // 1 soniyadan so'ng xabarni tozalash
+        setTimeout(() => setCopyMessage(), 1000);
       })
       .catch(() => {
         setCopyMessage("Nusxalashda xatolik yuz berdi.");
@@ -40,45 +39,57 @@ export const ProfileCard = ({
   };
 
   const handleImageClick = () => {
-    setIsModalOpen(true); // Modalni ochish
+    setIsModalOpen(true);
   };
 
   const handleModalClose = () => {
-    setIsModalOpen(false); // Modalni yopish
+    setIsModalOpen(false);
   };
 
   return (
-    <Card className="max-w-sm md:max-w-lg lg:max-w-2xl mx-auto p-0 md:p-3 shadow-md shadow-primary rounded-md">
-      <div className="flex flex-col items-center mb-6">
+    <Flex
+      vertical
+      className="max-w-sm md:max-w-lg w-full lg:max-w-2xl p-3 md:p-5 shadow-md shadow-dark rounded-md"
+    >
+      <Flex vertical justify="center" align="center" className="mb-6">
         {image_url ? (
           <Avatar
             src={image_url}
             size={128}
-            onClick={handleImageClick} // Bosganda modal ochiladi
-            className="hover:scale-125 transition-all duration-300 border-4 border-dark cursor-zoom-in"
+            onClick={handleImageClick}
+            className="border-4 border-dark cursor-zoom-in"
           />
         ) : (
-          <div className="flex justify-center items-center bg-primary border-4 border-dark  w-32 h-32 rounded-full">
+          <Flex
+            justify="center"
+            align="center"
+            className=" bg-primary border-4 border-dark  w-32 h-32 rounded-full"
+          >
             <LogoIcon />
-          </div>
+          </Flex>
         )}
         <Title level={2} className="text-center text-xl md:text-2xl">
           {first_name} {last_name}
         </Title>
-      </div>
+      </Flex>
 
-      <div className="space-y-4">
-        <div className="flex gap-3 items-center border p-3 rounded-md">
+      <Flex vertical gap={12}>
+        <Flex align="center" gap={12} className="border p-3 rounded-md">
           <Text strong>Roli:</Text>
           <Text className="text-gray-700">{role}</Text>
-        </div>
-        <div className="flex gap-3 items-center border p-3 rounded-md relative">
+        </Flex>
+        <Flex
+          align="center"
+          gap={12}
+          wrap
+          className="border p-3 rounded-md relative"
+        >
           <Text strong>Tel:</Text>
-          <div className="flex items-center justify-between flex-grow">
+          <Flex align="center" justify="space-between" gap={12}>
             <Text className="text-gray-700">
               {formatPhoneNumber(phone_number)}
             </Text>
-          </div>
+          </Flex>
           <Button
             onClick={handleCopyPhoneNumber}
             type={copyMessage ? "primary" : "default"}
@@ -86,36 +97,31 @@ export const ProfileCard = ({
           >
             {copyMessage ? <CheckOutlined /> : <CopyOutlined />}
           </Button>
-        </div>
-        <div className="flex flex-wrap gap-3 items-center border p-3 rounded-md">
+        </Flex>
+
+        <Flex align="center" gap={12} wrap className="border p-3 rounded-md">
           <Text strong>Email:</Text>
           <Text className="text-gray-700">{email || "Ma'lumot yo'q"}</Text>
-        </div>
-        <div className="flex gap-3 items-center border p-3 rounded-md">
+        </Flex>
+
+        <Flex align="center" gap={12} className="border p-3 rounded-md">
           <Text strong>Tug'ilgan sana:</Text>
           <Text className="text-gray-700">
             {date_of_birth || "Ma'lumot yo'q"}
           </Text>
-        </div>
-      </div>
+        </Flex>
+      </Flex>
 
-      {/* Modal rasmni to'liq ko'rsatish */}
       <Modal
         visible={isModalOpen}
         onCancel={handleModalClose}
         footer={null}
         closeIcon={
-          <span className="text-white bg-red-500 w-full rounded">
-            <CloseOutlined />
-          </span>
-        } // Custom close icon
+          <Button icon={<CloseOutlined />} className="text-white bg-red-500" />
+        }
       >
-        <img
-          src={image_url || "http://via.placeholder.com/128"}
-          alt="Profile"
-          className="w-full object-cover" // Bir xil o'lcham
-        />
+        <img src={image_url} alt="Profile" className="w-full object-cover" />
       </Modal>
-    </Card>
+    </Flex>
   );
 };

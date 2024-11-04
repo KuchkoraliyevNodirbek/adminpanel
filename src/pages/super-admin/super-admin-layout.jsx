@@ -1,13 +1,12 @@
 import React, { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { SuperAdminSideBar } from "./super-admin-sidebar";
-import { Layout, Button, Drawer, Tooltip } from "antd";
+import { Layout, Button, Drawer, Tooltip, Typography } from "antd";
 import {
   LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
 } from "@ant-design/icons";
-import { loadState } from "../../config/stroge";
 import { toast } from "react-toastify";
 
 const { Header, Sider, Content } = Layout;
@@ -15,6 +14,7 @@ const { Header, Sider, Content } = Layout;
 export const SuperAdminLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [drawerVisible, setDrawerVisible] = useState(false);
+  const navigate = useNavigate();
 
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
@@ -28,24 +28,13 @@ export const SuperAdminLayout = () => {
     setDrawerVisible(false);
   };
 
-  // user objectni loadState orqali olish
-  const user = loadState("user");
-  const role = user?.role; // role olish
-
   const handleLogout = () => {
-    // Tokenlarni va role'ni o'chirish
-    localStorage.removeItem("user"); // butun user obyekti o'chiriladi
+    localStorage.removeItem("user");
+    navigate("/", { replace: true });
 
-    // Kirish uchun qayta login qilish xabari
     toast.info("Kirish uchun qayta login qilishingiz kerak", {
       position: "top-center",
-      autoClose: 3000,
-      hideProgressBar: false,
-      pauseOnHover: true,
     });
-
-    // Foydalanuvchini login sahifasiga qayta yo'naltirish
-    navigate("/", { replace: true });
   };
 
   return (
@@ -74,9 +63,9 @@ export const SuperAdminLayout = () => {
             className="hidden lg:flex ml-4"
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
           />
-          <h1 className={`text-lg font-bold text-center flex-1 text-dark`}>
+          <Typography.Title level={4}>
             Super Administrator Paneli
-          </h1>
+          </Typography.Title>
 
           <Tooltip title="Tizimdan chiqish">
             <Button

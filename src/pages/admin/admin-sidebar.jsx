@@ -8,22 +8,22 @@ import {
   BookOutlined,
   BankOutlined,
   ReadOutlined,
-} from "@ant-design/icons"; // Ant Design ikonalarini import qilamiz
+  SolutionOutlined,
+} from "@ant-design/icons";
 import { Menu } from "antd";
 
 import { LogoIcon } from "../../assets/LogoIcon";
 
 export const AdminSideBar = ({ collapsed, closeDrawer }) => {
   const handleMenuItemClick = () => {
-    if (closeDrawer) closeDrawer(); // Close the drawer/modal
+    if (closeDrawer) closeDrawer();
   };
   const location = useLocation();
   return (
     <Menu
       mode={collapsed ? "vertical" : "inline"}
-      selectedKeys={[location.pathname]} // Aktiv menyu elementini yo'l bo'yicha tanlash
-      defaultSelectedKeys={[location.pathname]} // Sahifa yangilanganda aktiv bo'lib turishi uchun
-      // theme="dark"
+      selectedKeys={[location.pathname]}
+      defaultSelectedKeys={[location.pathname]}
       className="bg-primary"
       style={{
         height: "100%",
@@ -45,7 +45,7 @@ export const AdminSideBar = ({ collapsed, closeDrawer }) => {
         icon={<ReadOutlined />}
         onClick={handleMenuItemClick}
       >
-        <Link to="authors">Authors</Link>
+        <Link to="authors">Mualliflar</Link>
       </Menu.Item>
 
       <Menu.Item
@@ -53,7 +53,7 @@ export const AdminSideBar = ({ collapsed, closeDrawer }) => {
         icon={<EnvironmentOutlined />}
         onClick={handleMenuItemClick}
       >
-        <Link to="cities">Cities</Link>
+        <Link to="cities">Shaharlar</Link>
       </Menu.Item>
 
       <Menu.Item
@@ -61,7 +61,7 @@ export const AdminSideBar = ({ collapsed, closeDrawer }) => {
         icon={<GlobalOutlined />}
         onClick={handleMenuItemClick}
       >
-        <Link to="languages">Languages</Link>
+        <Link to="languages">Tillar</Link>
       </Menu.Item>
 
       <Menu.Item
@@ -69,17 +69,23 @@ export const AdminSideBar = ({ collapsed, closeDrawer }) => {
         icon={<BankOutlined />}
         onClick={handleMenuItemClick}
       >
-        <Link to="publishers">Publishers</Link>
+        <Link to="publishers">Nashriyotchilar</Link>
       </Menu.Item>
 
       <Menu.Item
         key="/admin/books"
-        icon={<BookOutlined />} // New icon for books
+        icon={<BookOutlined />}
         onClick={handleMenuItemClick}
       >
-        <Link to="/admin/books">
-          <span className="menu-text">Books</span>
-        </Link>
+        <Link to="/admin/books">Kitoblar</Link>
+      </Menu.Item>
+
+      <Menu.Item
+        key="/admin/vacancies"
+        icon={<SolutionOutlined />}
+        onClick={handleMenuItemClick}
+      >
+        <Link to="/admin/vacancies">Vakansiyalar</Link>
       </Menu.Item>
 
       <Menu.Item
@@ -88,14 +94,6 @@ export const AdminSideBar = ({ collapsed, closeDrawer }) => {
         onClick={handleMenuItemClick}
       >
         <Link to="/admin/profile">Profil</Link>
-      </Menu.Item>
-
-      <Menu.Item
-        key="/admin/vacancies"
-        icon={<UserOutlined />}
-        onClick={handleMenuItemClick}
-      >
-        <Link to="/admin/vacancies">Vacanciesa</Link>
       </Menu.Item>
     </Menu>
   );

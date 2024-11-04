@@ -8,14 +8,14 @@ import {
 } from "@ant-design/icons";
 import { AdminSideBar } from "./admin-sidebar";
 import { toast } from "react-toastify";
-import { loadState } from "../../config/stroge"; // loadState to'g'ri yo'ldan chaqirilganiga ishonch hosil qiling
+import { loadState } from "../../config/stroge";
 
 const { Header, Sider, Content } = Layout;
 
 export const AdminLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [drawerVisible, setDrawerVisible] = useState(false);
-  const navigate = useNavigate(); // React Router navigate hook
+  const navigate = useNavigate();
 
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
@@ -29,15 +29,12 @@ export const AdminLayout = () => {
     setDrawerVisible(false);
   };
 
-  // user objectni loadState orqali olish
   const user = loadState("user");
-  const role = user?.role; // role olish
+  const role = user?.role;
 
   const handleLogout = () => {
-    // Tokenlarni va role'ni o'chirish
-    localStorage.removeItem("user"); // butun user obyekti o'chiriladi
+    localStorage.removeItem("user");
 
-    // Kirish uchun qayta login qilish xabari
     toast.info("Kirish Uchun Qayta Login Qiling!", {
       position: "top-center",
       autoClose: 3000,
@@ -45,7 +42,6 @@ export const AdminLayout = () => {
       pauseOnHover: true,
     });
 
-    // Foydalanuvchini login sahifasiga qayta yo'naltirish
     navigate("/", { replace: true });
   };
 
@@ -80,7 +76,6 @@ export const AdminLayout = () => {
               </h1>
             </Space>
 
-            {/* Logout tugmasi */}
             <Tooltip title="Tizimdan chiqish">
               <Button
                 type="primary"
@@ -93,7 +88,6 @@ export const AdminLayout = () => {
 
           <Content
             style={{
-              margin: "24px 16px",
               padding: 24,
               minHeight: 280,
               backgroundColor: "#fff",
@@ -108,8 +102,8 @@ export const AdminLayout = () => {
             onClose={closeDrawer}
             visible={drawerVisible}
             className="lg:hidden"
-            bodyStyle={{padding:0}}
-            headerStyle={{background:"#001529", color:"white"}}
+            bodyStyle={{ padding: 0 }}
+            headerStyle={{ background: "#001529", color: "white" }}
           >
             <AdminSideBar collapsed={false} closeDrawer={closeDrawer} />
           </Drawer>

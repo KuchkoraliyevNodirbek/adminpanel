@@ -1,42 +1,56 @@
 import React from "react";
-import { useGetProfile } from "../../service/query/useGetProfile"; // Profil ma'lumotlarini olish hooki
+import { useGetProfile } from "../../service/query/useGetProfile";
 import { useNavigate } from "react-router-dom";
 import { ProfileCard } from "../../components/profile-card/profile-card";
 import { Loading } from "../../components/loading/loading";
 import { loadState } from "../../config/stroge";
-import { Button } from "antd";
+import { Button, Flex, Typography } from "antd";
+import { EditFilled } from "@ant-design/icons";
 
 export const Profile = () => {
   const { data, isLoading, isError, error } = useGetProfile();
   const navigate = useNavigate();
+  const role = loadState("user");
 
-  if (isLoading) return <Loading/>
+  if (isLoading) return <Loading />;
   if (isError) return <div>Xatolik: {error?.message}</div>;
-
-  const role = loadState("user")
 
   const updateLink =
     role.role === "superadmin"
       ? `/super-admin/update-profile`
       : `/admin/update-profile`;
 
-
+  const useUpdatePasswordLink =
+    role.role === "superadmin"
+      ? `/super-admin/update-password`
+      : `/admin/update-password`;
 
   return (
-    <>
-      <h1 className="text-3xl font-bold mb-4 text-center">Profil</h1>
+    <Flex vertical align="center" justify="center" className="h-full">
+      <Typography.Title level={2} className="text-center md:hidden">
+        Profil
+      </Typography.Title>
 
       <ProfileCard {...data} />
 
-      <div className="mt-6 text-center">
+      <Flex justify="center" align="center" gap={20} className="mt-5">
         <Button
-        type="primary"
-          className="p-5 text-white rounded-md w-full max-w-lg min-w-20"
-          onClick={() => navigate(updateLink)}
+          size="middle"
+          icon={<EditFilled />}
+          type="primary"
+          onClick={() => navigate(useUpdatePasswordLink)}
         >
-          Profilni Tahrirlash
+          Parolni Yangilash
         </Button>
-      </div>
-    </>
+        <Button
+          icon={<EditFilled />}
+          type="primary"
+          onClick={() => navigate(updateLink)}
+          size="middle"
+        >
+          Profile Tahrirlash
+        </Button>
+      </Flex>
+    </Flex>
   );
 };

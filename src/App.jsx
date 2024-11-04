@@ -38,6 +38,10 @@ import { AllUsers } from "./pages/super-admin/all-users";
 
 import { Vacancies } from "./pages/vacancies/vacancies";
 import { VacanciesDetail } from "./pages/vacancies/vacancies-detail";
+import { ChangePassword } from "./pages/profile/edit-password";
+import { SendSmsCode } from "./pages/auth/sendSMS";
+import { ResetPasswordByEmail } from "./pages/auth/resetByEmail";
+import { ResetPasswordByPhone } from "./pages/auth/resetByPhone";
 
 const App = () => {
   return (
@@ -46,12 +50,16 @@ const App = () => {
       <Routes>
         {/* Login page */}
         <Route path="/" element={<Login />} />
+        <Route path="/forgot-password" element={<SendSmsCode />} />
+        <Route path="/reset-password-by-email" element={<ResetPasswordByEmail />} />
+        <Route path="/reset-password-by-phone" element={<ResetPasswordByPhone />} />
 
         {/* Admin routes */}
         <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
           <Route path="/admin" element={<AdminLayout />}>
             <Route path="profile" element={<Profile />} />
             <Route path="update-profile" element={<ProfileEditPage />} />
+            <Route path="update-password" element={<ChangePassword />} />
             <Route path="categories" element={<Categories />} />
             <Route path="create-categories" element={<CreateCategory />} />
             <Route path="categories-update/:id" element={<EditCategory />} />
@@ -94,6 +102,8 @@ const App = () => {
             <Route path="detail-page/:id" element={<AdminDetailPage />} />
             <Route path="profile" element={<Profile />} />
             <Route path="update-profile" element={<ProfileEditPage />} />
+            <Route path="update-password" element={<ChangePassword />} />
+
             <Route path="categories" element={<Categories />} />
             <Route path="create-categories" element={<CreateCategory />} />
             <Route path="categories-update/:id" element={<EditCategory />} />

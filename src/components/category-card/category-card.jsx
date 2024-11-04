@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Space, Tooltip, Typography, Modal } from "antd";
+import { Button, Tooltip, Typography, Modal } from "antd";
 import { useDeleteCategory } from "../../service/mutation/useDeleteCategory";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
@@ -106,5 +106,3 @@ export const CategoryCard = ({ category }) => {
     </div>
   );
 };
-
-// export default CategoryCard;

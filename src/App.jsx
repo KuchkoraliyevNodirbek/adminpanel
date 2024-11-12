@@ -35,7 +35,10 @@ import { PublisherDetail } from "./pages/publishers/publishers-detail";
 import { Books } from "./pages/books/Books";
 import { BookDetail } from "./pages/books/book-detail";
 import { AllUsers } from "./pages/super-admin/all-users";
-
+import { Translator } from "./pages/translator/translator";
+import { CreateTranslator } from "./pages/translator/create-translator";
+import { TranslatorUpdate } from "./pages/translator/translator-update";
+import TranslatorDetail from "./pages/translator/translator-detail";
 import { Vacancies } from "./pages/vacancies/vacancies";
 import { VacanciesDetail } from "./pages/vacancies/vacancies-detail";
 import { ChangePassword } from "./pages/profile/edit-password";
@@ -51,8 +54,14 @@ const App = () => {
         {/* Login page */}
         <Route path="/" element={<Login />} />
         <Route path="/forgot-password" element={<SendSmsCode />} />
-        <Route path="/reset-password-by-email" element={<ResetPasswordByEmail />} />
-        <Route path="/reset-password-by-phone" element={<ResetPasswordByPhone />} />
+        <Route
+          path="/reset-password-by-email"
+          element={<ResetPasswordByEmail />}
+        />
+        <Route
+          path="/reset-password-by-phone"
+          element={<ResetPasswordByPhone />}
+        />
 
         {/* Admin routes */}
         <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
@@ -134,6 +143,17 @@ const App = () => {
 
             <Route path="vacancies" element={<Vacancies />} />
             <Route path="vacancies-detail/:id" element={<VacanciesDetail />} />
+
+            <Route path="translator" element={<Translator />} />
+            <Route path="create-translator" element={<CreateTranslator />} />
+            <Route
+              path="translator-update/:id"
+              element={<TranslatorUpdate />}
+            />
+            <Route
+              path="translator-detail/:id"
+              element={<TranslatorDetail />}
+            />
           </Route>
         </Route>
 

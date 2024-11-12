@@ -123,6 +123,14 @@ export const SuperAdminSideBar = ({ collapsed, closeDrawer }) => {
       >
         <Link to="/super-admin/profile">Profil</Link>
       </Menu.Item>
+
+      <Menu.Item
+        key="/super-admin/translator"
+        icon={<UserOutlined />}
+        onClick={handleMenuItemClick}
+      >
+        <Link to="/super-admin/translator">Tarjimona</Link>
+      </Menu.Item>
     </Menu>
   );
 };

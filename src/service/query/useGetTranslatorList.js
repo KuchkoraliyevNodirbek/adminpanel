@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { gatewayRequest } from "../../config/geteway-request"
+import { gatewayRequest } from "../../config/geteway-request";
 
 export const useGetTranslatorsList = (
   name = "",
   surname = "",
-  limit = 10,
+  limit = 1000000,
   offset = 0
 ) => {
   return useQuery({

@@ -9,7 +9,6 @@ export const useAdminDelete = () => {
       request.delete(`/auth/admin/delete?id=${id}`).then((res) => res.data),
     onSuccess: (res) => {
       console.log("Admin muvaffaqiyatli o'chirildi:", res);
-      // Adminlar ro'yxatini yangilash
       queryClient.invalidateQueries("adminList");
     },
     onError: (error) => {

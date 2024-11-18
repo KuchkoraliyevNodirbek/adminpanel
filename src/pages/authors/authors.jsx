@@ -1,12 +1,12 @@
 import React from "react";
-import { AuthorsList } from "../../components/authors-list/authors-list"; // Adjust the import path as needed
-import { AuthorsFilter } from "../../components/authors-filter/authors-filter"; // Adjust the import path as needed
+import { AuthorsList } from "../../components/authors-list/authors-list";
+import { AuthorsFilter } from "../../components/authors-filter/authors-filter";
 import { Row } from "antd";
 
 export const Authors = () => {
   return (
     <div className="relative">
-      <div className="top-0 sticky p-3 bg-white border-b-2 border-b-primary z-50">
+      <div className="top-0 sticky p-3 z-50 bg-accent border-b-2 border-dark">
         <Row justify="space-between" align="middle">
           <AuthorsFilter />
         </Row>

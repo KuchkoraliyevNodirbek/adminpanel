@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Row, Col, Spin, Alert, Pagination, Select, Empty } from "antd";
+import { Row, Col, Spin, Alert, Pagination, Select, Empty, Flex } from "antd";
 import { useGetPublishersList } from "../../service/query/useGetPublishersList";
 import { PublisherCard } from "../publishers-card/publishers-card";
 
@@ -8,21 +8,20 @@ const { Option } = Select;
 export const PublishersList = () => {
   const [limit, setLimit] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
-  const [type, setType] = useState("publisher"); // Type uchun state
-  const [status, setStatus] = useState("active"); // Status uchun state
-  const offset = (currentPage - 1) * limit; // Offset hisoblash
+  const [type, setType] = useState("publisher");
+  const [status, setStatus] = useState("active");
+  const offset = (currentPage - 1) * limit;
 
   const { data, isLoading, isError, error } = useGetPublishersList(
     "",
-    type, // Type state
-    status, // Status state
+    type,
+    status,
     limit,
     offset
   );
-  console.log(data);
 
   if (isLoading) {
-    return <Spin tip="Nashriyotchilar yuklanmoqda..." />;
+    return <Spin />;
   }
 
   const totalCount = data?.count || 0;
@@ -36,11 +35,8 @@ export const PublishersList = () => {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-between w-full gap-4">
-
-        {/* Type va Status tanlash */}
-        <div className="flex justify-center gap-4 flex-wrap">
-          
+      <Flex vertical align="center" justify="space-between" gap={24}>
+        <Flex justify="center" wrap gap={24}>
           <Select
             defaultValue={type}
             style={{ width: 200 }}
@@ -58,10 +54,14 @@ export const PublishersList = () => {
             <Option value="active">Faol</Option>
             <Option value="non-active">Faol emas</Option>
           </Select>
-        </div>
+        </Flex>
 
-        <Row className="flex flex-col w-full" gutter={[16, 16]}>
-        <h1 className="p-5 text-dark font-bold">{type == "publisher" ? "Nashriyotchilar Ro'yxati" : "Do'konlar Ro'yxati"}</h1>
+        <Row className="flex flex-col w-full bg-white" gutter={[16, 16]}>
+          <h1 className="p-5 text-dark font-bold">
+            {type == "publisher"
+              ? "Nashriyotchilar Ro'yxati"
+              : "Do'konlar Ro'yxati"}
+          </h1>
 
           {currentPublishers?.map((publisher) => (
             <Col
@@ -77,10 +77,10 @@ export const PublishersList = () => {
           ))}
         </Row>
 
-        {totalCount == 0 ? <Empty description="No data"/> : ""}
-      </div>
+        {totalCount == 0 ? <Empty description="No data" /> : ""}
+      </Flex>
 
-      <div className="flex justify-center gap-10 items-center mt-4">
+      <Flex justify="center" className="mt-4">
         <Pagination
           current={currentPage}
           total={totalCount}
@@ -94,7 +94,7 @@ export const PublishersList = () => {
           }}
           showQuickJumper
         />
-      </div>
+      </Flex>
     </>
   );
 };

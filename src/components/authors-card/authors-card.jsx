@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { Button, Space, Tooltip, Typography, Modal } from "antd";
+import { Button, Tooltip, Typography, Modal, Flex } from "antd";
 import { useDeleteAuthor } from "../../service/mutation/useDeleteAuthors";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
-import { loadState } from "../../config/stroge";
 import {
   EditOutlined,
   DeleteOutlined,
@@ -13,49 +12,33 @@ import {
 const { Text } = Typography;
 
 export const AuthorsCard = ({ author }) => {
-  const { mutate: deleteAuthor, isLoading } = useDeleteAuthor();
-  const role = loadState("user");
+  const { mutate: deleteAuthor, isPending } = useDeleteAuthor();
 
-  // State for the confirmation modal
   const [confirmVisible, setConfirmVisible] = useState(false);
 
   const handleDelete = () => {
     deleteAuthor(author.id, {
       onSuccess: () => {
         toast.success(`${author.name || "Muallif"} o'chirildi`);
-        setConfirmVisible(false); // Close modal on success
+        setConfirmVisible(false);
       },
       onError: () => {
         toast.error(`Muallifni o'chirishda xato yuz berdi!`);
-        setConfirmVisible(false); // Close modal on error
+        setConfirmVisible(false);
       },
     });
   };
 
-  const updateLink =
-    role.role === "superadmin"
-      ? `/super-admin/authors-update/${author.id}`
-      : `/admin/authors-update/${author.id}`;
-  const detailLink =
-    role.role === "superadmin"
-      ? `/super-admin/authors-detail/${author.id}`
-      : `/admin/authors-detail/${author.id}`;
+  const updateLink = `/admin/authors-update/${author.id}`;
+  const detailLink = `/admin/authors-detail/${author.id}`;
 
   return (
-    <div className="p-4 bg-white rounded-lg border shadow-sm shadow-primary flex flex-col md:flex-row items-center justify-between w-full mb-4">
+    <div className="p-4 bg-accent rounded-lg border shadow-sm shadow-dark flex flex-col gap-4 md:flex-row items-center justify-between w-full">
       <div className="w-full md:flex-1">
-        {/* Author Name */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
-          <Text className="text-lg text-start">{author.name || "N/A"}</Text>
-          <Text className="text-lg text-start">{author.surname || "N/A"}</Text>
-          <Text className="text-lg text-start">
-            {author.biography || "N/A"}
-          </Text>
-        </div>
+        <Text className="text-lg text-start">{`${author.name} | ${author.surname}`}</Text>
       </div>
 
-      {/* Action Buttons */}
-      <div className="flex space-x-14 mt-4 md:mt-0">
+      <Flex gap={24}>
         <Tooltip title="Batafsil ko'rish">
           <Link to={detailLink}>
             <Button
@@ -79,16 +62,15 @@ export const AuthorsCard = ({ author }) => {
         <Tooltip title="O'chirish">
           <Button
             type="default"
-            loading={isLoading}
-            onClick={() => setConfirmVisible(true)} // Show confirmation modal
-            disabled={isLoading}
+            loading={isPending}
+            onClick={() => setConfirmVisible(true)}
+            disabled={isPending}
             icon={<DeleteOutlined />}
             className="bg-red-500 text-white"
           />
         </Tooltip>
-      </div>
+      </Flex>
 
-      {/* Confirmation Modal */}
       <Modal
         title="O'chirishni tasdiqlang"
         visible={confirmVisible}
@@ -96,11 +78,10 @@ export const AuthorsCard = ({ author }) => {
         onCancel={() => setConfirmVisible(false)}
         okText="O'chirish"
         cancelText="Bekor qilish"
+        okButtonProps={{ loading: isPending }}
       >
-        <p>Muallifni o'chirishni tasdiqlaysizmi?</p>
+        <Text>Muallifni o'chirishni tasdiqlaysizmi?</Text>
       </Modal>
     </div>
   );
 };
-
-// export default AuthorsCard;

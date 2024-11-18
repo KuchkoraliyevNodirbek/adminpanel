@@ -9,92 +9,90 @@ import {
   BankOutlined,
   ReadOutlined,
   SolutionOutlined,
+  UserAddOutlined,
+  TeamOutlined,
 } from "@ant-design/icons";
 import { Menu } from "antd";
-
 import { LogoIcon } from "../../assets/LogoIcon";
+import { loadState } from "../../config/stroge";
 
 export const AdminSideBar = ({ collapsed, closeDrawer }) => {
   const handleMenuItemClick = () => {
     if (closeDrawer) closeDrawer();
   };
   const location = useLocation();
+
+  const superMenuItems = [
+    {
+      key: "/admin/admin-create",
+      icon: <UserAddOutlined />,
+      label: "Admin Yaratish",
+    },
+    {
+      key: "/admin/admin-change",
+      icon: <TeamOutlined />,
+      label: "Adminlar",
+    },
+    {
+      key: "/admin/all-users",
+      icon: <TeamOutlined />,
+      label: "Foydalanuvchilar",
+    },
+  ];
+
+  const menuItems = [
+    {
+      key: "/admin/categories",
+      icon: <AppstoreOutlined />,
+      label: "Kategoriyalar",
+    },
+    { key: "/admin/authors", icon: <ReadOutlined />, label: "Mualliflar" },
+    { key: "/admin/cities", icon: <EnvironmentOutlined />, label: "Shaharlar" },
+    { key: "/admin/languages", icon: <GlobalOutlined />, label: "Tillar" },
+    {
+      key: "/admin/publishers",
+      icon: <BankOutlined />,
+      label: "Nashriyotchilar",
+    },
+    { key: "/admin/books", icon: <BookOutlined />, label: "Kitoblar" },
+    {
+      key: "/admin/vacancies",
+      icon: <SolutionOutlined />,
+      label: "Vakansiyalar",
+    },
+    { key: "/admin/translator", icon: <UserOutlined />, label: "Tarjimonlar" },
+    { key: "/admin/profile", icon: <UserOutlined />, label: "Profil" },
+  ];
+
+  const user = loadState("user"); // localStorage-dan foydalanuvchi ma'lumotini olish
+
   return (
     <Menu
       mode={collapsed ? "vertical" : "inline"}
       selectedKeys={[location.pathname]}
       defaultSelectedKeys={[location.pathname]}
       className="bg-primary"
-      style={{
-        height: "100%",
-      }}
+      style={{ height: "100%" }}
     >
       <div className="hidden p-1 py-3 md:flex justify-center static top-0">
         <LogoIcon />
       </div>
-      <Menu.Item
-        key="/admin/categories"
-        icon={<AppstoreOutlined />}
-        onClick={handleMenuItemClick}
-      >
-        <Link to="/admin/categories">Kategoriyalar</Link>
-      </Menu.Item>
 
-      <Menu.Item
-        key="/admin/authors"
-        icon={<ReadOutlined />}
-        onClick={handleMenuItemClick}
-      >
-        <Link to="authors">Mualliflar</Link>
-      </Menu.Item>
+      {user?.role === "superadmin" && (
+        <>
+          {superMenuItems.map(({ key, icon, label }) => (
+            <Menu.Item key={key} icon={icon} onClick={handleMenuItemClick}>
+              <Link to={key}>{label}</Link>
+            </Menu.Item>
+          ))}
+        </>
+      )}
 
-      <Menu.Item
-        key="/admin/cities"
-        icon={<EnvironmentOutlined />}
-        onClick={handleMenuItemClick}
-      >
-        <Link to="cities">Shaharlar</Link>
-      </Menu.Item>
-
-      <Menu.Item
-        key="/admin/languages"
-        icon={<GlobalOutlined />}
-        onClick={handleMenuItemClick}
-      >
-        <Link to="languages">Tillar</Link>
-      </Menu.Item>
-
-      <Menu.Item
-        key={"/admin/publishers"}
-        icon={<BankOutlined />}
-        onClick={handleMenuItemClick}
-      >
-        <Link to="publishers">Nashriyotchilar</Link>
-      </Menu.Item>
-
-      <Menu.Item
-        key="/admin/books"
-        icon={<BookOutlined />}
-        onClick={handleMenuItemClick}
-      >
-        <Link to="/admin/books">Kitoblar</Link>
-      </Menu.Item>
-
-      <Menu.Item
-        key="/admin/vacancies"
-        icon={<SolutionOutlined />}
-        onClick={handleMenuItemClick}
-      >
-        <Link to="/admin/vacancies">Vakansiyalar</Link>
-      </Menu.Item>
-
-      <Menu.Item
-        key="/admin/profile"
-        icon={<UserOutlined />}
-        onClick={handleMenuItemClick}
-      >
-        <Link to="/admin/profile">Profil</Link>
-      </Menu.Item>
+      {menuItems.map(({ key, icon, label }) => (
+        <Menu.Item key={key} icon={icon} onClick={handleMenuItemClick}>
+          <Link to={key}>{label}</Link>
+        </Menu.Item>
+      ))}
     </Menu>
   );
 };

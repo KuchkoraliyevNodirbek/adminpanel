@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Navigate, Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { Layout, Button, Drawer, Tooltip, Space } from "antd";
 import {
   LogoutOutlined,
@@ -34,6 +34,7 @@ export const AdminLayout = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("user");
+    navigate("/", { replace: true });
 
     toast.info("Kirish Uchun Qayta Login Qiling!", {
       position: "top-center",
@@ -41,75 +42,73 @@ export const AdminLayout = () => {
       hideProgressBar: false,
       pauseOnHover: true,
     });
-
-    navigate("/", { replace: true });
   };
 
-  if (role === "admin") {
-    return (
-      <Layout style={{ minHeight: "100vh" }}>
-        <Sider
-          className="hidden lg:block bg-primary"
-          trigger={null}
-          collapsible
-          collapsed={collapsed}
-        >
-          <AdminSideBar collapsed={collapsed} closeDrawer={closeDrawer} />
-        </Sider>
-        <Layout>
-          <Header className="p-0 flex justify-between items-center shadow-md bg-primary">
-            <Button
-              type="primary"
-              onClick={showDrawer}
-              className="lg:hidden"
-              icon={<MenuUnfoldOutlined />}
-            />
-            <Button
-              type="primary"
-              onClick={toggleCollapsed}
-              className="hidden lg:flex ml-4"
-              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            />
-            <Space>
-              <h1 className={`text-lg font-bold text-center flex-1 text-dark`}>
-                Administrator Paneli
-              </h1>
-            </Space>
-
-            <Tooltip title="Tizimdan chiqish">
-              <Button
-                type="primary"
-                className="mr-5"
-                icon={<LogoutOutlined />}
-                onClick={handleLogout}
-              ></Button>
-            </Tooltip>
-          </Header>
-
-          <Content
-            style={{
-              padding: 24,
-              minHeight: 280,
-              backgroundColor: "#fff",
-            }}
-          >
-            <Outlet />
-          </Content>
-
-          <Drawer
-            title="Admin Menu"
-            placement="left"
-            onClose={closeDrawer}
-            visible={drawerVisible}
+  return (
+    <Layout style={{ minHeight: "100vh" }}>
+      <Sider
+        className="hidden lg:block bg-primary"
+        trigger={null}
+        collapsible
+        collapsed={collapsed}
+      >
+        <AdminSideBar collapsed={collapsed} closeDrawer={closeDrawer} />
+      </Sider>
+      <Layout>
+        <Header className="p-0 flex justify-between items-center shadow-md bg-primary">
+          <Button
+            type="primary"
+            onClick={showDrawer}
             className="lg:hidden"
-            bodyStyle={{ padding: 0 }}
-            headerStyle={{ background: "#001529", color: "white" }}
-          >
-            <AdminSideBar collapsed={false} closeDrawer={closeDrawer} />
-          </Drawer>
-        </Layout>
+            icon={<MenuUnfoldOutlined />}
+          />
+          <Button
+            type="primary"
+            onClick={toggleCollapsed}
+            className="hidden lg:flex ml-4"
+            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+          />
+          <Space>
+            <h1 className={`text-lg font-bold text-center flex-1 text-dark`}>
+              {role == "admin"
+                ? "Administrator Paneli"
+                : "Super Administrator Paneli"}
+            </h1>
+          </Space>
+
+          <Tooltip title="Tizimdan chiqish">
+            <Button
+              type="primary"
+              className="mr-5"
+              icon={<LogoutOutlined />}
+              onClick={handleLogout}
+            ></Button>
+          </Tooltip>
+        </Header>
+
+        <Content
+          style={{
+            padding: 24,
+            minHeight: 280,
+            // backgroundColor: "#fff",
+          }}
+          className="bg-accent"
+        >
+          <Outlet />
+        </Content>
+
+        <Drawer
+          title="Admin Menu"
+          placement="left"
+          onClose={closeDrawer}
+          visible={drawerVisible}
+          className="lg:hidden"
+          bodyStyle={{ padding: 0 }}
+          headerStyle={{ background: "#001529", color: "white" }}
+        >
+          <AdminSideBar collapsed={false} closeDrawer={closeDrawer} />
+        </Drawer>
       </Layout>
-    );
-  }
-  return <Navigate to="/" />;
+    </Layout>
+  );
 };

@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { Button, Tooltip, Typography, Modal } from "antd";
+import { Button, Tooltip, Typography, Modal, Flex } from "antd";
 import { useDeleteCategory } from "../../service/mutation/useDeleteCategory";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
-import { loadState } from "../../config/stroge";
 import {
   EditOutlined,
   DeleteOutlined,
@@ -13,39 +12,32 @@ import {
 const { Text } = Typography;
 
 export const CategoryCard = ({ category }) => {
-  const { mutate: deleteCategory, isLoading } = useDeleteCategory();
-  const role = loadState("user");
+  const { mutate: deleteCategory, isPending } = useDeleteCategory();
 
-  // States for confirmation modal
   const [confirmVisible, setConfirmVisible] = useState(false);
 
   const handleDelete = () => {
     deleteCategory(category.id, {
       onSuccess: () => {
-        toast.success(`${category.name.uz || "Kategoriya"} o'chirildi`);
-        setConfirmVisible(false); // Close modal on success
+        toast.success(
+          `${category.name.uz || "Kategoriya"} Kategoriya o'chirildi`
+        );
+        setConfirmVisible(false);
       },
       onError: () => {
         toast.error(`Kategoriya o'chirishda xato yuz berdi!`);
-        setConfirmVisible(false); // Close modal on error
+        setConfirmVisible(false);
       },
     });
   };
 
-  const updateLink =
-    role.role === "superadmin"
-      ? `/super-admin/categories-update/${category.id}`
-      : `/admin/categories-update/${category.id}`;
-  const detailLink =
-    role.role === "superadmin"
-      ? `/super-admin/categories-detail/${category.id}`
-      : `/admin/categories-detail/${category.id}`;
+  const updateLink = `/admin/categories-update/${category.id}`;
+  const detailLink = `/admin/categories-detail/${category.id}`;
 
   return (
-    <div className="p-4 bg-white rounded-lg border shadow-sm shadow-primary flex flex-col md:flex-row items-center justify-between w-full mb-4">
+    <div className="p-4 bg-accent rounded-lg border shadow-sm shadow-dark flex flex-col md:flex-row items-center justify-between w-full">
       <div className="w-full md:flex-1">
-        {/* Category Name Fields */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
           <Text className="text-lg text-start">
             {category.name.uz || "N/A"}
           </Text>
@@ -58,8 +50,7 @@ export const CategoryCard = ({ category }) => {
         </div>
       </div>
 
-      {/* Action Buttons */}
-      <div className="flex space-x-14 mt-4 md:mt-0">
+      <Flex gap={24} className="mt-4 md:mt-0">
         <Tooltip title="Batafsil ko'rish">
           <Link to={detailLink}>
             <Button
@@ -83,17 +74,17 @@ export const CategoryCard = ({ category }) => {
         <Tooltip title="O'chirish">
           <Button
             type="default"
-            loading={isLoading}
-            onClick={() => setConfirmVisible(true)} // Show confirmation modal
-            disabled={isLoading}
+            loading={isPending}
+            onClick={() => setConfirmVisible(true)}
+            disabled={isPending}
             icon={<DeleteOutlined />}
             className="bg-red-500 text-white"
           />
         </Tooltip>
-      </div>
+      </Flex>
 
-      {/* Confirmation Modal */}
       <Modal
+        okButtonProps={{ loading: isPending }}
         title="O'chirishni tasdiqlang"
         visible={confirmVisible}
         onOk={handleDelete}
@@ -101,7 +92,7 @@ export const CategoryCard = ({ category }) => {
         okText="O'chirish"
         cancelText="Bekor qilish"
       >
-        <p>Kategoriyani o'chirishni tasdiqlaysizmi?</p>
+        <Text>Kategoriyani o'chirishni tasdiqlaysizmi?</Text>
       </Modal>
     </div>
   );

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useAdminCreate } from "../../service/mutation/useAdminCreate";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { Form, Input, Button, Typography } from "antd";
+import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import { toast } from "react-toastify";
 
 export const AdminCreate = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -25,7 +25,7 @@ export const AdminCreate = () => {
   };
 
   return (
-    <div className="p-6 mt-5 shadow-primary max-w-lg mx-auto bg-white rounded-xl shadow-md space-y-6">
+    <div className="p-6 mt-5 shadow-dark max-w-lg mx-auto bg-accent rounded-xl shadow-md space-y-6">
       <Typography.Title level={2} className="text-center">
         Yangi Admin Yaratish
       </Typography.Title>
@@ -36,12 +36,14 @@ export const AdminCreate = () => {
           help={isError && error.message ? error.message : null}
         >
           <Input
+            prefix={<UserOutlined />}
             type="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
             required
-            className="p-2"
+            size="large"
+            placeholder="exsample@gmail.com"
           />
         </Form.Item>
 
@@ -50,11 +52,13 @@ export const AdminCreate = () => {
           validateStatus={isError && error.message ? "error" : ""}
         >
           <Input.Password
+            prefix={<LockOutlined />}
             name="password"
             value={formData.password}
             onChange={handleChange}
             required
-            className="p-2"
+            size="large"
+            placeholder="****"
           />
         </Form.Item>
 
@@ -64,13 +68,12 @@ export const AdminCreate = () => {
             htmlType="submit"
             block
             loading={isLoading}
-            className="p-5 mt-5"
+            size="large"
           >
             {isLoading ? "Creating..." : "Admin Yaratish"}
           </Button>
         </Form.Item>
       </Form>
-      <ToastContainer />
     </div>
   );
 };

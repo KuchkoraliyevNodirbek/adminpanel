@@ -6,7 +6,7 @@ export const useGetProfile = () => {
     queryKey: ["profile"],
     queryFn: () => request.get("/auth/profile").then((res) => res.data),
     onError: (error) => {
-      console.error("Profilni olishda xato:", error);  // Xato bo'lgan holat
+      console.error("Profilni olishda xato:", error);
     },
   });
 };

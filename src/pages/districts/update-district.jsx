@@ -6,15 +6,14 @@ import { useUpdateDistrict } from "../../service/mutation/useUpdateDistrict";
 import { Loading } from "../../components/loading/loading";
 
 export const UpdateDistrict = () => {
-  const { id } = useParams(); // URL'dan ID olamiz
-  const { data: district, isLoading } = useGetDistrictsById(id); // Tumanni olish hook'i
-  const updateDistrict = useUpdateDistrict(); // Tumanni yangilash hook'i
+  const { id } = useParams();
+  const { data: district, isLoading } = useGetDistrictsById(id);
+  const { mutate, isPending } = useUpdateDistrict();
   const [form] = Form.useForm();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (district) {
-      // Tuman ma'lumotlarini formaga set qilish
       form.setFieldsValue({
         uz: district?.name?.uz,
         en: district?.name?.en,
@@ -25,7 +24,7 @@ export const UpdateDistrict = () => {
 
   const onFinish = (values) => {
     const updatedDistrict = {
-      city_id: district?.city_id, // city_id avvalgi qiymati bilan saqlanadi
+      city_id: district?.city_id,
       name: {
         uz: values.uz,
         en: values.en,
@@ -33,14 +32,12 @@ export const UpdateDistrict = () => {
       },
     };
 
-    console.log("Yuborilayotgan ma'lumot:", updatedDistrict);
-
-    updateDistrict.mutate(
+    mutate(
       { id, ...updatedDistrict },
       {
         onSuccess: () => {
           notification.success({ message: "Tuman muvaffaqiyatli yangilandi!" });
-          navigate(-1); // Yangilangandan keyin qayta yo'naltirish
+          navigate(-1);
         },
         onError: (error) => {
           console.error("Tumanni yangilashda xatolik:", error);
@@ -87,7 +84,12 @@ export const UpdateDistrict = () => {
       </Form.Item>
 
       <Form.Item>
-        <Button className="w-full p-5" type="primary" htmlType="submit">
+        <Button
+          loading={isPending}
+          className="w-full p-5"
+          type="primary"
+          htmlType="submit"
+        >
           Yangilash
         </Button>
       </Form.Item>

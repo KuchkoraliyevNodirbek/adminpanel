@@ -1,9 +1,10 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { Loading } from "../../components/loading/loading";
-import { loadState } from "../../config/stroge";
 import { useGetPublisherById } from "../../service/query/useGetPublisherById";
-import { Button, Card, Col, List, Row, Tooltip } from "antd";
+import { Button, Card, Col, Flex, List, Row } from "antd";
+import { useGetCitiesById } from "../../service/query/useGetCitiesById";
+import { useGetDistrictsById } from "../../service/query/useGetDistrictsById";
 import {
   UserOutlined,
   EnvironmentOutlined,
@@ -11,10 +12,6 @@ import {
   ArrowLeftOutlined,
   SendOutlined,
 } from "@ant-design/icons";
-import { useGetCitiesById } from "../../service/query/useGetCitiesById";
-// import { useGetDistrictsById } from "../../service/query/useGetDistrictsbyId";
-import { useGetDistrictsById } from "../../service/query/useGetDistrictsById";
-
 
 export const PublisherDetail = () => {
   const { id } = useParams();
@@ -25,7 +22,6 @@ export const PublisherDetail = () => {
   const { data: publisherCity } = useGetCitiesById(byCity);
   const { data: publisherDistrict } = useGetDistrictsById(byDistrict);
 
-  const user = loadState("user");
   const getCityAndDistrictName = (city_id, district_id) => {
     const { data: cityData, isLoading } = useGetCitiesById(city_id);
     const { data: districtData } = useGetDistrictsById(district_id);
@@ -36,21 +32,15 @@ export const PublisherDetail = () => {
   if (isLoading) return <Loading />;
   if (error) return <div>{error.message}</div>;
 
-  console.log(publisherCity);
-  console.log(publisher);
-
-  const backLink =
-    user.role === "superadmin"
-      ? `/super-admin/publishers`
-      : `/admin/publishers`;
+  const backLink = `/admin/publishers`;
 
   return (
     <>
       <div className="mb-5">
         <Link to={backLink}>
-          <Tooltip title={"Ortga"}>
-            <Button className="" type="primary" icon={<ArrowLeftOutlined />} />
-          </Tooltip>
+          <Button className="" type="primary" icon={<ArrowLeftOutlined />}>
+            ortga
+          </Button>
         </Link>
       </div>
       <Row className="" gutter={[30, 30]}>
@@ -70,7 +60,7 @@ export const PublisherDetail = () => {
               />
             }
           >
-            <div className="flex flex-col gap-5 justify-between flex-wrap">
+            <Flex vertical gap={24} wrap justify="space-between" className="">
               <h1>
                 <UserOutlined /> {publisher.name}
               </h1>
@@ -84,7 +74,7 @@ export const PublisherDetail = () => {
                 <EnvironmentOutlined /> {publisherCity?.name.uz}:
                 {publisherDistrict?.name.uz}
               </b>
-            </div>
+            </Flex>
           </Card>
         </Col>
 

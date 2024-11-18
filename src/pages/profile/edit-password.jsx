@@ -2,7 +2,6 @@ import React from "react";
 import { Form, Input, Button, Flex, Typography } from "antd";
 import { useChangePassword } from "../../service/mutation/useUpdatePassword";
 import { Link, useNavigate } from "react-router-dom";
-import { loadState } from "../../config/stroge";
 import { toast } from "react-toastify";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 
@@ -10,10 +9,8 @@ export const ChangePassword = () => {
   const { mutate, isLoading, isError, isPending } = useChangePassword();
   const [form] = Form.useForm();
   const navigate = useNavigate();
-  const user = loadState("user");
 
-  const backLink =
-    user.role === "superadmin" ? "/super-admin/profile" : "/admin/profile";
+  const backLink = "/admin/profile";
 
   const handleChangePassword = (values) => {
     const { oldPassword, newPassword } = values;

@@ -5,8 +5,8 @@ export const useCreateCities = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (newCategory) => {
-      return gatewayRequest.post("/cities/create", newCategory);
+    mutationFn: (newCities) => {
+      return gatewayRequest.post("/cities/create", newCities);
     },
     onSuccess: () => {
       queryClient.invalidateQueries(["getCitiesList"]);

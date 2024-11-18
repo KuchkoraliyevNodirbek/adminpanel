@@ -1,12 +1,13 @@
 import React from "react";
 import { CreateCategoryForm } from "../../components/create-category-form/create-category-form";
+import { Flex } from "antd";
 
 export const CreateCategory = () => {
   return (
     <>
-      <div className="max-w-5xl mx-auto">
+      <Flex justify="center">
         <CreateCategoryForm />
-      </div>
+      </Flex>
     </>
   );
 };

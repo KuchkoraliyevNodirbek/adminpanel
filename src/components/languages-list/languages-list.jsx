@@ -1,38 +1,39 @@
 import React, { useState } from "react";
-import { Pagination } from "antd";
-import { Loading } from "../loading/loading";
+import { Flex, Pagination, Spin } from "antd";
 import { useGetLanguagesList } from "../../service/query/useGetLanguagesList";
 import { LanguagesCard } from "../languages-card/languages-card";
 
 export const LanguagesList = () => {
   const [limit, setLimit] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
-  const offset = (currentPage - 1) * limit; // Offset hisoblash
+  const offset = (currentPage - 1) * limit;
   const { data, error, isLoading } = useGetLanguagesList("", limit, offset);
-  // console.log(data);
 
-  if (isLoading) return <Loading />;
+  if (isLoading) return <Spin />;
   if (error) return <p>Xatolik: {error.message}</p>;
 
   const totalCount = data?.Count || 0;
 
   const currentlanguages = data.languages?.languages || [];
 
-  // console.log(currentlanguages);
   return (
     <div className="bg-white p-4 rounded shadow-md">
-      <h2 className="text-2xl font-bold mb-4">Tillar</h2>
+      <Flex justify="space-between" align="center" wrap gap={12} className="p-3">
+        <h2 className="text-2xl font-bold">Tillar Ro'yxati</h2>
+        <p className="text-lg">
+          <span className="text-xl font-bold">Jami: </span> {totalCount}
+        </p>
+      </Flex>
 
-      <div className="grid grid-cols-1 md:grid-cols-1">
+      <Flex vertical gap={12}>
         {currentlanguages.map((category) => (
           <LanguagesCard key={category.id} category={category} />
         ))}
-      </div>
+      </Flex>
 
-      <div className="flex justify-center gap-10 items-center mt-4">
+      <Flex justify="center" className="mt-4">
         <Pagination
-        className=""
-        align="start"
+          align="start"
           current={currentPage}
           total={totalCount}
           pageSize={limit}
@@ -42,12 +43,12 @@ export const LanguagesList = () => {
           showSizeChanger
           pageSizeOptions={[5, 10, 15, 20, 100]}
           onShowSizeChange={(current, size) => {
-            setLimit(size); // Sahifa o'lchamini o'zgartirish
-            setCurrentPage(1); // Sahifani 1 ga qaytarish
+            setLimit(size);
+            setCurrentPage(1);
           }}
-          showQuickJumper // Tez sahifa o'zgartirish imkoniyati
+          showQuickJumper
         />
-      </div>
+      </Flex>
     </div>
   );
 };

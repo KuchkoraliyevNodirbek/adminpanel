@@ -6,7 +6,6 @@ export const useGetPublisherById = (id) => {
     queryKey: ["getCategoryById", id],
     queryFn: () =>
       gatewayRequest.get(`/publishers/get?id=${id}`).then((res) => res.data),
-    enabled: !!id,
     onSuccess: (category) => {
       console.log("Kategoriya topildi:", category);
     },

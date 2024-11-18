@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Spin, Pagination, List, message } from "antd";
+import { Spin, Pagination, List, message, Flex } from "antd";
 import { useGetVacancies } from "../../service/query/useGetVacancies";
 import { VacancyCard } from "../vacancies-card/vacancies-card";
 
@@ -13,9 +13,11 @@ export const VacanciesList = () => {
     offset,
   });
 
+  const totalCount = data?.count;
+
   const handlePageChange = (page, pageSize) => {
     setCurrentPage(page);
-    setPageSize(pageSize); // Updates page size if changed
+    setPageSize(pageSize);
   };
 
   if (isError) {
@@ -24,7 +26,18 @@ export const VacanciesList = () => {
   }
 
   return (
-    <div className="vacancies-list-container">
+    <div>
+      <Flex
+        justify="space-between"
+        align="center"
+        wrap
+        className="font-bold text-lg p-3 mb-5"
+      >
+        <h1>Vakansiyalar Ro'yxati</h1>
+        <p>
+          <span className="text-xl">Jami:</span> {totalCount}
+        </p>
+      </Flex>
       {isLoading ? (
         <div className="flex justify-center items-center h-64">
           <Spin size="large" tip="Loading vacancies..." />
@@ -41,17 +54,17 @@ export const VacanciesList = () => {
             )}
             locale={{ emptyText: "No vacancies found" }}
           />
-          <div className="pagination-controls mt-4 flex justify-center">
+          <Flex justify="center" className="mt-4">
             <Pagination
               current={currentPage}
               pageSize={pageSize}
-              total={data?.count || 0}
+              total={totalCount}
               onChange={handlePageChange}
-              showSizeChanger // Allows selection of page size
-              pageSizeOptions={["10", "20", "50", "100"]} // Page size options
-              showQuickJumper // Allows "Go to page" input
+              showSizeChanger
+              pageSizeOptions={["5", "10", "20", "50", "100"]}
+              showQuickJumper
             />
-          </div>
+          </Flex>
         </>
       )}
     </div>

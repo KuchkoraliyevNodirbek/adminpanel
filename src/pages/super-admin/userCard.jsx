@@ -29,7 +29,7 @@ export const UserCard = ({ user }) => {
   };
 
   return (
-    <div className="border border-dark p-3 rounded-md">
+    <div className="border border-dark p-2 rounded-md bg-accent">
       <div className="flex gap-5 justify-center items-center flex-wrap md:justify-between">
         <div className="flex gap-5 md:gap-20 items-center flex-col md:flex-row">
           {user.image_url ? (
@@ -67,7 +67,7 @@ export const UserCard = ({ user }) => {
             <Button
               icon={<InfoCircleOutlined />}
               type="default"
-              onClick={() => navigate(`/super-admin/detail-page/${user.id}`)}
+              onClick={() => navigate(`/admin/detail-page/${user.id}`)}
               className="bg-blue-500 text-white"
             />
           </Tooltip>

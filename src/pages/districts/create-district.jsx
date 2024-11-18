@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Button, notification } from "antd";
+import { Form, Input, Button, notification, Flex, Typography } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import { useCreateDistrict } from "../../service/mutation/useCreateDistricts";
 import { useGetCitiesById } from "../../service/query/useGetCitiesById";
@@ -36,59 +36,58 @@ export const CreateDistrict = () => {
   };
 
   return (
-    <div className="space-y-5">
-      <h2 className="text-center text-dark font-bold text-xl">
+    <Form
+      className="border-2 p-5 shadow-md shadow-dark bg-accent rounded-md w-full max-w-screen-sm mx-auto"
+      layout="vertical"
+      onFinish={onFinish}
+    >
+      <Typography.Title level={4} className="text-center">
         {citie?.name?.uz} Shahari uchun tuman yarating
-      </h2>
-      <Form
-        className="border-2 p-5 shadow-md shadow-primary rounded-md w-full max-w-screen-sm mx-auto"
-        layout="vertical"
-        onFinish={onFinish}
+      </Typography.Title>
+      <Form.Item
+        label="District Name (Uzbek)"
+        name="uz"
+        rules={[
+          { required: true, message: "Please enter district name in Uzbek" },
+        ]}
       >
-        <Form.Item
-          label="District Name (Uzbek)"
-          name="uz"
-          rules={[
-            { required: true, message: "Please enter district name in Uzbek" },
-          ]}
+        <Input size="large" />
+      </Form.Item>
+      <Form.Item
+        label="District Name (English)"
+        name="en"
+        rules={[
+          {
+            required: true,
+            message: "Please enter district name in English",
+          },
+        ]}
+      >
+        <Input size="large" />
+      </Form.Item>
+      <Form.Item
+        label="District Name (Russian)"
+        name="ru"
+        rules={[
+          {
+            required: true,
+            message: "Please enter district name in Russian",
+          },
+        ]}
+      >
+        <Input size="large" />
+      </Form.Item>
+      <Form.Item>
+        <Button
+          size="large"
+          className="w-full"
+          type="primary"
+          htmlType="submit"
+          loading={isLoading}
         >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="District Name (English)"
-          name="en"
-          rules={[
-            {
-              required: true,
-              message: "Please enter district name in English",
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="District Name (Russian)"
-          name="ru"
-          rules={[
-            {
-              required: true,
-              message: "Please enter district name in Russian",
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item>
-          <Button
-            className="w-full p-5"
-            type="primary"
-            htmlType="submit"
-            loading={isLoading}
-          >
-            Tuman Yaratish
-          </Button>
-        </Form.Item>
-      </Form>
-    </div>
+          Tuman Yaratish
+        </Button>
+      </Form.Item>
+    </Form>
   );
 };

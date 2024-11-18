@@ -1,118 +1,73 @@
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
+import React from "react";
+import { Form, Input, Button, message, Typography } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useCreateLanguages } from "../../service/mutation/useCreateLanguage";
-// import { useCreateCities } from "../../service/mutation/useCreateCities";
 
 export const CreateLanguagesForm = () => {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-    setError,
-  } = useForm();
-  const createCategoryMutation = useCreateLanguages();
-  const [loading, setLoading] = useState(false);
+  const [form] = Form.useForm();
+  const { mutate, isPending } = useCreateLanguages();
   const navigate = useNavigate();
 
-  const onSubmit = async (data) => {
-    setLoading(true); // Loadingni yoqish
-    try {
-      await createCategoryMutation.mutateAsync({
-        name: data.name,
-      }); // API chaqiruvini yuborish
-      toast.success("Shahar muvaffaqiyatli yaratildi!");
-      reset(); // Formani tozalash
-      navigate(-1);
-    } catch (error) {
-      setError("server", { message: error.message });
-      toast.error("Shahar yaratishda xato yuz berdi.");
-    } finally {
-      setLoading(false); // Loadingni o'chirish
-    }
+  const onFinish = async (values) => {
+    mutate(values, {
+      onSuccess: () => {
+        navigate(-1);
+        message.success("Til qo'shildi!");
+      },
+    });
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="space-y-6 p-6 bg-white shadow-md shadow-primary rounded-lg max-w-4xl mx-auto"
+    <Form
+      form={form}
+      onFinish={onFinish}
+      layout="vertical"
+      className="p-6 bg-accent shadow-md shadow-primary rounded-lg max-w-6xl w-full"
     >
-      <h2 className="text-2xl font-bold text-center mb-6">Til Yaratish</h2>
+      <Typography.Title
+        level={3}
+        className="text-2xl font-bold text-center mb-6"
+      >
+        Til Yaratish
+      </Typography.Title>
 
-      {/* Grid layout for input fields */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {/* O'zbek nomi */}
-        <div>
-          <label className="block font-medium mb-2">Nom (O'zbek):</label>
-          <input
-            type="text"
-            {...register("name.uz", { required: "Bu maydon talab qilinadi" })}
-            className={`border p-2 w-full rounded-md ${
-              errors.name?.uz ? "border-red-500" : "border-gray-300"
-            }`}
-            placeholder="nomini kiriting"
-          />
-          {errors.name?.uz && (
-            <p className="text-red-500 mt-1 text-sm">
-              {errors.name.uz.message}
-            </p>
-          )}
-        </div>
-
-        {/* Ingliz nomi */}
-        <div>
-          <label className="block font-medium mb-2">Nom (Ingliz):</label>
-          <input
-            type="text"
-            {...register("name.en", { required: "Bu maydon talab qilinadi" })}
-            className={`border p-2 w-full rounded-md ${
-              errors.name?.en ? "border-red-500" : "border-gray-300"
-            }`}
-            placeholder="name"
-          />
-          {errors.name?.en && (
-            <p className="text-red-500 mt-1 text-sm">
-              {errors.name.en.message}
-            </p>
-          )}
-        </div>
-
-        {/* Rus nomi */}
-        <div>
-          <label className="block font-medium mb-2">Nom (Rus):</label>
-          <input
-            type="text"
-            {...register("name.ru", { required: "Bu maydon talab qilinadi" })}
-            className={`border p-2 w-full rounded-md ${
-              errors.name?.ru ? "border-red-500" : "border-gray-300"
-            }`}
-            placeholder="Название"
-          />
-          {errors.name?.ru && (
-            <p className="text-red-500 mt-1 text-sm">
-              {errors.name.ru.message}
-            </p>
-          )}
-        </div>
-      </div>
-
-      {/* Submit button */}
-      <div className="text-center">
-        <button
-          type="submit"
-          className="max-w-lg w-full bg-primary hover:bg-dark text-white font-bold py-2 px-6 rounded-md transition duration-300 disabled:bg-gray-300"
-          disabled={loading}
+        <Form.Item
+          label="Nom (O'zbek)"
+          name={["name", "uz"]}
+          rules={[{ required: true, message: "Bu maydon talab qilinadi" }]}
         >
-          {loading ? "Yaratyapti..." : "Til Yaratish"}
-        </button>
+          <Input size="large" placeholder="nomini kiriting" />
+        </Form.Item>
+
+        <Form.Item
+          label="Nom (Ingliz)"
+          name={["name", "en"]}
+          rules={[{ required: true, message: "Bu maydon talab qilinadi" }]}
+        >
+          <Input size="large" placeholder="name" />
+        </Form.Item>
+
+        <Form.Item
+          label="Nom (Rus)"
+          name={["name", "ru"]}
+          rules={[{ required: true, message: "Bu maydon talab qilinadi" }]}
+        >
+          <Input size="large" placeholder="Название" />
+        </Form.Item>
       </div>
 
-      {/* Serverdan kelgan xato xabarini ko'rsatish */}
-      {errors.server && (
-        <p className="text-red-500 text-center mt-4">{errors.server.message}</p>
-      )}
-    </form>
+      <Form.Item className="text-center mb-0">
+        <Button
+          size="large"
+          type="primary"
+          htmlType="submit"
+          loading={isPending}
+          className="max-w-lg w-full"
+        >
+          {isPending ? "Yaratyapti..." : "Yaratish"}
+        </Button>
+      </Form.Item>
+    </Form>
   );
 };

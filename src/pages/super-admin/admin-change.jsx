@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Pagination, List } from "antd";
-import { Loading } from "../../components/loading/loading";
+import { Pagination, List, Flex, Spin } from "antd";
 import { useGetAllAdmin } from "../../service/query/useGetAllAdmin";
 import { UserCard } from "./userCard";
 
@@ -15,16 +14,27 @@ export const AdminChange = () => {
     "admin"
   );
 
-  if (isLoading) return <Loading />;
+  if (isLoading) return <Spin />;
   if (isError) return <div>Xatolik: {error?.message}</div>;
 
   const totalCount = data?.count || 0;
 
   return (
     <div className="p-4 max-w-full mx-auto">
-      <h2 className="text-2xl font-bold mb-4 text-center md:text-left">
-        Adminlar Ro'yxati
-      </h2>
+      <Flex
+        justify="space-between"
+        wrap
+        align="center"
+        gap={12}
+        className="p-3"
+      >
+        <h2 className="text-2xl font-bold text-center md:text-left">
+          Adminlar Ro'yxati
+        </h2>
+        <p className="text-lg">
+          <span className="text-xl font-bold">Jami: </span> {totalCount}
+        </p>
+      </Flex>
 
       <List
         grid={{ gutter: 10, xs: 1, sm: 1, md: 1, lg: 1, column: 1 }}
@@ -36,7 +46,7 @@ export const AdminChange = () => {
         )}
       />
 
-      <div className="flex justify-center mt-4">
+      <Flex justify="center" className="mt-4">
         <Pagination
           current={currentPage}
           total={totalCount}
@@ -50,7 +60,7 @@ export const AdminChange = () => {
           }}
           showQuickJumper
         />
-      </div>
+      </Flex>
     </div>
   );
 };

@@ -4,7 +4,7 @@ import { gatewayRequest } from "../../config/geteway-request";
 export const useGetDistrictsList = (
   name = "",
   city_id = "",
-  limit = 10,
+  limit = 1000000,
   offset = 0
 ) => {
   return useQuery({

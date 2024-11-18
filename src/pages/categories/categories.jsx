@@ -6,11 +6,9 @@ import { Row } from "antd";
 export const Categories = () => {
   return (
     <div className="relative">
-      <div className="top-0 sticky p-3 bg-white border-b-2 border-b-primary z-50">
+      <div className="top-0 sticky p-3 z-50 bg-accent border-b-2 border-dark">
         <Row justify="space-between" align="middle">
-          <>
-            <CategoriesFilter />
-          </>
+          <CategoriesFilter />
         </Row>
       </div>
 

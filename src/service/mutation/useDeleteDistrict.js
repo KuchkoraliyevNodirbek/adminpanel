@@ -6,11 +6,12 @@ export const useDeleteDistricts = () => {
 
   return useMutation({
     mutationFn: (id) =>
-      gatewayRequest.delete(`/districts/delete?id=${id}`).then((res) => res.data), // URLni yangilash
+      gatewayRequest
+        .delete(`/districts/delete?id=${id}`)
+        .then((res) => res.data),
     onSuccess: (res) => {
       console.log("Tuman muvaffaqiyatli o'chirildi:", res);
-      // Kategoriyalar ro'yxatini yangilash
-      queryClient.invalidateQueries("getDistrictsList"); // Kategoriyalar ro'yxatini yangilash
+      queryClient.invalidateQueries("getDistrictsList");
     },
     onError: (error) => {
       console.error("Tuman o'chirishda xato:", error);

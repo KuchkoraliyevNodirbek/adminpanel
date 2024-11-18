@@ -2,55 +2,68 @@ import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { useGetAuthorsById } from "../../service/query/useGetAuthorsbyId";
 import { Loading } from "../../components/loading/loading";
-import { loadState } from "../../config/stroge";
+import { Button, Flex } from "antd";
+import { ArrowLeftOutlined } from "@ant-design/icons";
 
 export const AuthorsDetailPage = () => {
-  const { id } = useParams(); // Get the author ID from the URL
-  const { data: author, isLoading, error } = useGetAuthorsById(id); // Fetch author details by ID
+  const { id } = useParams();
+  const { data: author, isLoading, error } = useGetAuthorsById(id);
 
   if (isLoading) return <Loading />;
   if (error) return <div>{error.message}</div>;
 
-  //   console.log(author);
+  const updateLink = `/admin/authors-update/${author.id}`;
 
-  const user = loadState("user");
-
-  const updateLink =
-    user.role === "superadmin"
-      ? `/super-admin/authors-update/${author.id}`
-      : `/admin/authors-update/${author.id}`;
+  const backLink = `/admin/authors`;
 
   return (
-    <div className="max-w-screen-lg w-full mx-auto p-0 md:p-3">
+    <Flex vertical justify="center" className="w-full">
+      <Flex className="mb-4">
+        <Link to={backLink}>
+          <Button icon={<ArrowLeftOutlined />} type="primary">
+            ortga
+          </Button>
+        </Link>
+      </Flex>
       <h1 className="text-3xl font-bold text-center mb-6 text-black">
         Muallif Batafsil Sahifa
       </h1>
 
-      <div className="border rounded-lg p-6 shadow-primary shadow-md transition-shadow duration-300 bg-white">
-        <h3 className="text-2xl font-semibold text-gray-800 mb-4">
-          {author.name || "N/A"} {/* Author's name */}
-        </h3>
+      <Flex
+        vertical
+        gap={24}
+        className="border-2 rounded-lg p-4 shadow-dark shadow-md  bg-white w-full max-w-screen-lg mx-auto"
+      >
+        <Flex
+          className="flex-wrap md:flex-nowrap"
+          justify="space-between"
+          gap={24}
+        >
+          <h3 className="p-3 rounded-md border-2 w-full text-2xl font-semibold text-gray-800">
+            <span className="text-xl font-bold text-gray-900">Ism:</span>{" "}
+            {author.name || "Ism mavjud emas"}
+          </h3>
+          <h3 className="p-3 rounded-md border-2  w-full text-2xl font-semibold text-gray-800">
+            <span className="text-xl font-bold text-gray-900">Familiya: </span>{" "}
+            {author.surname || "Familiya mavjud emas"}
+          </h3>
+        </Flex>
 
-        {/* Biography */}
-        <div className="space-y-4">
-          <div>
-            <h4 className="font-medium text-gray-900">Biografiya:</h4>
-            <p className="text-gray-700">
-              {author.biography || "Biografiya mavjud emas"}
-            </p>
-          </div>
-        </div>
+        <Flex vertical gap={12} className="border-2 p-3 rounded-md">
+          <h2 className="text-xl font-bold text-gray-900">Biografiya:</h2>
+          <p className="text-gray-700">
+            {author.biography || "Biografiya mavjud emas"}
+          </p>
+        </Flex>
 
-        {/* Edit button */}
-        <div className="flex justify-center mt-8">
-          <Link
-            to={updateLink} // Redirect to the edit page
-            className="bg-yellow-500 text-white px-6 py-2 rounded-lg hover:bg-yellow-600 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-50"
-          >
-            Tahrirlash
+        <Flex justify="center">
+          <Link to={updateLink} className="">
+            <Button size="large" type="primary">
+              Tahrirlash
+            </Button>
           </Link>
-        </div>
-      </div>
-    </div>
+        </Flex>
+      </Flex>
+    </Flex>
   );
 };

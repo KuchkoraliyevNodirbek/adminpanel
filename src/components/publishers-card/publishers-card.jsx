@@ -1,20 +1,18 @@
 import React, { useState } from "react";
-import { Button, Tooltip, Switch, message, Modal } from "antd";
+import { Button, Tooltip, Switch, message, Modal, Flex } from "antd";
 import {
   PhoneOutlined,
   InfoCircleOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import { loadState } from "../../config/stroge";
 import { useChangeStatus } from "../../service/mutation/useChangePublisherStatus";
 import { useDeletePublisher } from "../../service/mutation/useDeletePublisher";
 import { toast } from "react-toastify";
 
 export const PublisherCard = ({ publisher }) => {
-  const role = loadState("user");
-  const [status, setStatus] = useState(publisher.status === "true"); // String qiymatini Boolean ga aylantirish
-  const { mutate, isLoading } = useChangeStatus();
+  const [status, setStatus] = useState(publisher.status === "true");
+  const { mutate, isPending:changeLoading } = useChangeStatus();
 
   const [confirmVisible, setConfirmVisible] = useState(false);
   const {
@@ -23,10 +21,7 @@ export const PublisherCard = ({ publisher }) => {
     isPending,
   } = useDeletePublisher();
 
-  const detailLink =
-    role.role === "superadmin"
-      ? `/super-admin/publishers-detail/${publisher.id}`
-      : `/admin/publishers-detail/${publisher.id}`;
+  const detailLink = `/admin/publishers-detail/${publisher.id}`;
 
   const handleStatusChange = (checked) => {
     setStatus(checked);
@@ -62,17 +57,23 @@ export const PublisherCard = ({ publisher }) => {
   };
 
   return (
-    <div className="border-2 rounded-md">
-      <div className="publisher-card w-full p-3 flex justify-between items-center flex-wrap gap-5">
-        <div className="flex gap-5 items-center justify-center">
+    <div className="border-2 rounded-md bg-accent shadow-sm shadow-dark">
+      <Flex
+        justify="space-between"
+        align="center"
+        wrap
+        gap={24}
+        className="p-3"
+      >
+        <Flex wrap justify="center" align="center" gap={24}>
           <img
             alt={publisher.name}
             src={publisher.image_url}
             style={{ maxHeight: "200px", objectFit: "cover" }}
-            className="w-20 rounded-md object-cover border-2"
+            className="w-20 max-h-20 h-full rounded-md object-cover border-2"
           />
           <h2 className="max-w-40 w-full min-w-40">{publisher.name}</h2>
-        </div>
+        </Flex>
         <p>
           <PhoneOutlined /> {publisher.phone_number}
         </p>
@@ -81,13 +82,13 @@ export const PublisherCard = ({ publisher }) => {
           {publisher.type}
         </p>
 
-        <div className="flex gap-5 w-full md:w-fit md:gap-16 justify-center items-center">
+        <Flex gap={24} justify="center" align="center">
           <Tooltip title="status o'zgartirish">
             <div className="flex items-center gap-2">
               <Switch
                 checked={status}
                 onChange={handleStatusChange}
-                loading={isLoading}
+                loading={changeLoading}
               />
             </div>
           </Tooltip>
@@ -112,8 +113,8 @@ export const PublisherCard = ({ publisher }) => {
               className="bg-red-500 text-white"
             />
           </Tooltip>
-        </div>
-      </div>
+        </Flex>
+      </Flex>
 
       <Modal
         title="O'chirishni tasdiqlang"

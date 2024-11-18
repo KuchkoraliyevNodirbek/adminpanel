@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useDebounce } from "../../hooks/useDebounce/useDebounce";
-import { loadState } from "../../config/stroge";
-import { Button, Input } from "antd";
+import { Button, Flex, Input } from "antd";
 import { Link } from "react-router-dom";
 import { useGetTranslatorsList } from "../../service/query/useGetTranslatorList";
 import { TranslatorCard } from "../translator-file/translator-card";
@@ -15,54 +14,47 @@ export const TranslatorFilter = () => {
 
   if (error) return <div>Xatolik yuz berdi</div>;
 
-  console.log(data);
-
-  const role = loadState("user");
-
-  const detailLink =
-    role.role === "superadmin"
-      ? `/super-admin/create-translator`
-      : `/admin/create-translator`;
+  const detailLink = `/admin/create-translator`;
 
   return (
-    <div className="w-full">
-      <div className="flex flex-wrap justify-between gap-10">
-        <div className="w-fit">
+    <div className="w-full space-y-4">
+      <Flex justify="space-between" wrap gap={24}>
+        <div className="w-full max-w-md">
           <Link to={detailLink}>
-            <Button type="primary" className="w-full max-w-96 p-5">
+            <Button size="large" block type="primary">
               Tarjimon Yaratish
             </Button>
           </Link>
         </div>
-        <div className="flex items-center w-full max-w-screen-sm justify-end ">
+        <Flex justify="end" align="center" className="w-full max-w-screen-sm">
           <Input
+            size="large"
             suffix={<SearchOutlined />}
             type="text"
             placeholder="Tarjimoni qidiring"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="border-2 rounded p-2 mb-4 w-full max-w-screen-sm focus:outline-dark border-primary"
           />
+        </Flex>
+      </Flex>
+
+      {isLoading ? (
+        <div className="col-span-3 text-center text-gray-500 font-semibold">
+          Yuklanmoqda...
         </div>
-      </div>
-      <div className="grid grid-cols-1 min-h-[0px] transition-all duration-1000 max-h-96 overflow-y-scroll overflow-hidden">
-        {" "}
-        {isLoading ? (
-          <div className="col-span-3 text-center text-gray-500 font-semibold">
-            Yuklanmoqda...
-          </div>
-        ) : debouncedSearchTerm && data?.translators?.length > 0 ? (
-          data.translators.map((translator) => (
+      ) : debouncedSearchTerm && data?.translators?.length > 0 ? (
+        <div className="grid grid-cols-1 gap-4 min-h-[0px] transition-all duration-1000  max-h-96 overflow-y-scroll overflow-hidden bg-dark p-3 border-2 border-dark">
+          {data.translators.map((translator) => (
             <TranslatorCard key={translator.id} translator={translator} />
-          ))
-        ) : (
-          debouncedSearchTerm && (
-            <div className="col-span-3 text-center text-red-500 font-semibold">
-              Hech qanday Tarjimon topilmadi
-            </div>
-          )
-        )}
-      </div>
+          ))}
+        </div>
+      ) : (
+        debouncedSearchTerm && (
+          <div className="col-span-3 text-center text-red-500 font-semibold">
+            Hech qanday Tarjimon topilmadi
+          </div>
+        )
+      )}
     </div>
   );
 };

@@ -1,16 +1,14 @@
 import React, { useState } from "react";
-import { Button, Tooltip, Typography, Modal } from "antd";
+import { Button, Tooltip, Typography, Modal, Flex } from "antd";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
-import { loadState } from "../../config/stroge";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useDeleteLanguages } from "../../service/mutation/useDeleteLanguage";
 
 const { Text } = Typography;
 
 export const LanguagesCard = ({ category }) => {
-  const { mutate: deleteCategory, isLoading } = useDeleteLanguages();
-  const role = loadState("user");
+  const { mutate: deleteCategory, isPending } = useDeleteLanguages();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const showDeleteConfirm = () => {
@@ -20,11 +18,11 @@ export const LanguagesCard = ({ category }) => {
   const handleDelete = () => {
     deleteCategory(category.id, {
       onSuccess: () => {
-        toast.success(`${category.name.uz || "Til"} o'chirildi`);
+        toast.success(`${category.name.uz || "Til"} Tili o'chirildi`);
         setIsModalVisible(false);
       },
       onError: () => {
-        toast.error(`Kategoriya o'chirishda xato yuz berdi!`);
+        toast.error(`Tilni o'chirishda xato yuz berdi!`);
         setIsModalVisible(false);
       },
     });
@@ -34,16 +32,12 @@ export const LanguagesCard = ({ category }) => {
     setIsModalVisible(false);
   };
 
-  const updateLink =
-    role.role === "superadmin"
-      ? `/super-admin/languages-update/${category.id}`
-      : `/admin/languages-update/${category.id}`;
+  const updateLink = `/admin/languages-update/${category.id}`;
 
   return (
-    <div className="p-4 bg-white rounded-lg border shadow-sm shadow-primary flex flex-col md:flex-row items-center justify-between w-full mb-4">
+    <div className="p-4 bg-accent rounded-lg border shadow-sm shadow-dark flex flex-col md:flex-row items-center justify-between w-full">
       <div className="w-full md:flex-1">
-        {/* Category Name Fields */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
           <Text className="text-lg text-start">
             {category.name.uz || "N/A"}
           </Text>
@@ -56,8 +50,7 @@ export const LanguagesCard = ({ category }) => {
         </div>
       </div>
 
-      {/* Action Buttons */}
-      <div className="flex space-x-14 mt-4 md:mt-0">
+      <Flex gap={24} className="mt-4 md:mt-0">
         <Tooltip title="Tahrirlash">
           <Link to={updateLink}>
             <Button
@@ -71,26 +64,25 @@ export const LanguagesCard = ({ category }) => {
         <Tooltip title="O'chirish">
           <Button
             type="default"
-            loading={isLoading}
+            loading={isPending}
             onClick={showDeleteConfirm}
-            disabled={isLoading}
+            disabled={isPending}
             icon={<DeleteOutlined />}
             className="bg-red-500 text-white"
           />
         </Tooltip>
-      </div>
+      </Flex>
 
-      {/* Delete Confirmation Modal */}
       <Modal
         title="O'chirishni tasdiqlash"
         visible={isModalVisible}
         onOk={handleDelete}
         onCancel={handleCancel}
-        okText="Tasdiqlash"
+        okText="O'chirish"
         cancelText="Bekor qilish"
-        okButtonProps={{ loading: isLoading }}
+        okButtonProps={{ loading: isPending }}
       >
-        <p>{category.name.uz || "Til"} o'chirilsinmi?</p>
+        <Text>{`${category.name.uz} Tili o'chirilsinmi?`}</Text>
       </Modal>
     </div>
   );

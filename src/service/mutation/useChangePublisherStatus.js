@@ -18,7 +18,6 @@ export const useChangeStatus = () => {
       );
     },
     onSuccess: () => {
-      // Cache invalidatsiya qilish, status yangilanganini bildirish
       queryClient.invalidateQueries(["getPublishers"]);
       console.log("Status muvaffaqiyatli o'zgartirildi");
     },

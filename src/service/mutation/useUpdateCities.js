@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { gatewayRequest } from "../../config/geteway-request";
 
 export const useUpdateCities = () => {
-  const queryClient = useQueryClient(); // Query clientni yaratish
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: ({ id, ...updatedData }) =>

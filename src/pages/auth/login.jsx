@@ -6,6 +6,7 @@ import { saveState } from "../../config/stroge";
 import { toast } from "react-toastify";
 import { Form, Input, Button, Typography, Segmented, Flex } from "antd";
 import { useState } from "react";
+import { LockOutlined, PhoneOutlined, UserOutlined } from "@ant-design/icons";
 
 export const Login = () => {
   const {
@@ -16,8 +17,8 @@ export const Login = () => {
   } = useForm();
 
   const [loginMethod, setLoginMethod] = useState("email");
-  const { mutate: loginByEmail, isLoading: loadingEmail } = useLogin();
-  const { mutate: loginByPhone, isLoading: loadingPhone } = useLoginByPhone();
+  const { mutate: loginByEmail, isPending: loadingEmail } = useLogin();
+  const { mutate: loginByPhone, isPending: loadingPhone } = useLoginByPhone();
   const isLoading = loadingEmail || loadingPhone;
 
   const navigate = useNavigate();
@@ -35,10 +36,10 @@ export const Login = () => {
         });
 
         if (res.role === "admin") {
-          navigate("/admin");
+          navigate("/admin/categories");
           toast.success("Kirish muvaffaqiyatli", { autoClose: 3000 });
         } else if (res.role === "superadmin") {
-          navigate("/super-admin");
+          navigate("/admin/admin-create");
           toast.success("Kirish muvaffaqiyatli", { autoClose: 3000 });
         } else {
           navigate("/");
@@ -52,9 +53,9 @@ export const Login = () => {
   };
 
   return (
-    <Flex align="center" justify="center" className="bg-accent h-screen p-5">
+    <Flex align="center" justify="center" className="bg-dark h-screen p-5">
       <Flex
-        className="max-w-md bg-white w-full p-5 md:p-8 rounded-md shadow-lg shadow-dark"
+        className="max-w-lg bg-accent w-full p-5 md:p-8 rounded-md shadow-md shadow-white"
         vertical
         align="center"
         justify="center"
@@ -106,6 +107,7 @@ export const Login = () => {
                 placeholder="example@gmail.com"
                 onChange={(e) => setValue("email", e.target.value)}
                 size="large"
+                prefix={<UserOutlined />}
               />
             </Form.Item>
           ) : (
@@ -122,6 +124,7 @@ export const Login = () => {
                 placeholder="+998901234567"
                 onChange={(e) => setValue("phone", e.target.value)}
                 size="large"
+                prefix={<PhoneOutlined />}
               />
             </Form.Item>
           )}
@@ -136,6 +139,7 @@ export const Login = () => {
               placeholder="********"
               onChange={(e) => setValue("password", e.target.value)}
               size="large"
+              prefix={<LockOutlined />}
             />
           </Form.Item>
 

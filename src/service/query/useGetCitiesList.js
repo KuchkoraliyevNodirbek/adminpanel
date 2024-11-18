@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { gatewayRequest } from "../../config/geteway-request";
 
-export const useGetCitiesList = (name = "", limit = 10, offset = 0) => {
+export const useGetCitiesList = (name = "", limit = 1000000, offset = 0) => {
   return useQuery({
     queryKey: ["getCitiesList", name, limit, offset],
     queryFn: async () => {

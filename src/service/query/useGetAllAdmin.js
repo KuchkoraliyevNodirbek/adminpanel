@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { request } from "../../config/request";
 
-export const useGetAllAdmin = (limit = 10, offset = 0, role) => {
+export const useGetAllAdmin = (limit = 1000000, offset = 0, role) => {
   return useQuery({
     queryKey: ["getAllAdmin", limit, offset, role],
     queryFn: () =>

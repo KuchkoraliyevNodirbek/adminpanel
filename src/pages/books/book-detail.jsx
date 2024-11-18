@@ -2,7 +2,14 @@ import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Loading } from "../../components/loading/loading";
 import { useGetBooksById } from "../../service/query/useGetBookById";
-import { Button, Typography, Divider } from "antd";
+import { Button, Typography, Flex } from "antd";
+import { useGetAuthorsById } from "../../service/query/useGetAuthorsbyId";
+import { useGetPublisherById } from "../../service/query/useGetPublisherById";
+import { useGetCitiesById } from "../../service/query/useGetCitiesById";
+import { useGetDistrictsById } from "../../service/query/useGetDistrictsById";
+import { useGetCategoryById } from "../../service/query/useGetCAtegoryById";
+import { useGetTranslatorById } from "../../service/query/useGetTranslatorById";
+import { useGetLanguagesById } from "../../service/query/useGetLanguagesById";
 
 const { Title, Text } = Typography;
 
@@ -11,14 +18,25 @@ export const BookDetail = () => {
   const navigate = useNavigate();
   const { data: book, isLoading, error } = useGetBooksById(id);
 
+  console.log(book);
+
+  const { data: author } = useGetAuthorsById(book?.author_id);
+  const { data: publisher } = useGetPublisherById(book?.publisher_id);
+  const { data: category } = useGetCategoryById(book?.category_id);
+  const { data: city } = useGetCitiesById(book?.location?.city_id);
+  const { data: district } = useGetDistrictsById(book?.location?.district_id);
+  const { data: traslator } = useGetTranslatorById(book?.translator_id);
+  const { data: language } = useGetLanguagesById(book?.language_id);
+
   if (isLoading) return <Loading />;
   if (error) return <div>{error.message}</div>;
 
+  const backLink = `/admin/books`;
+
   const handleBack = () => {
-    navigate(-1);
+    navigate(backLink);
   };
 
-  // Har bir maydonni namoyish qilish uchun yordamchi komponent
   const BookField = ({ label, value }) => (
     <div>
       <Title level={4} className="text-gray-900">
@@ -29,28 +47,31 @@ export const BookDetail = () => {
   );
 
   return (
-    <div className="max-w-screen-lg w-full mx-auto p-6 bg-white rounded-lg shadow-md space-y-6">
+    <div className="max-w-screen-xl w-full mx-auto p-6 bg-accent rounded-lg shadow-md shadow-dark space-y-6">
       <Title level={2} className="text-center text-black">
         Kitob Batafsil Sahifasi
       </Title>
 
-      <Divider />
-
-      {/* Kitob detallari */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-        <BookField label="Kitob nomi:" value={book.title} />
-        <BookField label="Narxi:" value={`${book.price || 0} UZS`} />
-        <BookField label="Chop etilgan yil:" value={book.published_year} />
-        <BookField label="Jami sahifalar soni:" value={book.total_pages} />
-        <BookField label="Kitobning tavsifi:" value={book.description} />
-        <BookField label="Muallif ID:" value={book.author_id} />
-        <BookField label="Kategoriya ID:" value={book.category_id} />
-        <BookField label="Nashriyot ID:" value={book.publisher_id} />
-        <BookField label="Shitrix kodi:" value={book.shitrix_code} />
-        <BookField label="Yozuv turi:" value={book.writing_type} />
-        <BookField label="Yaratilgan sana:" value={book.created_at} />
-        <BookField label="Qopqoq turi:" value={book.cover_type} />
-        <BookField label="Qopqoq formati:" value={book.cover_format} />
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+        <BookField label="Kitob nomi:" value={book?.title} />
+        <BookField label="Narxi:" value={`${book?.price || 0} UZS`} />
+        <BookField label="Chop etilgan yil:" value={book?.published_year} />
+        <BookField label="Jami sahifalar soni:" value={book?.total_pages} />
+        <BookField label="Til:" value={language?.uz} />
+        <BookField label="Muallif:" value={author?.name} />
+        <BookField label="Kategoriya:" value={category?.name?.uz} />
+        <BookField label="Nashriyot:" value={publisher?.name} />
+        <BookField
+          label="Tarjimon:"
+          value={`Ism: ${traslator?.name || "Noma'lum"}, Familiya: ${
+            traslator?.surname || "Noma'lum"
+          }`}
+        />
+        <BookField label="Shitrix kodi:" value={book?.shitrix_code} />
+        <BookField label="Yozuv turi:" value={book?.writing_type} />
+        <BookField label="Yaratilgan sana:" value={book?.created_at} />
+        <BookField label="Qopqoq turi:" value={book?.cover_type} />
+        <BookField label="Qopqoq formati:" value={book?.cover_format} />
         <BookField
           label="Sotuvdagi holati:"
           value={book.stock > 0 ? "Bor" : "Mavjud emas"}
@@ -58,33 +79,34 @@ export const BookDetail = () => {
         <BookField label="Yangi:" value={book.is_new ? "Ha" : "Yo‘q"} />
         <BookField
           label="Lokatsiya:"
-          value={`Shahar: ${book.location?.city_id}, Tuman: ${book.location?.district_id}`}
+          value={`Shahar: ${city?.name?.uz}, Tuman: ${district?.name?.uz}`}
         />
-        <BookField label="Ko‘rishlar soni:" value={book.view_count} />
+        <BookField label="Ko‘rishlar soni:" value={book?.view_count} />
       </div>
+      <BookField label="Kitobning tavsifi:" value={book?.description} />
 
-      {/* Kitob rasmi */}
-      {book.image_url && (
-        <div className="flex justify-center">
+      <Flex justify="space-around" gap={24} wrap>
+        {book.image_url && (
           <img
             src={book.image_url}
             alt="Kitob rasimi"
-            className="w-64 h-auto rounded-lg shadow-md"
+            className="w-64 h-auto rounded-lg shadow-md shadow-dark"
           />
-        </div>
-      )}
+        )}
+        {book.img_url && (
+          <img
+            src={book.image_url}
+            alt="Kitob rasimi"
+            className="w-64 h-auto rounded-lg shadow-md shadow-dark"
+          />
+        )}
+      </Flex>
 
-      {/* Orqaga qaytish tugmasi */}
-      <div className="flex justify-center">
-        <Button
-          type="primary"
-          size="large"
-          onClick={handleBack}
-          className="bg-gray-500 hover:bg-gray-600"
-        >
-          Orqaga
+      <Flex justify="center">
+        <Button type="primary" size="large" onClick={handleBack}>
+          Ortga
         </Button>
-      </div>
+      </Flex>
     </div>
   );
 };

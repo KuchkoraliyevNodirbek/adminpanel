@@ -6,10 +6,9 @@ export const useCreateCategory = () => {
 
   return useMutation({
     mutationFn: (newCategory) => {
-      return gatewayRequest.post('/categories/create', newCategory);
+      return gatewayRequest.post("/categories/create", newCategory);
     },
     onSuccess: () => {
-      // Kategoriyalarni yangilash
       queryClient.invalidateQueries(["getCategories"]);
       console.log("Kategoriya muvaffaqiyatli yaratildi");
     },

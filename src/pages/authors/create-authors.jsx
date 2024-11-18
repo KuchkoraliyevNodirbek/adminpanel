@@ -1,12 +1,13 @@
 import React from "react";
-import { CreateAuthorsForm } from "../../components/create-authors-form/create-authors-form"; // Adjust the path as necessary
+import { CreateAuthorsForm } from "../../components/create-authors-form/create-authors-form";
+import { Flex } from "antd";
 
 export const CreateAuthors = () => {
   return (
     <>
-      <div className="max-w-5xl mx-auto">
+      <Flex justify="center" className="w-full">
         <CreateAuthorsForm />
-      </div>
+      </Flex>
     </>
   );
 };

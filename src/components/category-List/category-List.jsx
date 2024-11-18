@@ -1,52 +1,59 @@
 import React, { useState } from "react";
-import { Pagination } from "antd";
+import { Flex, Pagination, Spin } from "antd";
 import { CategoryCard } from "../category-card/category-card";
 import { useGetCategories } from "../../service/query/useGetCategoriesList";
-import { Loading } from "../loading/loading";
 
 export const CategoriesList = () => {
   const [limit, setLimit] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
-    const offset = (currentPage - 1) * limit; // Offset hisoblash
-const { data, error, isLoading } = useGetCategories("", limit, offset);
-  // console.log(data);
-  
-  if (isLoading) return <Loading/>
-  if (error) return <p>Xatolik: {error.message}</p>; 
+  const offset = (currentPage - 1) * limit; // Offset hisoblash
+  const { data, error, isLoading } = useGetCategories("", limit, offset);
 
-  // Kategoriyalardan totalCount ni olish
-  const totalCount = data?.Count || 0; // Agar data bo'lmasa, 0 deb olamiz
+  if (isLoading) return <Spin />;
+  if (error) return <p>Xatolik: {error.message}</p>;
 
-  const currentCategories = data.Categories?.categories || []; 
-  
-  // console.log(currentCategories);
+  const totalCount = data?.Count || 0;
+
+  const currentCategories = data.Categories?.categories || [];
+
   return (
-    <div className="bg-white p-4 rounded shadow-md">
-      <h2 className="text-2xl font-bold mb-4">Kategoriyalar</h2>
+    <div className="bg-white md:p-4 rounded shadow-md">
+      <Flex
+        align="center"
+        justify="space-between"
+        gap={12}
+        wrap
+        className="p-3"
+      >
+        <h2 className="text-2xl font-bold">Kategoriyalar Ro'yxati</h2>
+        <p className="text-lg">
+          <span className="text-xl font-bold">Jami: </span> {totalCount}
+        </p>
+      </Flex>
 
-      <div className="grid grid-cols-1 md:grid-cols-1">
+      <Flex vertical gap={12}>
         {currentCategories.map((category) => (
           <CategoryCard key={category.id} category={category} />
         ))}
-      </div>
+      </Flex>
 
-      <div className="flex justify-center items-center mt-4">
+      <Flex justify="center" align="center" className="mt-4">
         <Pagination
           current={currentPage}
           total={totalCount}
           pageSize={limit}
           onChange={(page) => {
-            setCurrentPage(page); // Sahifa o'zgarishini yangilash
+            setCurrentPage(page);
           }}
           showSizeChanger
           pageSizeOptions={[5, 10, 15, 20, 100]}
           onShowSizeChange={(current, size) => {
-            setLimit(size); // Sahifa o'lchamini o'zgartirish
-            setCurrentPage(1); // Sahifani 1 ga qaytarish
+            setLimit(size);
+            setCurrentPage(1);
           }}
-          showQuickJumper // Tez sahifa o'zgartirish imkoniyati
+          showQuickJumper
         />
-      </div>
+      </Flex>
     </div>
   );
 };

@@ -11,7 +11,6 @@ const { Title, Text } = Typography;
 export const VacanciesDetail = () => {
   const navigate = useNavigate();
   const { id: vacancyId } = useParams();
-  const language = "en"; // set the language you want to display, e.g., 'en', 'ru', 'uz'
 
   const {
     data: vacancy,
@@ -37,7 +36,6 @@ export const VacanciesDetail = () => {
     isError: errorDistrict,
   } = useGetDistrictsById(vacancy?.location?.district_id || null);
 
-  // Combine loading states
   if (loadingVacancy || loadingPublisher || loadingCity || loadingDistrict) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -46,12 +44,12 @@ export const VacanciesDetail = () => {
     );
   }
 
-  // Combine error states
   if (errorVacancy || errorPublisher || errorCity || errorDistrict) {
     return (
       <div className="flex justify-center items-center h-screen">
         <Text type="danger">
-          Failed to load details. Please try again later.
+          Tafsilotlarni yuklashda xatolik yuz berdi. Keyinroq qayta urinib
+          ko'ring.
         </Text>
       </div>
     );
@@ -59,47 +57,43 @@ export const VacanciesDetail = () => {
 
   return (
     <Card
-      title={<Title level={3}>{vacancy?.title || "No title available"}</Title>}
-      className="p-6 max-w-md mx-auto shadow-lg"
+      title={<Title level={3}>{vacancy?.title || "Mavjud emas"}</Title>}
+      className="p-6 max-w-lg mx-auto shadow-md shadow-dark"
       bordered={true}
     >
-      {/* <Divider /> */}
-      <Text strong>Description: </Text>
-      <Text>{vacancy?.description || "No description available"}</Text>
+      <Text strong>Ta'rif: </Text>
+      <Text>{vacancy?.description || "Mavjud emas"}</Text>
       <Divider />
-      <Text strong>Salary: </Text>
+      <Text strong>Oylik: </Text>
       <Text>{`${vacancy.salary_from || 0} - ${
         vacancy.salary_to || 0
       } UZS`}</Text>
       <Divider />
-      <Text strong>Location: </Text>
+      <Text strong>Joylashuv: </Text>
       <Text>
-        {city?.name?.[language] || "N/A"}, {district?.name?.[language] || "N/A"}
+        {city?.name?.uz || "Mavjud emas"}, {district?.name?.uz || "Mavjud emas"}
       </Text>
       <Divider />
-      <Text strong>Phone: </Text>
-      <Text>{vacancy.phone_number || "No contact information"}</Text>
+      <Text strong>Telefon: </Text>
+      <Text>{vacancy.phone_number || "Aloqa ma'lumoti yo'q"}</Text>
       <Divider />
-      <Text strong>Working Styles: </Text>
-      <Text>{vacancy.working_styles || "N/A"}</Text>
+      <Text strong>Ish turi: </Text>
+      <Text>{vacancy.working_styles || "Mavjud emas"}</Text>
       <Divider />
-      <Text strong>Working Types: </Text>
-      <Text>{vacancy.working_types || "N/A"}</Text>
+      <Text strong>Ish sharoitlari: </Text>
+      <Text>{vacancy.working_types || "Mavjud emas"}</Text>
       <Divider />
-      <Text strong>View Count: </Text>
+      <Text strong>Ko'rishlar soni: </Text>
       <Text>{vacancy.view_count || 0}</Text>
       <Divider />
-      <Text strong>Status: </Text>
-      <Text>{vacancy.status || "N/A"}</Text>
+      <Text strong>Holat: </Text>
+      <Text>{vacancy.status || "Mavjud emas"}</Text>
       <Divider />
-      {/* <Text strong>Publisher ID: </Text>
-      <Text>{vacancy.publisher_id || "N/A"}</Text> */}
-      {/* <Divider /> */}
-      <Text strong>Publisher Name: </Text>
-      <Text>{publisher?.name || "N/A"}</Text>
+      <Text strong>Chop etuvchi: </Text>
+      <Text>{publisher?.name || "Mavjud emas"}</Text>
       <Divider />
-      <Text strong>Created At: </Text>
-      <Text>{vacancy.created_at || "N/A"}</Text>
+      <Text strong>Yaratilgan vaqti: </Text>
+      <Text>{vacancy.created_at || "Mavjud emas"}</Text>
 
       <div>
         <Button onClick={() => navigate(-1)} type="primary" className="mt-4">

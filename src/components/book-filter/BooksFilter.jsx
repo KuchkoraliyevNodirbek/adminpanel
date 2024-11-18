@@ -1,126 +1,328 @@
 import React, { useState } from "react";
-import { useDebounce } from "../../hooks/useDebounce/useDebounce"; // Debounce hook for search
-import { useGetBooks } from "../../service/query/useGetBooks"; // Hook to fetch books
-import { BookCard } from "../bookCard/BookCard"; // BookCard component
-import { Select, Input, Form, Button, Spin } from "antd";
+import { useDebounce } from "../../hooks/useDebounce/useDebounce";
+import { useGetBooks } from "../../service/query/useGetBooks";
+import { BookCard } from "../bookCard/BookCard";
+import { Select, Input, Form, Button, Checkbox, Spin, Flex } from "antd";
+import { useGetPublishersList } from "../../service/query/useGetPublishersList";
+import { useGetCategories } from "../../service/query/useGetCategoriesList";
+import { useGetTranslatorsList } from "../../service/query/useGetTranslatorList";
+import { useGetAuthors } from "../../service/query/useGetAuthors";
+import { useGetLanguagesList } from "../../service/query/useGetLanguagesList";
+import { useGetCitiesList } from "../../service/query/useGetCitiesList";
+import { useGetDistrictsList } from "../../service/query/useGetDistrictsList";
+import { ClearOutlined, SearchOutlined } from "@ant-design/icons";
+import { useGetAllAdmin } from "../../service/query/useGetAllAdmin";
 
 const { Option } = Select;
 
 export const BooksFilter = () => {
   const [filters, setFilters] = useState({
     title: "",
-    author: "",
-    year: "",
-    genre: "",
-    publisher: "",
+    seller_id: "",
+    author_id: "",
+    publisher_id: "",
+    category_id: "",
+    translator_id: "",
+    language_id: "",
+    city_id: "",
+    district_id: "",
+    writing_type: "",
+    status: "",
+    is_new: null,
   });
-  const [searchTriggered, setSearchTriggered] = useState(false); // New state to track search
+  const [searchTriggered, setSearchTriggered] = useState(false);
 
-  const debouncedFilters = useDebounce(filters, 500); // Debounce filters
+  const debouncedFilters = useDebounce(filters, 500);
+
   const { data, isLoading, error } = useGetBooks(
     searchTriggered ? debouncedFilters : {}
-  ); // Use debounced filters only if search is triggered
+  );
 
-  if (error)
-    return <div className="text-red-500 text-center">Xatolik yuz berdi</div>;
+  console.log(data);
+
+  console.log(filters);
+
+  const { data: users } = useGetAllAdmin("", "", "user");
+  const { data: publishers } = useGetPublishersList();
+  const { data: categories } = useGetCategories();
+  const { data: translators } = useGetTranslatorsList();
+  const { data: authors } = useGetAuthors();
+  const { data: languages } = useGetLanguagesList();
+  const { data: cities } = useGetCitiesList();
+  const { data: districts } = useGetDistrictsList();
 
   const handleChange = (key, value) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
   };
 
   const handleSearch = () => {
-    setSearchTriggered(true); // Set search triggered to true when button is clicked
+    setSearchTriggered(true);
   };
 
+  const handleClear = () => {
+    setFilters({
+      title: "",
+      seller_id: "",
+      author_id: "",
+      publisher_id: "",
+      category_id: "",
+      translator_id: "",
+      language_id: "",
+      city_id: "",
+      district_id: "",
+      writing_type: "",
+      status: "",
+      is_new: null,
+    });
+    setSearchTriggered(false);
+  };
+
+  if (error) {
+    return <div className="text-red-500 text-center">Xatolik yuz berdi</div>;
+  }
+
   return (
-    <div className="w-full p-6 bg-white rounded-lg shadow-lg">
-      {/* Search and Filter Form */}
+    <div className="w-full bg-accent border border-dark rounded-md p-4 space-y-4">
       <h2 className="text-xl font-semibold mb-4 text-gray-800 text-center">
-        Kitoblar uchun filtrlar
+        Kitob qidirish uchun filtrlar
       </h2>
       <Form layout="vertical">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-2 mb-4">
           {/* Title Filter */}
-          <Form.Item label="Kitob nomi">
-            <Input
-              placeholder="Kitob nomi"
-              value={filters.title}
-              onChange={(e) => handleChange("title", e.target.value)}
-              className="rounded-md border border-gray-300"
-            />
-          </Form.Item>
 
           {/* Author Filter */}
-          <Form.Item label="Muallif">
-            <Input
-              placeholder="Muallif"
-              value={filters.author}
-              onChange={(e) => handleChange("author", e.target.value)}
+          <Form.Item label="Sotuvchi">
+            <Select
+              placeholder="Sotuvchini tanlang"
+              value={filters.seller_id}
+              onChange={(value) => handleChange("seller_id", value)}
               className="rounded-md border border-gray-300"
-            />
+            >
+              <Option value="">Hammasi</Option>
+              {users?.users?.map((users) => (
+                <Option key={users.id} value={users.id}>
+                  {users.role}: {users.email ? users.email : users.phone_number}
+                </Option>
+              ))}
+
+              {publishers?.publishers?.map((publisher) => (
+                <Option key={publisher.id} value={publisher.id}>
+                  publisher: {publisher.name}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+
+          <Form.Item label="Muallif">
+            <Select
+              placeholder="Muallifni tanlang"
+              value={filters.author_id}
+              onChange={(value) => handleChange("author_id", value)}
+              className="rounded-md border border-gray-300"
+            >
+              <Option value="">Hammasi</Option>
+              {authors?.authors?.map((author) => (
+                <Option key={author.id} value={author.id}>
+                  {author.name}
+                </Option>
+              ))}
+            </Select>
           </Form.Item>
 
           {/* Publisher Filter */}
           <Form.Item label="Nashriyot">
-            <Input
-              placeholder="Nashriyot"
-              value={filters.publisher}
-              onChange={(e) => handleChange("publisher", e.target.value)}
-              className="rounded-md border border-gray-300"
-            />
-          </Form.Item>
-
-          {/* Year Filter */}
-          <Form.Item label="Yili">
-            <Input
-              placeholder="Yili"
-              value={filters.year}
-              onChange={(e) => handleChange("year", e.target.value)}
-              className="rounded-md border border-gray-300"
-            />
-          </Form.Item>
-
-          {/* Genre Filter */}
-          <Form.Item label="Janr">
             <Select
-              placeholder="Janr"
-              value={filters.genre}
-              onChange={(value) => handleChange("genre", value)}
+              placeholder="Nashriyotni tanlang"
+              value={filters.publisher_id}
+              onChange={(value) => handleChange("publisher_id", value)}
               className="rounded-md border border-gray-300"
             >
-              <Option value="">Barchasi</Option>
-              <Option value="fantasy">Fantaziya</Option>
-              <Option value="history">Tarixiy</Option>
-              <Option value="science">Ilmiy</Option>
-              {/* Add more genres as needed */}
+              <Option value="">Hammasi</Option>
+              {publishers?.publishers?.map((publisher) => (
+                <Option key={publisher.id} value={publisher.id}>
+                  {publisher.name}
+                </Option>
+              ))}
             </Select>
           </Form.Item>
+
+          {/* Category Filter */}
+          <Form.Item label="Kategoriya">
+            <Select
+              placeholder="Kategoriyani tanlang"
+              value={filters.category_id}
+              onChange={(value) => handleChange("category_id", value)}
+              className="rounded-md border border-gray-300"
+            >
+              <Option value="">Hammasi</Option>
+              {categories?.Categories?.categories.map((category) => (
+                <Option key={category.id} value={category.id}>
+                  {category?.name?.uz}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+
+          {/* Translator Filter */}
+          <Form.Item label="Tarjimon">
+            <Select
+              placeholder="Tarjimoni tanlang"
+              value={filters.translator_id}
+              onChange={(value) => handleChange("translator_id", value)}
+              className="rounded-md border border-gray-300"
+            >
+              <Option value="">Hammasi</Option>
+              {translators?.translators?.map((translator) => (
+                <Option key={translator.id} value={translator.id}>
+                  {translator.name}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+
+          {/* Language Filter */}
+          <Form.Item label="Til">
+            <Select
+              placeholder="Tilni tanlang"
+              value={filters.language_id}
+              onChange={(value) => handleChange("language_id", value)}
+              className="rounded-md border border-gray-300"
+            >
+              <Option value="">Hammasi</Option>
+              {languages?.languages?.languages?.map((language) => (
+                <Option key={language.id} value={language.id}>
+                  {language?.name?.uz}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+
+          {/* City Filter */}
+          <Form.Item label="Shahar">
+            <Select
+              placeholder="Shaharning tanlang"
+              value={filters.city_id}
+              onChange={(value) => handleChange("city_id", value)}
+              className="rounded-md border border-gray-300"
+            >
+              <Option value="">Hammasi</Option>
+              {cities?.Cities?.cities.map((city) => (
+                <Option key={city.id} value={city.id}>
+                  {city?.name?.uz}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+
+          {/* District Filter */}
+          <Form.Item label="Tuman">
+            <Select
+              placeholder="Tumanni tanlang"
+              value={filters.district_id}
+              onChange={(value) => handleChange("district_id", value)}
+              className="rounded-md border border-gray-300"
+            >
+              <Option value="">Hammasi</Option>
+              {districts?.Districts?.districts.map((district) => (
+                <Option key={district.id} value={district.id}>
+                  {district?.name?.uz}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+
+          {/* Writing Type Filter */}
+          <Form.Item label="Yozish turi">
+            <Select
+              placeholder="Yozish turini tanlang"
+              value={filters.writing_type}
+              onChange={(value) => handleChange("writing_type", value)}
+              className="rounded-md border border-gray-300"
+            >
+              <Option value="">Hammasi</Option>
+              <Option value="latin">Latin</Option>
+              <Option value="cyrillic">Cyrillic</Option>
+            </Select>
+          </Form.Item>
+
+          {/* Status Filter */}
+          <Form.Item label="Status">
+            <Select
+              placeholder="Statusni tanlang"
+              value={filters.status}
+              onChange={(value) => handleChange("status", value)}
+              className="rounded-md border border-gray-300"
+            >
+              <Option value="">Hammasi</Option>
+              <Option value="active">Active</Option>
+              <Option value="non-active">Non-active</Option>
+            </Select>
+          </Form.Item>
+
+          {/* Is New Checkbox */}
+          <Flex vertical justify="center">
+            <Checkbox
+              className="border-2 p-[4px] rounded-md mt-1 bg-white"
+              checked={filters.is_new}
+              onChange={(e) => handleChange("is_new", e.target.checked)}
+            >
+              Yangi kitob
+            </Checkbox>
+          </Flex>
         </div>
 
-        {/* Search Button */}
-        <Form.Item>
+        <Flex wrap gap={24}>
+          <Flex className="max-w-lg w-full">
+            <Input
+              suffix={<SearchOutlined />}
+              size="large"
+              placeholder="Kitob nomi bo'yicha qidiring"
+              value={filters.title}
+              onChange={(e) => handleChange("title", e.target.value)}
+            />
+          </Flex>
           <Button
+            size="large"
             type="primary"
-            onClick={handleSearch} // Trigger search on button click
-            className="w-full rounded-md bg-blue-600 hover:bg-blue-700 transition"
+            onClick={handleSearch}
+            block
+            className="max-w-96"
           >
             Qidirish
           </Button>
-        </Form.Item>
+          {searchTriggered && (
+            <Button
+              size="large"
+              icon={<ClearOutlined />}
+              onClick={handleClear}
+              className="max-w-md bg-red-500 text-white"
+            >
+              Tozalash
+            </Button>
+          )}
+        </Flex>
       </Form>
 
-      {/* Books List */}
-      <div className="grid grid-cols-1 gap-4 max-h-96 overflow-y-auto mt-4">
+      <div>
         {isLoading ? (
-          <div className="text-center text-gray-500 font-semibold">
-            <Spin tip="Yuklanmoqda..." />
+          <div className="text-center">
+            <Spin size="large" />
           </div>
         ) : searchTriggered && data.books?.length > 0 ? (
-          data.books.map((book) => <BookCard key={book.id} book={book} />)
+          <div className="relative grid grid-cols-1 gap-4 min-h-[0px] transition-all duration-1000  max-h-96 overflow-y-scroll overflow-hidden bg-dark p-3 border-2 border-dark">
+            <div className="sticky top-0">
+              <h1 className="bg-blue-500 text-white font-bold p-1 w-fit  rounded-r">
+                Soni: {data?.count}
+              </h1>
+            </div>
+            {data.books.map((book) => (
+              <BookCard key={book.id} book={book} />
+            ))}
+          </div>
         ) : (
           searchTriggered && (
-            <div className="text-center text-red-500 font-semibold">
-              Hech qanday kitob topilmadi
+            <div className="mt-8 text-center text-gray-500 font-semibold">
+              Kitoblar mavjud emas
             </div>
           )
         )}

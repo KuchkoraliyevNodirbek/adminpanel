@@ -1,151 +1,122 @@
 import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import { useGetCategoryById } from "../../service/query/useGetCAtegoryById"; // Hook to get category
-import { useUpdateCategory } from "../../service/mutation/useUpdateCategory"; // Hook to update category
-import { toast } from "react-toastify";
-import { Loading } from "../../components/loading/loading";
+import { Form, Input, Button, message, Flex, notification, Spin } from "antd";
+import { useUpdateCategory } from "../../service/mutation/useUpdateCategory";
+import { useGetCategoryById } from "../../service/query/useGetCAtegoryById";
 
-const EditCategory = () => {
-  const { id } = useParams(); // Get the category ID from the URL
-  const { data: category, isLoading } = useGetCategoryById(id); // Fetch the category
-  const updateCategoryMutation = useUpdateCategory(); // Hook to update category
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-    setError,
-  } = useForm();
+export const EditCategory = () => {
+  const { id } = useParams();
+  const { data: category, isLoading } = useGetCategoryById(id);
+  const { mutate, isPending } = useUpdateCategory();
+  const [form] = Form.useForm();
   const navigate = useNavigate();
+
+  const backLink = `/admin/categories`;
 
   useEffect(() => {
     if (category) {
-      reset(category); // Set form values with fetched category data
+      form.setFieldsValue(category);
     }
-  }, [category, reset]);
+  }, [category, form]);
 
-  const onSubmit = async (data) => {
-    try {
-      await updateCategoryMutation.mutateAsync({ id, ...data });
-      toast.success("Kategoriya muvaffaqiyatli yangilandi!");
-      navigate(-1);
-    } catch (error) {
-      setError("server", { message: error.message });
-      toast.error("Kategoriya yangilanishida xato yuz berdi.");
-    }
+  const onFinish = async (data) => {
+    mutate(
+      { id, ...data },
+      {
+        onSuccess: () => {
+          navigate(backLink);
+          notification.success({
+            message: "Muvaffaqiyat",
+            description: "Kategoriya yangilandi!",
+          });
+        },
+        onError: () => {
+          notification.error({
+            message: "Xatolik",
+            description: "Kategoriya yangilanmadi...",
+          });
+        },
+      }
+    );
   };
 
   if (isLoading) {
-    return <Loading />;
+    return <Spin />;
   }
 
   return (
-    <div className="max-w-5xl mx-auto p-6 bg-white shadow-primary shadow-md border border-gray-200 rounded-lg mt-6 space-y-6">
+    <div className="max-w-5xl mx-auto p-6 bg-accent shadow-dark shadow-md border border-gray-200 rounded-lg mt-6 space-y-6">
       <h1 className="text-2xl font-semibold text-gray-700 text-center">
         Kategoriyani Tahrirlash
       </h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        {/* Uzbek Name Field */}
+      <Form
+        form={form}
+        onFinish={onFinish}
+        layout="vertical"
+        className="space-y-6"
+      >
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="flex flex-col">
-            <label className="text-gray-600 mb-2">Nom (O'zbek):</label>
-            <input
-              type="text"
-              {...register("name.uz", { required: "Bu maydon talab qilinadi" })}
-              className="border rounded-lg p-3 focus:outline-none focus:border-blue-500"
-            />
-            {errors.name?.uz && (
-              <p className="text-red-500">{errors.name.uz.message}</p>
-            )}
-          </div>
-
-          {/* English Name Field */}
-          <div className="flex flex-col">
-            <label className="text-gray-600 mb-2">Nom (Ingliz):</label>
-            <input
-              type="text"
-              {...register("name.en", { required: "Bu maydon talab qilinadi" })}
-              className="border rounded-lg p-3 focus:outline-none focus:border-blue-500"
-            />
-            {errors.name?.en && (
-              <p className="text-red-500">{errors.name.en.message}</p>
-            )}
-          </div>
-
-          {/* Russian Name Field */}
-          <div className="flex flex-col">
-            <label className="text-gray-600 mb-2">Nom (Rus):</label>
-            <input
-              type="text"
-              {...register("name.ru", { required: "Bu maydon talab qilinadi" })}
-              className="border rounded-lg p-3 focus:outline-none focus:border-blue-500"
-            />
-            {errors.name?.ru && (
-              <p className="text-red-500">{errors.name.ru.message}</p>
-            )}
-          </div>
-        </div>
-
-        {/* Uzbek Description Field */}
-        <div className="flex flex-col">
-          <label className="text-gray-600 mb-2">Tavsif (O'zbek):</label>
-          <textarea
-            {...register("description.uz", {
-              required: "Bu maydon talab qilinadi",
-            })}
-            className="border rounded-lg p-3 focus:outline-none focus:border-blue-500"
-          />
-          {errors.description?.uz && (
-            <p className="text-red-500">{errors.description.uz.message}</p>
-          )}
-        </div>
-
-        {/* English Description Field */}
-        <div className="flex flex-col">
-          <label className="text-gray-600 mb-2">Tavsif (Ingliz):</label>
-          <textarea
-            {...register("description.en", {
-              required: "Bu maydon talab qilinadi",
-            })}
-            className="border rounded-lg p-3 focus:outline-none focus:border-blue-500"
-          />
-          {errors.description?.en && (
-            <p className="text-red-500">{errors.description.en.message}</p>
-          )}
-        </div>
-
-        {/* Russian Description Field */}
-        <div className="flex flex-col">
-          <label className="text-gray-600 mb-2">Tavsif (Rus):</label>
-          <textarea
-            {...register("description.ru", {
-              required: "Bu maydon talab qilinadi",
-            })}
-            className="border rounded-lg p-3 focus:outline-none focus:border-blue-500"
-          />
-          {errors.description?.ru && (
-            <p className="text-red-500">{errors.description.ru.message}</p>
-          )}
-        </div>
-
-        {/* Submit Button */}
-        <div className="w-full text-center">
-          <button
-            type="submit"
-            className="mx-auto bg-primary text-white font-bold py-3 rounded-lg w-full max-w-lg hover:bg-dark transition-all duration-300"
-            disabled={updateCategoryMutation.isLoading}
+          <Form.Item
+            label="Nom (O'zbek):"
+            name={["name", "uz"]}
+            rules={[{ required: true, message: "Bu maydon talab qilinadi" }]}
           >
-            {updateCategoryMutation.isLoading ? "Saqlanmoqda..." : "Saqlash"}
-          </button>
+            <Input size="large" />
+          </Form.Item>
+
+          <Form.Item
+            label="Nom (Ingliz):"
+            name={["name", "en"]}
+            rules={[{ required: true, message: "Bu maydon talab qilinadi" }]}
+          >
+            <Input size="large" />
+          </Form.Item>
+
+          <Form.Item
+            label="Nom (Rus):"
+            name={["name", "ru"]}
+            rules={[{ required: true, message: "Bu maydon talab qilinadi" }]}
+          >
+            <Input size="large" />
+          </Form.Item>
         </div>
 
-        {errors.server && (
-          <p className="text-red-500">{errors.server.message}</p>
-        )}
-      </form>
+        <Form.Item
+          label="Tavsif (O'zbek):"
+          name={["description", "uz"]}
+          rules={[{ required: true, message: "Bu maydon talab qilinadi" }]}
+        >
+          <Input.TextArea />
+        </Form.Item>
+
+        <Form.Item
+          label="Tavsif (Ingliz):"
+          name={["description", "en"]}
+          rules={[{ required: true, message: "Bu maydon talab qilinadi" }]}
+        >
+          <Input.TextArea />
+        </Form.Item>
+
+        <Form.Item
+          label="Tavsif (Rus):"
+          name={["description", "ru"]}
+          rules={[{ required: true, message: "Bu maydon talab qilinadi" }]}
+        >
+          <Input.TextArea />
+        </Form.Item>
+
+        <Flex>
+          <Button
+            size="large"
+            type="primary"
+            htmlType="submit"
+            loading={isPending}
+            className="w-full max-w-lg mx-auto"
+          >
+            {isPending ? "Saqlanmoqda..." : "Saqlash"}
+          </Button>
+        </Flex>
+      </Form>
     </div>
   );
 };
-
-export default EditCategory;

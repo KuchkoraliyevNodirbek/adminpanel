@@ -1,16 +1,14 @@
 import React, { useState } from "react";
-import { Button, Tooltip, Typography, Modal } from "antd";
+import { Button, Tooltip, Typography, Modal, Flex } from "antd";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
-import { loadState } from "../../config/stroge";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useDeleteDistricts } from "../../service/mutation/useDeleteDistrict";
 
 const { Text } = Typography;
 
 export const DistrictsCard = ({ category }) => {
-  const { mutate: deleteDistricts, isLoading } = useDeleteDistricts();
-  const role = loadState("user");
+  const { mutate: deleteDistricts, isPending } = useDeleteDistricts();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const showDeleteConfirm = () => {
@@ -34,16 +32,12 @@ export const DistrictsCard = ({ category }) => {
     setIsModalVisible(false);
   };
 
-  const updateLink =
-    role.role === "superadmin"
-      ? `/super-admin/update-district/${category.id}`
-      : `/admin/update-district/${category.id}`;
+  const updateLink = `/admin/update-district/${category.id}`;
 
   return (
-    <div className="p-4 bg-white rounded-lg border shadow-sm shadow-primary flex flex-col md:flex-row items-center justify-between w-full mb-4">
+    <div className="p-4 bg-accent rounded-lg border shadow-sm shadow-dark flex flex-col md:flex-row items-center justify-between w-full">
       <div className="w-full md:flex-1">
-        {/* Category Name Fields */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
           <Text className="text-lg text-start">
             {category.name.uz || "N/A"}
           </Text>
@@ -56,8 +50,7 @@ export const DistrictsCard = ({ category }) => {
         </div>
       </div>
 
-      {/* Action Buttons */}
-      <div className="flex space-x-14 mt-4 md:mt-0">
+      <Flex gap={24} className="mt-4 md:mt-0">
         <Tooltip title="Tahrirlash">
           <Link to={updateLink}>
             <Button
@@ -71,26 +64,25 @@ export const DistrictsCard = ({ category }) => {
         <Tooltip title="O'chirish">
           <Button
             type="default"
-            loading={isLoading}
+            loading={isPending}
             onClick={showDeleteConfirm}
-            disabled={isLoading}
+            disabled={isPending}
             icon={<DeleteOutlined />}
             className="bg-red-500 text-white"
           />
         </Tooltip>
-      </div>
+      </Flex>
 
-      {/* Delete Confirmation Modal */}
       <Modal
         title="O'chirishni tasdiqlash"
         visible={isModalVisible}
         onOk={handleDelete}
         onCancel={handleCancel}
-        okText="Tasdiqlash"
+        okText="O'chirish"
         cancelText="Bekor qilish"
-        okButtonProps={{ loading: isLoading }}
+        okButtonProps={{ loading: isPending }}
       >
-        <p>{`${category.name.uz} tumani` || "tuman"} o'chirilsinmi?</p>
+        <Text>{`${category.name.uz} tumani` || "tuman"} o'chirilsinmi?</Text>
       </Modal>
     </div>
   );

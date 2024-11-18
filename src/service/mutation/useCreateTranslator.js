@@ -11,7 +11,6 @@ export const useCreateTranslator = () => {
         .then((res) => res.data),
     onSuccess: (res) => {
       console.log("New translator created:", res);
-      // Invalidate or refetch any related queries if needed, e.g., the list of translators
       queryClient.invalidateQueries("translatorsList");
     },
     onError: (error) => {

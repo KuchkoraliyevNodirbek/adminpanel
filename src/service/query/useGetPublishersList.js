@@ -5,7 +5,7 @@ export const useGetPublishersList = (
   name = "",
   type = "",
   status = "",
-  limit = 10,
+  limit = 1000000,
   offset = 0
 ) => {
   return useQuery({

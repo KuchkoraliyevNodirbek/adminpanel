@@ -11,7 +11,7 @@ export const useUpdateDistrict = () => {
         .then((res) => res.data),
     onSuccess: (res) => {
       console.log("Tuman muvaffaqiyatli yangilandi:", res);
-      queryClient.invalidateQueries("getDistrictsList"); // Yangilangan tumanni qayta yuklash
+      queryClient.invalidateQueries("getDistrictsList");
     },
     onError: (error) => {
       console.error("Tuman yangilashda xato:", error);

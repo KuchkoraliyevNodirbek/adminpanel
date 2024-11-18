@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { Button, Tooltip, Typography, Modal } from "antd";
+import { Button, Tooltip, Typography, Modal, Flex } from "antd";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
-import { loadState } from "../../config/stroge";
 import {
   EditOutlined,
   DeleteOutlined,
@@ -14,8 +13,7 @@ import { useDeleteCities } from "../../service/mutation/useDeleteCities";
 const { Text } = Typography;
 
 export const CitiesCard = ({ category }) => {
-  const { mutate: deleteCities, isLoading } = useDeleteCities();
-  const role = loadState("user");
+  const { mutate: deleteCities, isPending } = useDeleteCities();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const showDeleteConfirm = () => {
@@ -39,24 +37,14 @@ export const CitiesCard = ({ category }) => {
     setIsModalVisible(false);
   };
 
-  const updateLink =
-    role.role === "superadmin"
-      ? `/super-admin/cities-update/${category.id}`
-      : `/admin/cities-update/${category.id}`;
-  const detailLink =
-    role.role === "superadmin"
-      ? `/super-admin/cities-detail/${category.id}`
-      : `/admin/cities-detail/${category.id}`;
-  const addDistrictsLink =
-    role.role === "superadmin"
-      ? `/super-admin/create-district/${category.id}`
-      : `/admin/create-district/${category.id}`;
+  const updateLink = `/admin/cities-update/${category.id}`;
+  const detailLink = `/admin/cities-detail/${category.id}`;
+  const addDistrictsLink = `/admin/create-district/${category.id}`;
 
   return (
-    <div className="p-4 bg-white rounded-lg border shadow-sm shadow-primary flex flex-col md:flex-row items-center justify-between w-full mb-4">
+    <div className="p-4 bg-accent rounded-lg border shadow-sm shadow-dark flex flex-col md:flex-row items-center justify-between w-full">
       <div className="w-full md:flex-1">
-        {/* Category Name Fields */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
           <Text className="text-lg text-start">
             {category.name.uz || "N/A"}
           </Text>
@@ -69,8 +57,7 @@ export const CitiesCard = ({ category }) => {
         </div>
       </div>
 
-      {/* Action Buttons */}
-      <div className="flex space-x-10 md:space-x-14 mt-4 md:mt-0">
+      <Flex gap={24} className=" mt-4 md:mt-0">
         <Tooltip title="Yangi tuman qo'shish">
           <Link to={addDistrictsLink}>
             <Button type="primary" icon={<PlusOutlined />}></Button>
@@ -100,26 +87,25 @@ export const CitiesCard = ({ category }) => {
         <Tooltip title="O'chirish">
           <Button
             type="default"
-            loading={isLoading}
+            loading={isPending}
             onClick={showDeleteConfirm}
-            disabled={isLoading}
+            disabled={isPending}
             icon={<DeleteOutlined />}
             className="bg-red-500 text-white"
           />
         </Tooltip>
-      </div>
+      </Flex>
 
-      {/* Delete Confirmation Modal */}
       <Modal
         title="O'chirishni tasdiqlash"
         visible={isModalVisible}
         onOk={handleDelete}
         onCancel={handleCancel}
-        okText="Tasdiqlash"
+        okText="O'chirish"
         cancelText="Bekor qilish"
-        okButtonProps={{ loading: isLoading }}
+        okButtonProps={{ loading: isPending }}
       >
-        <p>{`${category.name.uz} shahri ` || "shahar"} o'chirilsinmi?</p>
+        <Text>{`${category.name.uz} shahri ` || "shahar"} o'chirilsinmi?</Text>
       </Modal>
     </div>
   );

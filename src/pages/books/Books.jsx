@@ -4,7 +4,7 @@ import { BooksFilter } from "../../components/book-filter/BooksFilter";
 
 export const Books = () => {
   return (
-    <div>
+    <div className="space-y-5">
       <BooksFilter />
       <BookList />
     </div>

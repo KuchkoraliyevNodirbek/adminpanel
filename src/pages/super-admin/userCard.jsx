@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Tag, Tooltip, Modal, Card } from "antd";
+import { Button, Tag, Tooltip, Modal, Card, Flex } from "antd";
 import { DeleteOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useAdminDelete } from "../../service/mutation/useAdminDelete";
@@ -29,8 +29,9 @@ export const UserCard = ({ user }) => {
   };
 
   return (
-    <div className="border border-dark p-2 rounded-md bg-accent">
-      <div className="flex gap-5 justify-center items-center flex-wrap md:justify-between">
+    <Flex align="center" wrap gap={24}  className="border border-dark p-2 rounded-md bg-accent justify-center  md:justify-between">
+      {/* <div className="flex gap-5 justify-center items-center flex-wrap md:justify-between"> */}
+
         <div className="flex gap-5 md:gap-20 items-center flex-col md:flex-row">
           {user.image_url ? (
             <img
@@ -56,12 +57,13 @@ export const UserCard = ({ user }) => {
             {user.role.toUpperCase()}
           </Tag>
         </div>
-        <div className="max-w-48 md:max-w-fit min-w-40 text-center md:text-start inline-flex gap-5 flex-wrap justify-center">
+        <Flex wrap gap={24} className="w-full max-w-3xl justify-center md:justify-normal">
           <p className="font-semibold text-xs md:text-base">{`${
-            user?.first_name || ""
-          } ${user?.last_name || ""}`}</p>
-          <p className="font-bold text-xs md:text-base">{user?.email}</p>
-        </div>
+            user?.first_name || "Ism: kiritilmagan"
+          } ${user?.last_name || "Familiya: kiritilmagan"}`}</p>
+          <p className="font-bold text-xs md:text-base">{user?.email || "email: kiritilmagan"}</p>
+          
+        </Flex>
         <div className="flex space-x-5 w-fit">
           <Tooltip title="Batafsil Ko'rish">
             <Button
@@ -82,7 +84,7 @@ export const UserCard = ({ user }) => {
             </Tooltip>
           )}
         </div>
-      </div>
+      {/* </div> */}
 
       <Modal
         title="O'chirishni tasdiqlang"
@@ -94,6 +96,6 @@ export const UserCard = ({ user }) => {
       >
         <p>Foydalanuvchini o'chirishni tasdiqlaysizmi?</p>
       </Modal>
-    </div>
+    </Flex>
   );
 };

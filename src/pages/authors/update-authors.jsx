@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useGetAuthorsById } from "../../service/query/useGetAuthorsbyId";
 import { useUpdateAuthors } from "../../service/mutation/useUpdateAuthors";
 import { Loading } from "../../components/loading/loading";
 import { Form, Input, Button, Flex, Typography, notification } from "antd";
+import { ArrowLeftOutlined } from "@ant-design/icons";
+import { authorsBackLink } from "../../routes/paths";
 
 export const EditAuthors = () => {
   const { id } = useParams();
@@ -39,6 +41,13 @@ export const EditAuthors = () => {
 
   return (
     <Flex vertical gap={24}>
+      <Flex>
+        <Link to={authorsBackLink}>
+          <Button type="primary" icon={<ArrowLeftOutlined />}>
+            ortga
+          </Button>
+        </Link>
+      </Flex>
       <Form
         form={form}
         layout="vertical"

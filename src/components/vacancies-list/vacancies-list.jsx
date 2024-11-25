@@ -26,12 +26,12 @@ export const VacanciesList = () => {
   }
 
   return (
-    <div>
+    <Flex vertical gap={24}>
       <Flex
         justify="space-between"
         align="center"
         wrap
-        className="font-bold text-lg p-3 mb-5"
+        className="font-bold text-lg mt-4"
       >
         <h1>Vakansiyalar Ro'yxati</h1>
         <p>
@@ -67,6 +67,6 @@ export const VacanciesList = () => {
           </Flex>
         </>
       )}
-    </div>
+    </Flex>
   );
 };

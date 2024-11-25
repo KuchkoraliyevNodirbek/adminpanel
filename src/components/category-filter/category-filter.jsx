@@ -5,6 +5,7 @@ import { CategoryCard } from "../category-card/category-card";
 import { Button, Flex, Input } from "antd";
 import { Link } from "react-router-dom";
 import { SearchOutlined } from "@ant-design/icons";
+import { CategoryCreateLink } from "../../routes/paths";
 
 export const CategoriesFilter = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -13,15 +14,11 @@ export const CategoriesFilter = () => {
 
   if (error) return <div>Xatolik yuz berdi</div>;
 
-  console.log(data);
-
-  const detailLink = `/admin/create-categories`;
-
   return (
     <div className="w-full space-y-4">
       <Flex justify="space-between" wrap gap={12} className="py-2">
         <div className="w-full max-w-md">
-          <Link to={detailLink}>
+          <Link to={CategoryCreateLink}>
             <Button block size="large" type="primary">
               Kategoriya Yaratish
             </Button>

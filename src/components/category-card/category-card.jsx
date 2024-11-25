@@ -8,6 +8,7 @@ import {
   DeleteOutlined,
   InfoCircleOutlined,
 } from "@ant-design/icons";
+import { CategoryDetailLink, categoryUpdateLink } from "../../routes/paths";
 
 const { Text } = Typography;
 
@@ -31,9 +32,6 @@ export const CategoryCard = ({ category }) => {
     });
   };
 
-  const updateLink = `/admin/categories-update/${category.id}`;
-  const detailLink = `/admin/categories-detail/${category.id}`;
-
   return (
     <div className="p-4 bg-accent rounded-lg border shadow-sm shadow-dark flex flex-col md:flex-row items-center justify-between w-full">
       <div className="w-full md:flex-1">
@@ -52,7 +50,7 @@ export const CategoryCard = ({ category }) => {
 
       <Flex gap={24} className="mt-4 md:mt-0">
         <Tooltip title="Batafsil ko'rish">
-          <Link to={detailLink}>
+          <Link to={CategoryDetailLink(category.id)}>
             <Button
               className="bg-blue-500 text-white"
               type="default"
@@ -62,7 +60,7 @@ export const CategoryCard = ({ category }) => {
         </Tooltip>
 
         <Tooltip title="Tahrirlash">
-          <Link to={updateLink}>
+          <Link to={categoryUpdateLink(category.id)}>
             <Button
               className="bg-yellow-500 hover:bg-yellow-700"
               type="primary"

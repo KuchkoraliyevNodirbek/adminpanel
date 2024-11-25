@@ -69,7 +69,7 @@ export const ProfileCard = ({
           </Flex>
         )}
         <Title level={2} className="text-center text-xl md:text-2xl">
-          {first_name} {last_name}
+          {first_name || "nomalum"} {last_name || "nomalum"}
         </Title>
       </Flex>
 

@@ -4,6 +4,7 @@ import { useGetCitiesById } from "../../service/query/useGetCitiesById";
 import { Districts } from "../districts/districts";
 import { Button, Spin } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
+import { citiesBackLink } from "../../routes/paths";
 
 export const CitiesDetail = () => {
   const { id } = useParams();
@@ -12,12 +13,10 @@ export const CitiesDetail = () => {
   if (isLoading) return <Spin />;
   if (error) return <div>{error.message}</div>;
 
-  const backLink = `/admin/cities`;
-
   return (
     <div className="max-w-screen-xl w-full mx-auto p-0 md:p-3">
       <div className="mb-5">
-        <Link to={backLink}>
+        <Link to={citiesBackLink}>
           <Button className="" type="primary" icon={<ArrowLeftOutlined />}>
             ortga
           </Button>

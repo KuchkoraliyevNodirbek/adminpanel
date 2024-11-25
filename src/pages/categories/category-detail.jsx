@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { useGetCategoryById } from "../../service/query/useGetCAtegoryById";
 import { Button, Flex, Spin } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
+import { categoryBackLink, categoryUpdateLink } from "../../routes/paths";
 
 export const CategoryDetailPage = () => {
   const { id } = useParams();
@@ -11,13 +12,10 @@ export const CategoryDetailPage = () => {
   if (isLoading) return <Spin />;
   if (error) return <div>{error.message}</div>;
 
-  const updateLink = `/admin/categories-update/${category.id}`;
-  const backLink = `/admin/categories`;
-
   return (
     <Flex vertical className="w-full p-0 md:p-3">
       <Flex className="mb-4">
-        <Link to={backLink}>
+        <Link to={categoryBackLink}>
           <Button icon={<ArrowLeftOutlined />} type="primary">
             ortga
           </Button>
@@ -66,7 +64,7 @@ export const CategoryDetailPage = () => {
         </Flex>
 
         <Flex justify="center" className="mt-8">
-          <Link to={updateLink}>
+          <Link to={categoryUpdateLink(category.id)}>
             <Button size="large" type="primary">
               Tahrirlash
             </Button>

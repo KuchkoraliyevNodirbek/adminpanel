@@ -10,6 +10,7 @@ import { useGetDistrictsById } from "../../service/query/useGetDistrictsById";
 import { useGetCategoryById } from "../../service/query/useGetCAtegoryById";
 import { useGetTranslatorById } from "../../service/query/useGetTranslatorById";
 import { useGetLanguagesById } from "../../service/query/useGetLanguagesById";
+import { booksBackLink } from "../../routes/paths";
 
 const { Title, Text } = Typography;
 
@@ -31,10 +32,8 @@ export const BookDetail = () => {
   if (isLoading) return <Loading />;
   if (error) return <div>{error.message}</div>;
 
-  const backLink = `/admin/books`;
-
   const handleBack = () => {
-    navigate(backLink);
+    navigate(booksBackLink);
   };
 
   const BookField = ({ label, value }) => (

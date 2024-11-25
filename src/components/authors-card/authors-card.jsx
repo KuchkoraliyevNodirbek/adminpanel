@@ -8,6 +8,7 @@ import {
   DeleteOutlined,
   InfoCircleOutlined,
 } from "@ant-design/icons";
+import { authorsDetailLink, authorsUpdateLink } from "../../routes/paths";
 
 const { Text } = Typography;
 
@@ -29,18 +30,15 @@ export const AuthorsCard = ({ author }) => {
     });
   };
 
-  const updateLink = `/admin/authors-update/${author.id}`;
-  const detailLink = `/admin/authors-detail/${author.id}`;
-
   return (
     <div className="p-4 bg-accent rounded-lg border shadow-sm shadow-dark flex flex-col gap-4 md:flex-row items-center justify-between w-full">
       <div className="w-full md:flex-1">
-        <Text className="text-lg text-start">{`${author.name} | ${author.surname}`}</Text>
+        <Text className="text-lg text-start">{`${author.name} ${author.surname}`}</Text>
       </div>
 
       <Flex gap={24}>
         <Tooltip title="Batafsil ko'rish">
-          <Link to={detailLink}>
+          <Link to={authorsDetailLink(author.id)}>
             <Button
               className="bg-blue-500 text-white"
               type="default"
@@ -50,7 +48,7 @@ export const AuthorsCard = ({ author }) => {
         </Tooltip>
 
         <Tooltip title="Tahrirlash">
-          <Link to={updateLink}>
+          <Link to={authorsUpdateLink(author.id)}>
             <Button
               className="bg-yellow-500 hover:bg-yellow-700"
               type="primary"

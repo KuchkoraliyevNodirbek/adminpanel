@@ -11,7 +11,7 @@ export const CreateLanguagesForm = () => {
   const onFinish = async (values) => {
     mutate(values, {
       onSuccess: () => {
-        navigate(-1);
+        navigate("/admin/languages");
         message.success("Til qo'shildi!");
       },
     });

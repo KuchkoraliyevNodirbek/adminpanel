@@ -22,25 +22,25 @@ export const CreateTranslatorForm = () => {
     <Form
       onFinish={onFinish}
       layout="vertical"
-      className="space-y-6 p-6 bg-accent shadow-md shadow-dark rounded-lg max-w-4xl mx-auto text-center"
+      className="space-y-6 p-6 bg-accent shadow-md shadow-dark rounded-lg max-w-4xl mx-auto text-center w-full"
     >
       <Typography.Title level={3}>Tarjimon Yaratish</Typography.Title>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Form.Item
-          label="Name"
+          label="Ism"
           name="name"
-          rules={[{ required: true, message: "This field is required" }]}
+          rules={[{ required: true, message: "to'ldirilishi shart" }]}
         >
-          <Input size="large" placeholder="Enter name" />
+          <Input size="large" placeholder="Ismni kiriting" />
         </Form.Item>
 
         <Form.Item
-          label="Surname"
+          label="Familiya"
           name="surname"
-          rules={[{ required: true, message: "This field is required" }]}
+          rules={[{ required: true, message: "to'ldirilishi shart" }]}
         >
-          <Input size="large" placeholder="Enter surname" />
+          <Input size="large" placeholder="Familiyani kiriting" />
         </Form.Item>
       </div>
 
@@ -53,7 +53,7 @@ export const CreateTranslatorForm = () => {
           loading={isPending}
           className="max-w-md"
         >
-          {isPending ? "Creating..." : "Create Translator"}
+          {isPending ? "Yaratilmoqda..." : "Tarjimon yaratish"}
         </Button>
       </Form.Item>
     </Form>

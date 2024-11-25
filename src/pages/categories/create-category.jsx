@@ -1,11 +1,21 @@
 import React from "react";
 import { CreateCategoryForm } from "../../components/create-category-form/create-category-form";
-import { Flex } from "antd";
+import { Button, Flex } from "antd";
+import { Link } from "react-router-dom";
+import { ArrowLeftOutlined } from "@ant-design/icons";
+import { categoryBackLink } from "../../routes/paths";
 
 export const CreateCategory = () => {
   return (
     <>
-      <Flex justify="center">
+      <Flex vertical justify="center">
+        <Flex className="mb-4">
+          <Link to={categoryBackLink}>
+            <Button icon={<ArrowLeftOutlined />} type="primary">
+              ortga
+            </Button>
+          </Link>
+        </Flex>
         <CreateCategoryForm />
       </Flex>
     </>

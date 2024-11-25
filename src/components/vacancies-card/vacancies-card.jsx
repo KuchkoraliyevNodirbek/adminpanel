@@ -19,7 +19,7 @@ export const VacancyCard = ({ vacancy }) => {
   );
 
   return (
-    <div className="border-2 rounded-md shadow-sm hover:shadow-md transition-shadow duration-200">
+    <div className="border-2 w-full rounded-md shadow-sm hover:shadow-md transition-shadow duration-200">
       <div className="vacancy-card w-full p-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-5">
         <div className="flex gap-3 items-center">
           <h2 className="text-lg font-semibold">

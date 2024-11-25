@@ -1,12 +1,22 @@
 import React from "react";
 import { CreateTranslatorForm } from "../../components/translator-file/createTranslatorForm";
+import { Button, Flex } from "antd";
+import { Link } from "react-router-dom";
+import { ArrowLeftOutlined } from "@ant-design/icons";
 
 export const CreateTranslator = () => {
   return (
     <>
-      <div className="max-w-5xl mx-auto">
+      <Flex vertical gap={24}>
+        <Flex className="w-full">
+          <Link to={"/admin/translator"}>
+            <Button icon={<ArrowLeftOutlined />} type="primary">
+              ortga
+            </Button>
+          </Link>
+        </Flex>
         <CreateTranslatorForm />
-      </div>
+      </Flex>
     </>
   );
 };

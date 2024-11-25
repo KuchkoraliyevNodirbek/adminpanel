@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Form, Input, Button, message, Flex, notification, Spin } from "antd";
 import { useUpdateCategory } from "../../service/mutation/useUpdateCategory";
 import { useGetCategoryById } from "../../service/query/useGetCAtegoryById";
+import { categoryBackLink } from "../../routes/paths";
+import { ArrowLeftOutlined } from "@ant-design/icons";
 
 export const EditCategory = () => {
   const { id } = useParams();
@@ -10,8 +12,6 @@ export const EditCategory = () => {
   const { mutate, isPending } = useUpdateCategory();
   const [form] = Form.useForm();
   const navigate = useNavigate();
-
-  const backLink = `/admin/categories`;
 
   useEffect(() => {
     if (category) {
@@ -24,7 +24,7 @@ export const EditCategory = () => {
       { id, ...data },
       {
         onSuccess: () => {
-          navigate(backLink);
+          navigate(categoryBackLink);
           notification.success({
             message: "Muvaffaqiyat",
             description: "Kategoriya yangilandi!",
@@ -45,16 +45,23 @@ export const EditCategory = () => {
   }
 
   return (
-    <div className="max-w-5xl mx-auto p-6 bg-accent shadow-dark shadow-md border border-gray-200 rounded-lg mt-6 space-y-6">
-      <h1 className="text-2xl font-semibold text-gray-700 text-center">
-        Kategoriyani Tahrirlash
-      </h1>
+    <Flex vertical gap={24}>
+      <Flex>
+        <Link to={categoryBackLink}>
+          <Button icon={<ArrowLeftOutlined />} type="primary">
+            ortga
+          </Button>
+        </Link>
+      </Flex>
       <Form
         form={form}
         onFinish={onFinish}
         layout="vertical"
-        className="space-y-6"
+        className="space-y-6 w-full max-w-5xl mx-auto p-6 bg-accent shadow-dark shadow-md border border-gray-200 rounded-lg"
       >
+        <h1 className="text-2xl font-semibold text-gray-700 text-center">
+          Kategoriyani Tahrirlash
+        </h1>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Form.Item
             label="Nom (O'zbek):"
@@ -117,6 +124,6 @@ export const EditCategory = () => {
           </Button>
         </Flex>
       </Form>
-    </div>
+    </Flex>
   );
 };

@@ -5,6 +5,7 @@ import { AuthorsCard } from "../authors-card/authors-card";
 import { Button, Flex, Input } from "antd";
 import { Link } from "react-router-dom";
 import { SearchOutlined } from "@ant-design/icons";
+import { authorsCreateLink } from "../../routes/paths";
 
 export const AuthorsFilter = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -13,13 +14,11 @@ export const AuthorsFilter = () => {
 
   if (error) return <div>Xatolik yuz berdi</div>;
 
-  const createLink = `/admin/create-authors`;
-
   return (
     <div className="w-full space-y-4">
       <Flex wrap justify="space-between" gap={12} className="py-2">
         <div className="w-full max-w-96">
-          <Link to={createLink}>
+          <Link to={authorsCreateLink}>
             <Button block size="large" type="primary">
               Muallif Yaratish
             </Button>

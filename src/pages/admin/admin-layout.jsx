@@ -94,7 +94,7 @@ export const AdminLayout = () => {
             scrollbarColor: "#2c3033",
             scrollBehavior: "smooth",
           }}
-          className="bg-accent"
+          className="bg-accent px-3"
         >
           <Outlet />
         </Content>

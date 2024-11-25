@@ -53,7 +53,7 @@ export const Login = () => {
   };
 
   return (
-    <Flex align="center" justify="center" className="bg-dark h-screen p-5">
+    <Flex align="center" justify="center" className="bg-dark h-screen p-3">
       <Flex
         className="max-w-lg bg-accent w-full p-5 md:p-8 rounded-md shadow-md shadow-white"
         vertical

@@ -4,6 +4,7 @@ import { useGetAuthorsById } from "../../service/query/useGetAuthorsbyId";
 import { Loading } from "../../components/loading/loading";
 import { Button, Flex } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
+import { authorsBackLink, authorsUpdateLink } from "../../routes/paths";
 
 export const AuthorsDetailPage = () => {
   const { id } = useParams();
@@ -12,28 +13,24 @@ export const AuthorsDetailPage = () => {
   if (isLoading) return <Loading />;
   if (error) return <div>{error.message}</div>;
 
-  const updateLink = `/admin/authors-update/${author.id}`;
-
-  const backLink = `/admin/authors`;
-
   return (
-    <Flex vertical justify="center" className="w-full">
-      <Flex className="mb-4">
-        <Link to={backLink}>
+    <Flex vertical justify="center" align="center" gap={24} className="w-full">
+      <Flex className="w-full">
+        <Link to={authorsBackLink}>
           <Button icon={<ArrowLeftOutlined />} type="primary">
             ortga
           </Button>
         </Link>
       </Flex>
-      <h1 className="text-3xl font-bold text-center mb-6 text-black">
-        Muallif Batafsil Sahifa
-      </h1>
 
       <Flex
         vertical
         gap={24}
         className="border-2 rounded-lg p-4 shadow-dark shadow-md  bg-white w-full max-w-screen-lg mx-auto"
       >
+        <h1 className="text-3xl font-bold text-center mb-6 text-black">
+          Muallif Batafsil Sahifa
+        </h1>
         <Flex
           className="flex-wrap md:flex-nowrap"
           justify="space-between"
@@ -57,7 +54,7 @@ export const AuthorsDetailPage = () => {
         </Flex>
 
         <Flex justify="center">
-          <Link to={updateLink} className="">
+          <Link to={authorsUpdateLink(author.id)} className="">
             <Button size="large" type="primary">
               Tahrirlash
             </Button>

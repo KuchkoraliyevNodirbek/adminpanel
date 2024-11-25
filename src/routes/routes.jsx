@@ -32,6 +32,19 @@ import { TranslatorUpdate } from "../pages/translator/translator-update";
 import { Vacancies } from "../pages/vacancies/vacancies";
 import { VacanciesDetail } from "../pages/vacancies/vacancies-detail";
 
+import {
+  UserOutlined,
+  AppstoreOutlined,
+  EnvironmentOutlined,
+  GlobalOutlined,
+  BookOutlined,
+  BankOutlined,
+  ReadOutlined,
+  SolutionOutlined,
+  UserAddOutlined,
+  TeamOutlined,
+} from "@ant-design/icons";
+
 export const adminRoutes = [
   { path: "profile", component: <Profile /> },
   { path: "update-profile", component: <ProfileEditPage /> },
@@ -69,4 +82,46 @@ export const superAdminRoutes = [
   { path: "admin-change", component: <AdminChange /> },
   { path: "all-users", component: <AllUsers /> },
   { path: "detail-page/:id", component: <AdminDetailPage /> },
+];
+
+export const superMenuItems = [
+  {
+    key: "/admin/admin-create",
+    icon: <UserAddOutlined />,
+    label: "Admin Yaratish",
+  },
+  {
+    key: "/admin/admin-change",
+    icon: <TeamOutlined />,
+    label: "Adminlar",
+  },
+  {
+    key: "/admin/all-users",
+    icon: <TeamOutlined />,
+    label: "Foydalanuvchilar",
+  },
+];
+
+export const menuItems = [
+  {
+    key: "/admin/categories",
+    icon: <AppstoreOutlined />,
+    label: "Kategoriyalar",
+  },
+  { key: "/admin/authors", icon: <ReadOutlined />, label: "Mualliflar" },
+  { key: "/admin/cities", icon: <EnvironmentOutlined />, label: "Shaharlar" },
+  { key: "/admin/languages", icon: <GlobalOutlined />, label: "Tillar" },
+  {
+    key: "/admin/publishers",
+    icon: <BankOutlined />,
+    label: "Nashriyotchilar",
+  },
+  { key: "/admin/books", icon: <BookOutlined />, label: "Kitoblar" },
+  {
+    key: "/admin/vacancies",
+    icon: <SolutionOutlined />,
+    label: "Vakansiyalar",
+  },
+  { key: "/admin/translator", icon: <UserOutlined />, label: "Tarjimonlar" },
+  { key: "/admin/profile", icon: <UserOutlined />, label: "Profil" },
 ];

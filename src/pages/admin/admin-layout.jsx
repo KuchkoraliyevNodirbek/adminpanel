@@ -45,7 +45,7 @@ export const AdminLayout = () => {
   };
 
   return (
-    <Layout style={{ minHeight: "100vh" }}>
+    <Layout style={{ minHeight: "100vh", overflow: "hidden" }}>
       <Sider
         className="hidden lg:block bg-primary"
         trigger={null}
@@ -55,7 +55,7 @@ export const AdminLayout = () => {
         <AdminSideBar collapsed={collapsed} closeDrawer={closeDrawer} />
       </Sider>
       <Layout>
-        <Header className="p-0 flex justify-between items-center shadow-md bg-primary">
+        <Header className="p-0 flex justify-between items-center shadow-md bg-primary sticky top-0">
           <Button
             type="primary"
             onClick={showDrawer}
@@ -88,9 +88,11 @@ export const AdminLayout = () => {
 
         <Content
           style={{
-            padding: 24,
-            minHeight: 280,
-            // backgroundColor: "#fff",
+            height: "calc(100lvh - 64px)",
+            overflowY: "auto",
+            scrollbarWidth: "thin",
+            scrollbarColor: "#2c3033",
+            scrollBehavior: "smooth",
           }}
           className="bg-accent"
         >

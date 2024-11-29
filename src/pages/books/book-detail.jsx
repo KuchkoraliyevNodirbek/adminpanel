@@ -1,33 +1,57 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Loading } from "../../components/loading/loading";
-import { useGetBooksById } from "../../service/query/useGetBookById";
 import { Button, Typography, Flex } from "antd";
-import { useGetAuthorsById } from "../../service/query/useGetAuthorsbyId";
-import { useGetPublisherById } from "../../service/query/useGetPublisherById";
-import { useGetCitiesById } from "../../service/query/useGetCitiesById";
-import { useGetDistrictsById } from "../../service/query/useGetDistrictsById";
-import { useGetCategoryById } from "../../service/query/useGetCAtegoryById";
-import { useGetTranslatorById } from "../../service/query/useGetTranslatorById";
-import { useGetLanguagesById } from "../../service/query/useGetLanguagesById";
 import { booksBackLink } from "../../routes/paths";
+import { useGetById } from "../../service/query/useGetById";
+import { useGetList } from "../../service/query/useGetList";
+import {
+  authorsEndPoints,
+  booksEndPoints,
+  categoriesEndPoints,
+  citiesEndPoints,
+  districtsEndPoints,
+  languagesEndPoints,
+  publishersEndPoints,
+  tarnslatorsEndPoints,
+} from "../../config/endpoints";
 
 const { Title, Text } = Typography;
 
 export const BookDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { data: book, isLoading, error } = useGetBooksById(id);
+  const {
+    data: book,
+    isLoading,
+    error,
+  } = useGetList(booksEndPoints.get, { book_id: id });
 
-  console.log(book);
-
-  const { data: author } = useGetAuthorsById(book?.author_id);
-  const { data: publisher } = useGetPublisherById(book?.publisher_id);
-  const { data: category } = useGetCategoryById(book?.category_id);
-  const { data: city } = useGetCitiesById(book?.location?.city_id);
-  const { data: district } = useGetDistrictsById(book?.location?.district_id);
-  const { data: traslator } = useGetTranslatorById(book?.translator_id);
-  const { data: language } = useGetLanguagesById(book?.language_id);
+  const { data: author } = useGetById(authorsEndPoints.get, book?.author_id);
+  const { data: publisher } = useGetById(
+    publishersEndPoints.get,
+    book?.publisher_id
+  );
+  const { data: category } = useGetById(
+    categoriesEndPoints.get,
+    book?.category_id
+  );
+  const { data: city } = useGetById(
+    citiesEndPoints.get,
+    book?.location?.city_id
+  );
+  const { data: district } = useGetById(
+    districtsEndPoints.get,
+    book?.location?.district_id
+  );
+  const { data: traslator } = useGetById(
+    tarnslatorsEndPoints.get,
+    book?.translator_id
+  );
+  const { data: language } = useGetById(
+    languagesEndPoints.get,
+    book?.language_id
+  );
 
   if (isLoading) return <Loading />;
   if (error) return <div>{error.message}</div>;

@@ -1,14 +1,19 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
-import { useGetCitiesById } from "../../service/query/useGetCitiesById";
 import { Districts } from "../districts/districts";
 import { Button, Spin } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { citiesBackLink } from "../../routes/paths";
+import { useGetById } from "../../service/query/useGetById";
+import { citiesEndPoints } from "../../config/endpoints";
 
 export const CitiesDetail = () => {
   const { id } = useParams();
-  const { data: category, isLoading, error } = useGetCitiesById(id);
+  const {
+    data: category,
+    isLoading,
+    error,
+  } = useGetById(citiesEndPoints.get, id);
 
   if (isLoading) return <Spin />;
   if (error) return <div>{error.message}</div>;

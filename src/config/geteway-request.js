@@ -1,27 +1,27 @@
 import axios from "axios";
-import { loadState } from "./stroge"; // `loadState` funksiyasining importi
+import { loadState } from "./stroge";
 
-const gatewayRequest = axios.create({ baseURL: "https://gateway.axadjonovsardorbek.uz" }); // Obyekt nomini o'zgartirdik
-
-// So'rov yuborilganda tokenni qo'shish
-gatewayRequest.interceptors.request.use((config) => {
-  const token = loadState("user")?.access_token; // Tokenni local storage'dan olish
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`; // Tokenni sarlavhaga qo'shish
-  }
-  return config; // Yangilangan config ni qaytarish
+const gatewayRequest = axios.create({
+  baseURL: "https://gateway.axadjonovsardorbek.uz",
 });
 
-// So'rov javobini boshqarish
+gatewayRequest.interceptors.request.use((config) => {
+  const token = loadState("user")?.access_token;
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
 gatewayRequest.interceptors.response.use(
-  (res) => res, // Muvaffaqiyatli javobni qaytarish
+  (res) => res,
   (error) => {
     if (error.response?.status === 401) {
-      localStorage.removeItem("user"); // Tokenni o'chirish
-      window.location.href = "/"; // Foydalanuvchini login sahifasiga yo'naltirish
+      localStorage.removeItem("user");
+      window.location.href = "/";
     }
-    return Promise.reject(error); // Xatolikni qaytarish
+    return Promise.reject(error);
   }
 );
 
-export { gatewayRequest }; // Yangi obyektni eksport qilish
+export { gatewayRequest };

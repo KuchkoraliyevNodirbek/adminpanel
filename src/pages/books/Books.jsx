@@ -1,6 +1,6 @@
 import React from "react";
-import { BookList } from "../../components/book-list/BookList";
-import { BooksFilter } from "../../components/book-filter/BooksFilter";
+import { BookList } from "../../components/books/BookList";
+import { BooksFilter } from "../../components/books/BooksFilter";
 
 export const Books = () => {
   return (

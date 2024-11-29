@@ -1,65 +1,65 @@
-import { useForm } from "react-hook-form";
-import { Form, Input, Button, Typography, Segmented, Flex } from "antd";
+import {
+  Form,
+  Input,
+  Button,
+  Typography,
+  Segmented,
+  message,
+  Flex,
+} from "antd";
 import { useState } from "react";
-import { useSendSmsCodeByEmail, useSendSmsCodeByPhone } from "./useSendSMS";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { useCreate } from "../../service/mutation/useCreate";
+import { adminEndPoints } from "../../config/endpoints";
 
 export const SendSmsCode = () => {
   const [method, setMethod] = useState("email");
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-  } = useForm();
-  const { mutate: sendByEmail, isPending: emailLoading } =
-    useSendSmsCodeByEmail();
-  const { mutate: sendByPhone, isPending: phoneLoading } =
-    useSendSmsCodeByPhone();
+  const [form] = Form.useForm();
+  const { mutate: sendByEmail, isPending: emailLoading } = useCreate(
+    adminEndPoints.sms.email,
+    "",
+    false
+  );
+  const { mutate: sendByPhone, isPending: phoneLoading } = useCreate(
+    adminEndPoints.sms.phone,
+    "",
+    false
+  );
   const isLoading = emailLoading || phoneLoading;
   const navigate = useNavigate();
 
-  const onSubmit = (data) => {
+  const onSubmit = (values) => {
     const sendSms = method === "email" ? sendByEmail : sendByPhone;
     const requestData =
-      method === "email" ? { email: data.email } : { phone: data.phone };
-
-    console.log(requestData);
+      method === "email" ? { email: values.email } : { phone: values.phone };
 
     sendSms(requestData, {
       onSuccess: () => {
-        toast.success("SMS muvaffaqiyatli jo’natildi!", { autoClose: 3000 });
-        console.log(requestData);
-
+        message.success("SMS muvaffaqiyatli jo’natildi!");
         navigate(
           method === "email"
             ? "/reset-password-by-email"
             : "/reset-password-by-phone"
         );
-        console.log(`ssss ${requestData}`);
       },
       onError: (error) => {
-        console.log(requestData);
-
         console.error("Xato:", error);
         const errorMessage =
           error.response?.data?.message || "Jo'natishda xatolik yuz berdi!";
-        toast.error(errorMessage, { position: "top-center" });
+
+        message.error(errorMessage);
       },
     });
-
-    console.log(data);
   };
 
   return (
-    <Flex align="center" justify="center" className="h-screen bg-accent p-5">
+    <Flex justify="center" align="center" className="h-screen bg-dark p-3">
       <Flex
         vertical
-        className="bg-white p-5 md:p-8 rounded-md shadow-lg shadow-dark max-w-md w-full"
+        className="bg-accent p-5 md:p-8 rounded-md max-w-md w-full"
       >
         <Typography.Title
-          level={4}
+          level={5}
           className="text-center mb-5 text-base text-gray-800"
         >
           Parolni tiklash uchun SMS kod jo’natish
@@ -91,36 +91,28 @@ export const SendSmsCode = () => {
           />
         </Form.Item>
 
-        <Form onFinish={handleSubmit(onSubmit)} layout="vertical">
+        <Form form={form} onFinish={onSubmit} layout="vertical">
           {method === "email" ? (
             <Form.Item
+              name="email"
               label="Emailingizni kiriting"
-              validateStatus={errors.email ? "error" : ""}
-              help={errors.email ? errors.email.message : null}
+              rules={[{ required: true, message: "Email kiritilishi shart" }]}
             >
               <Input
-                {...register("email", { required: "Email kiritilishi shart" })}
                 type="email"
                 placeholder="example@gmail.com"
-                onChange={(e) => setValue("email", e.target.value)}
                 size="large"
               />
             </Form.Item>
           ) : (
             <Form.Item
+              name="phone"
               label="Telefon raqamingiz"
-              validateStatus={errors.phone ? "error" : ""}
-              help={errors.phone ? errors.phone.message : null}
+              rules={[
+                { required: true, message: "Telefon raqami kiritilishi shart" },
+              ]}
             >
-              <Input
-                {...register("phone", {
-                  required: "Telefon raqami kiritilishi shart",
-                })}
-                type="text"
-                placeholder="+998901234567"
-                onChange={(e) => setValue("phone", e.target.value)}
-                size="large"
-              />
+              <Input type="text" placeholder="+998901234567" size="large" />
             </Form.Item>
           )}
 

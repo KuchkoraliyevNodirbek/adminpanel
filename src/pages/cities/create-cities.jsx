@@ -1,5 +1,5 @@
 import React from "react";
-import { CreateCitiesForm } from "../../components/create-cities-form/create-cities-form";
+import { CreateCitiesForm } from "../../components/cities/create-cities-form";
 import { Button, Flex } from "antd";
 import { Link } from "react-router-dom";
 import { ArrowLeftOutlined } from "@ant-design/icons";

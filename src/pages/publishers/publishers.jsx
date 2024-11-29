@@ -1,7 +1,7 @@
 import React from "react";
 import { Row } from "antd";
-import { PublishersList } from "../../components/publishers-list/publishers-list";
-import { PublishersFilter } from "../../components/publishers-filter/publishers-filter";
+import { PublishersList } from "../../components/publishers/publishers-list";
+import { PublishersFilter } from "../../components/publishers/publishers-filter";
 
 export const Publishers = () => {
   return (

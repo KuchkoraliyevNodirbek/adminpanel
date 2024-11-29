@@ -1,14 +1,19 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
-import { useGetAuthorsById } from "../../service/query/useGetAuthorsbyId";
 import { Loading } from "../../components/loading/loading";
 import { Button, Flex } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { authorsBackLink, authorsUpdateLink } from "../../routes/paths";
+import { useGetById } from "../../service/query/useGetById";
+import { authorsEndPoints } from "../../config/endpoints";
 
 export const AuthorsDetailPage = () => {
   const { id } = useParams();
-  const { data: author, isLoading, error } = useGetAuthorsById(id);
+  const {
+    data: author,
+    isLoading,
+    error,
+  } = useGetById(authorsEndPoints.get, id);
 
   if (isLoading) return <Loading />;
   if (error) return <div>{error.message}</div>;

@@ -1,6 +1,6 @@
 import React from "react";
-import { CategoriesList } from "../../components/category-List/category-List";
-import { CategoriesFilter } from "../../components/category-filter/category-filter";
+import { CategoriesList } from "../../components/categories/category-List";
+import { CategoriesFilter } from "../../components/categories/category-filter";
 import { Row } from "antd";
 
 export const Categories = () => {

@@ -1,14 +1,18 @@
 import React, { useEffect } from "react";
-import { Form, Input, Button, notification } from "antd";
+import { Form, Input, Button, message } from "antd";
 import { useParams, useNavigate } from "react-router-dom";
-import { useGetDistrictsById } from "../../service/query/useGetDistrictsById";
-import { useUpdateDistrict } from "../../service/mutation/useUpdateDistrict";
 import { Loading } from "../../components/loading/loading";
+import { useGetById } from "../../service/query/useGetById";
+import { useUpdateById } from "../../service/mutation/useUpdateById";
+import { districtsEndPoints } from "../../config/endpoints";
 
 export const UpdateDistrict = () => {
   const { id } = useParams();
-  const { data: district, isLoading } = useGetDistrictsById(id);
-  const { mutate, isPending } = useUpdateDistrict();
+  const { data: district, isLoading } = useGetById(districtsEndPoints.get, id);
+  const { mutate, isPending } = useUpdateById(
+    districtsEndPoints.update,
+    districtsEndPoints.list
+  );
   const [form] = Form.useForm();
   const navigate = useNavigate();
 
@@ -36,15 +40,12 @@ export const UpdateDistrict = () => {
       { id, ...updatedDistrict },
       {
         onSuccess: () => {
-          notification.success({ message: "Tuman muvaffaqiyatli yangilandi!" });
           navigate(-1);
+          message.success("Tuman muvaffaqiyatli yangilandi!");
         },
         onError: (error) => {
+          message.error("Xatolik yuz berdi");
           console.error("Tumanni yangilashda xatolik:", error);
-          notification.error({
-            message: "Xatolik yuz berdi",
-            description: error.message,
-          });
         },
       }
     );

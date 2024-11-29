@@ -1,16 +1,20 @@
 import React, { useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useGetAuthorsById } from "../../service/query/useGetAuthorsbyId";
-import { useUpdateAuthors } from "../../service/mutation/useUpdateAuthors";
 import { Loading } from "../../components/loading/loading";
-import { Form, Input, Button, Flex, Typography, notification } from "antd";
+import { Form, Input, Button, Flex, Typography, message } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { authorsBackLink } from "../../routes/paths";
+import { useGetById } from "../../service/query/useGetById";
+import { useUpdateById } from "../../service/mutation/useUpdateById";
+import { authorsEndPoints } from "../../config/endpoints";
 
 export const EditAuthors = () => {
   const { id } = useParams();
-  const { data: author, isLoading } = useGetAuthorsById(id);
-  const { mutate, isPending } = useUpdateAuthors();
+  const { data: author, isLoading } = useGetById(authorsEndPoints.get, id);
+  const { mutate, isPending } = useUpdateById(
+    authorsEndPoints.update,
+    authorsEndPoints.list
+  );
   const [form] = Form.useForm();
   const navigate = useNavigate();
 
@@ -25,11 +29,8 @@ export const EditAuthors = () => {
       { id, ...values },
       {
         onSuccess: () => {
-          navigate(-1);
-          notification.success({
-            message: "Muvaffaqiyat",
-            description: "Muallif yangilandi",
-          });
+          navigate("/admin/authors");
+          message.success("Muallif yangilandi");
         },
       }
     );

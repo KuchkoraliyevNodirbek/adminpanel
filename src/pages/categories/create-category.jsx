@@ -1,5 +1,5 @@
 import React from "react";
-import { CreateCategoryForm } from "../../components/create-category-form/create-category-form";
+import { CreateCategoryForm } from "../../components/categories/create-category-form";
 import { Button, Flex } from "antd";
 import { Link } from "react-router-dom";
 import { ArrowLeftOutlined } from "@ant-design/icons";

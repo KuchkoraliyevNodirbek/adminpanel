@@ -1,6 +1,6 @@
 import React from "react";
-import { AuthorsList } from "../../components/authors-list/authors-list";
-import { AuthorsFilter } from "../../components/authors-filter/authors-filter";
+import { AuthorsList } from "../../components/authors/authors-list";
+import { AuthorsFilter } from "../../components/authors/authors-filter";
 import { Row } from "antd";
 
 export const Authors = () => {

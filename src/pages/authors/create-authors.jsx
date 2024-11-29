@@ -1,5 +1,5 @@
 import React from "react";
-import { CreateAuthorsForm } from "../../components/create-authors-form/create-authors-form";
+import { CreateAuthorsForm } from "../../components/authors/create-authors-form";
 import { Button, Flex } from "antd";
 import { Link } from "react-router-dom";
 import { ArrowLeftOutlined } from "@ant-design/icons";

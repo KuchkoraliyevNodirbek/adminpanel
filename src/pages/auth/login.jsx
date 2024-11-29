@@ -1,31 +1,37 @@
-import { useForm } from "react-hook-form";
-import { useLogin } from "./uselogin";
-import { useLoginByPhone } from "./useLoginByPhone";
 import { Link, useNavigate } from "react-router-dom";
 import { saveState } from "../../config/stroge";
-import { toast } from "react-toastify";
-import { Form, Input, Button, Typography, Segmented, Flex } from "antd";
+import {
+  Form,
+  Input,
+  Button,
+  Typography,
+  Segmented,
+  Flex,
+  message,
+} from "antd";
 import { useState } from "react";
 import { LockOutlined, PhoneOutlined, UserOutlined } from "@ant-design/icons";
+import { useCreate } from "../../service/mutation/useCreate";
+import { adminEndPoints } from "../../config/endpoints";
 
 export const Login = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-  } = useForm();
-
+  const [form] = Form.useForm();
   const [loginMethod, setLoginMethod] = useState("email");
-  const { mutate: loginByEmail, isPending: loadingEmail } = useLogin();
-  const { mutate: loginByPhone, isPending: loadingPhone } = useLoginByPhone();
+  const { mutate: loginByEmail, isPending: loadingEmail } = useCreate(
+    adminEndPoints.login.email,
+    "",
+    false
+  );
+  const { mutate: loginByPhone, isPending: loadingPhone } = useCreate(
+    adminEndPoints.login.phone,
+    "",
+    false
+  );
   const isLoading = loadingEmail || loadingPhone;
 
   const navigate = useNavigate();
 
   const submit = (data) => {
-    console.log(data);
-
     const mutate = loginMethod === "email" ? loginByEmail : loginByPhone;
     mutate(data, {
       onSuccess: (res) => {
@@ -37,17 +43,16 @@ export const Login = () => {
 
         if (res.role === "admin") {
           navigate("/admin/categories");
-          toast.success("Kirish muvaffaqiyatli", { autoClose: 3000 });
+          message.success("Kirish muvaffaqiyatli");
         } else if (res.role === "superadmin") {
           navigate("/admin/admin-create");
-          toast.success("Kirish muvaffaqiyatli", { autoClose: 3000 });
+          message.success("Kirish muvaffaqiyatli");
         } else {
           navigate("/");
         }
       },
       onError: () => {
-        toast.error("Login yoki parol noto'g'ri", { position: "top-center" });
-        toast.error("Maydonlarni tekshiring!", { position: "top-center" });
+        message.error("Xatolik Maydonlarni tekshiring!");
       },
     });
   };
@@ -55,7 +60,7 @@ export const Login = () => {
   return (
     <Flex align="center" justify="center" className="bg-dark h-screen p-3">
       <Flex
-        className="max-w-lg bg-accent w-full p-5 md:p-8 rounded-md shadow-md shadow-white"
+        className="max-w-lg bg-accent w-full p-5 md:p-8 rounded-md"
         vertical
         align="center"
         justify="center"
@@ -64,65 +69,60 @@ export const Login = () => {
           Kirish
         </Typography.Title>
 
-        <Form.Item className="w-full">
-          <Segmented
-            options={[
-              {
-                label: "Email orqali",
-                value: "email",
-                className:
-                  loginMethod === "email"
-                    ? "text-white p-1 mr-2 w-full border-2 border-dark"
-                    : "bg-gray-200 p-1 mr-2 w-full",
-              },
-              {
-                label: "Telefon orqali",
-                value: "phone",
-                className:
-                  loginMethod === "phone"
-                    ? "text-white p-1 ml-2 w-full border-2 border-dark"
-                    : "bg-gray-200 p-1 ml-2 w-full",
-              },
-            ]}
-            value={loginMethod}
-            onChange={(value) => setLoginMethod(value)}
-            className="w-full bg-transparent"
-          />
-        </Form.Item>
+        <Segmented
+          options={[
+            {
+              label: "Email orqali",
+              value: "email",
+              className:
+                loginMethod === "email"
+                  ? "text-white p-1 mr-2 w-full border-2 border-dark"
+                  : "bg-gray-200 p-1 mr-2 w-full",
+            },
+            {
+              label: "Telefon orqali",
+              value: "phone",
+              className:
+                loginMethod === "phone"
+                  ? "text-white p-1 ml-2 w-full border-2 border-dark"
+                  : "bg-gray-200 p-1 ml-2 w-full",
+            },
+          ]}
+          value={loginMethod}
+          onChange={(value) => setLoginMethod(value)}
+          className="w-full bg-transparent mb-6"
+        />
 
         <Form
-          className="text-center w-full"
-          onFinish={handleSubmit(submit)}
+          form={form}
           layout="vertical"
+          onFinish={submit}
+          className="text-center w-full"
         >
           {loginMethod === "email" ? (
             <Form.Item
+              name="email"
               label="Email"
-              validateStatus={errors.email ? "error" : ""}
-              help={errors.email ? errors.email.message : null}
+              rules={[{ required: true, message: "Email kiritilishi shart" }]}
             >
               <Input
-                {...register("email", { required: "Email kiritilishi shart" })}
                 type="email"
                 placeholder="example@gmail.com"
-                onChange={(e) => setValue("email", e.target.value)}
                 size="large"
                 prefix={<UserOutlined />}
               />
             </Form.Item>
           ) : (
             <Form.Item
+              name="phone"
               label="Telefon raqami"
-              validateStatus={errors.phone ? "error" : ""}
-              help={errors.phone ? errors.phone.message : null}
+              rules={[
+                { required: true, message: "Telefon raqami kiritilishi shart" },
+              ]}
             >
               <Input
-                {...register("phone", {
-                  required: "Telefon raqami kiritilishi shart",
-                })}
                 type="text"
                 placeholder="+998901234567"
-                onChange={(e) => setValue("phone", e.target.value)}
                 size="large"
                 prefix={<PhoneOutlined />}
               />
@@ -130,14 +130,12 @@ export const Login = () => {
           )}
 
           <Form.Item
+            name="password"
             label="Parol"
-            validateStatus={errors.password ? "error" : ""}
-            help={errors.password ? errors.password.message : null}
+            rules={[{ required: true, message: "Parol kiritilishi shart" }]}
           >
             <Input.Password
-              {...register("password", { required: "Parol kiritilishi shart" })}
               placeholder="********"
-              onChange={(e) => setValue("password", e.target.value)}
               size="large"
               prefix={<LockOutlined />}
             />
@@ -149,16 +147,16 @@ export const Login = () => {
               htmlType="submit"
               block
               loading={isLoading}
-              disabled={isLoading}
               size="large"
             >
-              {isLoading ? "Kirish..." : "Kirish"}
+              {isLoading ? "Kirmoqda..." : "Kirish"}
             </Button>
           </Form.Item>
-          <Link to={"/forgot-password"}>
-            <Typography.Link>parolni unutdingizmi?</Typography.Link>{" "}
-          </Link>
         </Form>
+
+        <Link to={"/forgot-password"} className="text-blue-500 underline">
+          Parolni unutdingizmi?
+        </Link>
       </Flex>
     </Flex>
   );

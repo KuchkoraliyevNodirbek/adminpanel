@@ -1,6 +1,6 @@
 import React from "react";
-import { CitiesList } from "../../components/cities-list/cities-list";
-import { CitiesFilter } from "../../components/cities-filter/cites-filter";
+import { CitiesList } from "../../components/cities/cities-list";
+import { CitiesFilter } from "../../components/cities/cites-filter";
 import { Row } from "antd";
 
 export const Cities = () => {

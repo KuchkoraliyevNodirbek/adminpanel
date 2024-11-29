@@ -1,49 +1,48 @@
 import {
   Form,
   Button,
-  notification,
   Flex,
   Typography,
   Input,
   Statistic,
+  message,
 } from "antd";
-import { useResetPasswordByEmail } from "./useResetPassword";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useCreate } from "../../service/mutation/useCreate";
+import { adminEndPoints } from "../../config/endpoints";
 
-const { Title } = Typography;
 const { Countdown } = Statistic;
 
 export const ResetPasswordByEmail = () => {
   const navigate = useNavigate();
-  const { mutate, isPending } = useResetPasswordByEmail();
+  const { mutate, isPending } = useCreate(
+    adminEndPoints.reset.email,
+    "",
+    false
+  );
   const [deadline, setDeadline] = useState(Date.now() + 3 * 60 * 1000);
 
   const onFinish = (values) => {
-    console.log(values);
-
     mutate(values, {
       onSuccess: () => {
-        notification.success({ message: "Parol muvaffaqiyatli tiklandi!" });
+        message.success("Parol muvaffaqiyatli tiklandi!");
         navigate("/");
       },
       onError: (error) => {
-        console.error("Xato:", error);
-
-        const errorMessage =
-          error.response?.data?.message || "Xatolik: Parolni tiklashda muammo!";
-        notification.error({ message: errorMessage });
+        message.error("Parol tiklashda xatolik!");
+        console.log(error);
       },
     });
   };
 
   return (
-    <Flex align="center" justify="center" className="bg-accent h-screen p-5">
+    <Flex align="center" justify="center" className="bg-dark h-screen p-3">
       <Form
         name="resetPasswordEmail"
         onFinish={onFinish}
         layout="vertical"
-        className="max-w-md bg-white w-full p-8 rounded-md shadow-lg shadow-dark"
+        className="max-w-md bg-accent w-full p-8 rounded-md shadow-lg shadow-dark"
       >
         <Typography.Title
           level={4}
@@ -71,9 +70,7 @@ export const ResetPasswordByEmail = () => {
           <Countdown
             value={deadline}
             onFinish={() =>
-              notification.warning({
-                message: "Tasdiqlash kodi eskirdi, kodni qayta yuboring!",
-              })
+              message.warning("Tasdiqlash kodi eskirdi, kodni qayta yuboring!")
             }
             format="mm:ss"
             className="text-red-500"

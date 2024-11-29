@@ -1,7 +1,7 @@
 import React from "react";
 import { Row } from "antd";
-import { LanguagesList } from "../../components/languages-list/languages-list";
-import { LanguagesFilter } from "../../components/languages-filter/languages-filter";
+import { LanguagesList } from "../../components/languages/languages-list";
+import { LanguagesFilter } from "../../components/languages/languages-filter";
 
 export const Languages = () => {
   return (

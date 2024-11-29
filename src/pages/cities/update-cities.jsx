@@ -2,15 +2,19 @@ import React, { useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Form, Input, Button, message, Typography, Flex } from "antd";
 import { Loading } from "../../components/loading/loading";
-import { useGetCitiesById } from "../../service/query/useGetCitiesById";
-import { useUpdateCities } from "../../service/mutation/useUpdateCities";
 import { citiesBackLink } from "../../routes/paths";
 import { ArrowLeftOutlined } from "@ant-design/icons";
+import { useGetById } from "../../service/query/useGetById";
+import { useUpdateById } from "../../service/mutation/useUpdateById";
+import { citiesEndPoints } from "../../config/endpoints";
 
 export const EditCities = () => {
   const { id } = useParams();
-  const { data: city, isLoading } = useGetCitiesById(id);
-  const { mutate, isPending } = useUpdateCities();
+  const { data: city, isLoading } = useGetById(citiesEndPoints.get, id);
+  const { mutate, isPending } = useUpdateById(
+    citiesEndPoints.update,
+    citiesEndPoints.list
+  );
   const [form] = Form.useForm();
   const navigate = useNavigate();
 
@@ -26,7 +30,7 @@ export const EditCities = () => {
       {
         onSuccess: () => {
           navigate(citiesBackLink);
-          message.success("shahar yangilani!");
+          message.success("Shahar yangilani!");
         },
       }
     );

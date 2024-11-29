@@ -1,29 +1,32 @@
-import { Form, Input, Button, notification, Flex, Typography } from "antd";
-import { useResetPasswordByPhone } from "./useResetPassword";
+import { Form, Input, Button, Flex, Typography, message } from "antd";
 import { useNavigate } from "react-router-dom";
+import { useCreate } from "../../service/mutation/useCreate";
+import { adminEndPoints } from "../../config/endpoints";
 
 export const ResetPasswordByPhone = () => {
   const navigate = useNavigate();
-  const { mutate, isLoading } = useResetPasswordByPhone();
+  const { mutate, isLoading } = useCreate(
+    adminEndPoints.reset.phone,
+    "",
+    false
+  );
 
   const onFinish = (values) => {
-    console.log(values);
-
     mutate(values, {
       onSuccess: () => {
-        notification.success({ message: "Parol muvaffaqiyatli tiklandi!" });
         navigate("/");
+        message.success("Parol muvaffaqiyatli tiklandi!");
       },
       onError: () => {
-        notification.error({ message: "Xatolik: Parolni tiklashda muammo!" });
+        message.error("Xatolik: Parolni tiklashda muammo!");
       },
     });
   };
 
   return (
-    <Flex justify="center" align="center" className="bg-accent h-screen p-5">
+    <Flex justify="center" align="center" className="bg-dark h-screen p-3">
       <Form
-        className="max-w-md border-2 p-5 md:p-8 w-full bg-white rounded-md shadow-lg shadow-dark"
+        className="max-w-md border-2 p-5 md:p-8 w-full bg-accent rounded-md"
         name="resetPasswordPhone"
         onFinish={onFinish}
         layout="vertical"

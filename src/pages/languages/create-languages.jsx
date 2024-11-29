@@ -1,5 +1,5 @@
 import React from "react";
-import { CreateLanguagesForm } from "../../components/create-languages-form/create-languages-form";
+import { CreateLanguagesForm } from "../../components/languages/create-languages-form";
 import { Button, Flex } from "antd";
 import { Link } from "react-router-dom";
 import { ArrowLeftOutlined } from "@ant-design/icons";

@@ -1,13 +1,18 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
-import { useGetCategoryById } from "../../service/query/useGetCAtegoryById";
 import { Button, Flex, Spin } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { categoryBackLink, categoryUpdateLink } from "../../routes/paths";
+import { useGetById } from "../../service/query/useGetById";
+import { categoriesEndPoints } from "../../config/endpoints";
 
 export const CategoryDetailPage = () => {
   const { id } = useParams();
-  const { data: category, isLoading, error } = useGetCategoryById(id);
+  const {
+    data: category,
+    isLoading,
+    error,
+  } = useGetById(categoriesEndPoints.get, id);
 
   if (isLoading) return <Spin />;
   if (error) return <div>{error.message}</div>;

@@ -1,10 +1,8 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { Loading } from "../../components/loading/loading";
-import { useGetPublisherById } from "../../service/query/useGetPublisherById";
 import { Button, Card, Col, Flex, List, Row } from "antd";
-import { useGetCitiesById } from "../../service/query/useGetCitiesById";
-import { useGetDistrictsById } from "../../service/query/useGetDistrictsById";
+import { useGetById } from "../../service/query/useGetById";
 import {
   UserOutlined,
   EnvironmentOutlined,
@@ -12,19 +10,37 @@ import {
   ArrowLeftOutlined,
   SendOutlined,
 } from "@ant-design/icons";
+import {
+  citiesEndPoints,
+  districtsEndPoints,
+  publishersEndPoints,
+} from "../../config/endpoints";
 
 export const PublisherDetail = () => {
   const { id } = useParams();
-  const { data: publisher, isLoading, error } = useGetPublisherById(id);
+  const {
+    data: publisher,
+    isLoading,
+    error,
+  } = useGetById(publishersEndPoints.get, id);
 
   const byCity = publisher?.location?.city_id;
   const byDistrict = publisher?.location?.district_id;
-  const { data: publisherCity } = useGetCitiesById(byCity);
-  const { data: publisherDistrict } = useGetDistrictsById(byDistrict);
+  const { data: publisherCity } = useGetById(citiesEndPoints.get, byCity);
+  const { data: publisherDistrict } = useGetById(
+    districtsEndPoints.get,
+    byDistrict
+  );
 
   const getCityAndDistrictName = (city_id, district_id) => {
-    const { data: cityData, isLoading } = useGetCitiesById(city_id);
-    const { data: districtData } = useGetDistrictsById(district_id);
+    const { data: cityData, isLoading } = useGetById(
+      citiesEndPoints.get,
+      city_id
+    );
+    const { data: districtData } = useGetById(
+      districtsEndPoints.get,
+      district_id
+    );
     if (isLoading) return "Yuklanmoqda...";
     return `${cityData?.name.uz}: ${districtData?.name.uz}`;
   };

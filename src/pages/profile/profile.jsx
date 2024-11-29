@@ -1,12 +1,17 @@
 import React from "react";
-import { useGetProfile } from "../../service/query/useGetProfile";
 import { useNavigate } from "react-router-dom";
-import { ProfileCard } from "../../components/profile-card/profile-card";
+import { ProfileCard } from "../../components/profile/profile-card";
 import { Button, Flex, Spin, Typography } from "antd";
 import { EditFilled } from "@ant-design/icons";
+import { useGetList } from "../../service/query/useGetList";
+import { adminEndPoints } from "../../config/endpoints";
 
 export const Profile = () => {
-  const { data, isLoading, isError, error } = useGetProfile();
+  const { data, isLoading, isError, error } = useGetList(
+    adminEndPoints.profile,
+    {},
+    false
+  );
   const navigate = useNavigate();
 
   if (isLoading) return <Spin />;

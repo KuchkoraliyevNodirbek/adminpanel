@@ -1,11 +1,14 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useGetVacanciesById } from "../../service/query/useGetVacanciesById";
-import { useGetPublisherById } from "../../service/query/useGetPublisherById";
-import { useGetCitiesById } from "../../service/query/useGetCitiesById";
-import { useGetDistrictsById } from "../../service/query/useGetDistrictsById";
 import { Card, Spin, Typography, Divider, Button, Flex } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
+import { useGetById } from "../../service/query/useGetById";
+import {
+  citiesEndPoints,
+  districtsEndPoints,
+  publishersEndPoints,
+  vacanciesEndPoints,
+} from "../../config/endpoints";
 
 const { Title, Text } = Typography;
 
@@ -17,25 +20,28 @@ export const VacanciesDetail = () => {
     data: vacancy,
     isLoading: loadingVacancy,
     isError: errorVacancy,
-  } = useGetVacanciesById(vacancyId);
+  } = useGetById(vacanciesEndPoints.get, vacancyId);
 
   const {
     data: publisher,
     isLoading: loadingPublisher,
     isError: errorPublisher,
-  } = useGetPublisherById(vacancy?.publisher_id || null);
+  } = useGetById(publishersEndPoints.get, vacancy?.publisher_id || null);
 
   const {
     data: city,
     isLoading: loadingCity,
     isError: errorCity,
-  } = useGetCitiesById(vacancy?.location?.city_id || null);
+  } = useGetById(citiesEndPoints.get, vacancy?.location?.city_id || null);
 
   const {
     data: district,
     isLoading: loadingDistrict,
     isError: errorDistrict,
-  } = useGetDistrictsById(vacancy?.location?.district_id || null);
+  } = useGetById(
+    districtsEndPoints.get,
+    vacancy?.location?.district_id || null
+  );
 
   if (loadingVacancy || loadingPublisher || loadingCity || loadingDistrict) {
     return (

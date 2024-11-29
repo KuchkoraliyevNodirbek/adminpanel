@@ -1,3 +1,8 @@
+import { NotFoundPage } from "../pages/404/404";
+import { Login } from "../pages/auth/login";
+import { ResetPasswordByEmail } from "../pages/auth/resetByEmail";
+import { ResetPasswordByPhone } from "../pages/auth/resetByPhone";
+import { SendSmsCode } from "../pages/auth/sendSMS";
 import { Authors } from "../pages/authors/authors";
 import { AuthorsDetailPage } from "../pages/authors/authors-detail";
 import { CreateAuthors } from "../pages/authors/create-authors";
@@ -22,13 +27,13 @@ import { Profile } from "../pages/profile/profile";
 import { ProfileEditPage } from "../pages/profile/update-profile";
 import { Publishers } from "../pages/publishers/publishers";
 import { PublisherDetail } from "../pages/publishers/publishers-detail";
-import { AdminChange } from "../pages/super-admin/admin-change";
-import { AdminCreate } from "../pages/super-admin/admin-create";
-import { AllUsers } from "../pages/super-admin/all-users";
-import { AdminDetailPage } from "../pages/super-admin/users-detail-page";
-import { CreateTranslator } from "../pages/translator/create-translator";
-import { Translator } from "../pages/translator/translator";
-import { TranslatorUpdate } from "../pages/translator/translator-update";
+import { AdminChange } from "../pages/admin/admin-list";
+import { AdminCreate } from "../pages/admin/admin-create";
+import { AllUsers } from "../pages/users/users-list";
+import { AdminDetailPage } from "../pages/users/users-detail-page";
+import { CreateTranslator } from "../pages/translators/create-translator";
+import { Translator } from "../pages/translators/translator";
+import { TranslatorUpdate } from "../pages/translators/translator-update";
 import { Vacancies } from "../pages/vacancies/vacancies";
 import { VacanciesDetail } from "../pages/vacancies/vacancies-detail";
 
@@ -44,6 +49,14 @@ import {
   UserAddOutlined,
   TeamOutlined,
 } from "@ant-design/icons";
+
+export const publicRoutes = [
+  { path: "/forgot-password", component: <SendSmsCode /> },
+  { path: "/", component: <Login /> },
+  { path: "/reset-password-by-email", component: <ResetPasswordByEmail /> },
+  { path: "/reset-password-by-phone", component: <ResetPasswordByPhone /> },
+  { path: "*", component: <NotFoundPage /> },
+];
 
 export const adminRoutes = [
   { path: "profile", component: <Profile /> },

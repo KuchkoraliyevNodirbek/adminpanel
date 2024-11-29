@@ -1,15 +1,19 @@
 import React, { useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Form, Input, Button, message, Flex, notification, Spin } from "antd";
-import { useUpdateCategory } from "../../service/mutation/useUpdateCategory";
-import { useGetCategoryById } from "../../service/query/useGetCAtegoryById";
+import { Form, Input, Button, message, Flex, Spin } from "antd";
 import { categoryBackLink } from "../../routes/paths";
 import { ArrowLeftOutlined } from "@ant-design/icons";
+import { useGetById } from "../../service/query/useGetById";
+import { useUpdateById } from "../../service/mutation/useUpdateById";
+import { categoriesEndPoints } from "../../config/endpoints";
 
 export const EditCategory = () => {
   const { id } = useParams();
-  const { data: category, isLoading } = useGetCategoryById(id);
-  const { mutate, isPending } = useUpdateCategory();
+  const { data: category, isLoading } = useGetById(categoriesEndPoints.get, id);
+  const { mutate, isPending } = useUpdateById(
+    categoriesEndPoints.update,
+    categoriesEndPoints.list
+  );
   const [form] = Form.useForm();
   const navigate = useNavigate();
 
@@ -25,16 +29,10 @@ export const EditCategory = () => {
       {
         onSuccess: () => {
           navigate(categoryBackLink);
-          notification.success({
-            message: "Muvaffaqiyat",
-            description: "Kategoriya yangilandi!",
-          });
+          message.success("Kategoriya yangilandi!");
         },
         onError: () => {
-          notification.error({
-            message: "Xatolik",
-            description: "Kategoriya yangilanmadi...",
-          });
+          message.error("Kategoriya yangilanmadi...");
         },
       }
     );

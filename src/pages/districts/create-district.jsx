@@ -1,13 +1,17 @@
 import React from "react";
-import { Form, Input, Button, notification, Flex, Typography } from "antd";
+import { Form, Input, Button, Typography, message } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
-import { useCreateDistrict } from "../../service/mutation/useCreateDistricts";
-import { useGetCitiesById } from "../../service/query/useGetCitiesById";
+import { useCreate } from "../../service/mutation/useCreate";
+import { useGetById } from "../../service/query/useGetById";
+import { citiesEndPoints, districtsEndPoints } from "../../config/endpoints";
 
 export const CreateDistrict = () => {
   const { id } = useParams();
-  const { mutate: createDistrict, isLoading } = useCreateDistrict();
-  const { data: citie } = useGetCitiesById(id);
+  const { mutate: createDistrict, isLoading } = useCreate(
+    districtsEndPoints.create,
+    districtsEndPoints.list
+  );
+  const { data: citie } = useGetById(citiesEndPoints.get, id);
 
   const navigate = useNavigate();
 
@@ -23,14 +27,11 @@ export const CreateDistrict = () => {
 
     createDistrict(newDistrict, {
       onSuccess: () => {
-        notification.success({ message: "Tuman muvaffaqiyatli yaratildi!" });
+        message.success("Tuman muvaffaqiyatli yaratildi!");
         navigate(-1);
       },
-      onError: (error) => {
-        notification.error({
-          message: "Xatolik yuz berdi",
-          description: error.message,
-        });
+      onError: () => {
+        message.error("Xatolik yuz berdi");
       },
     });
   };

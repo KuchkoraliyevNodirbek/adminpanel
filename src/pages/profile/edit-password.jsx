@@ -1,8 +1,7 @@
 import React from "react";
-import { Form, Input, Button, Flex, Typography } from "antd";
-import { useChangePassword } from "../../service/mutation/useUpdatePassword";
+import { Form, Input, Button, Flex, Typography, message } from "antd";
+import { useChangePassword } from "../../service/mutation/admin/useUpdatePassword";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 
 export const ChangePassword = () => {
@@ -19,10 +18,10 @@ export const ChangePassword = () => {
       {
         onSuccess: () => {
           navigate(backLink);
-          toast.success("parol yangilandi");
+          message.success("parol yangilandi");
         },
         onError: () => {
-          toast.error("eski parolingiz xato");
+          message.error("eski parolingiz xato");
         },
       }
     );

@@ -2,14 +2,18 @@ import React, { useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Form, Input, Button, message, Flex, Typography } from "antd";
 import { Loading } from "../../components/loading/loading";
-import { useUpdatelanguage } from "../../service/mutation/useUpdateLanguage";
-import { useGetLanguagesById } from "../../service/query/useGetLanguagesById";
 import { ArrowLeftOutlined } from "@ant-design/icons";
+import { useGetById } from "../../service/query/useGetById";
+import { useUpdateById } from "../../service/mutation/useUpdateById";
+import { languagesEndPoints } from "../../config/endpoints";
 
 export const EditLanguages = () => {
   const { id } = useParams();
-  const { data, isLoading } = useGetLanguagesById(id);
-  const { mutate, isPending } = useUpdatelanguage();
+  const { data, isLoading } = useGetById(languagesEndPoints.get, id);
+  const { mutate, isPending } = useUpdateById(
+    languagesEndPoints.update,
+    languagesEndPoints.list
+  );
   const navigate = useNavigate();
   const [form] = Form.useForm();
 

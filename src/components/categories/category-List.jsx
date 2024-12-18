@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Flex, Pagination, Spin } from "antd";
+import { Empty, Flex, Pagination, Spin } from "antd";
 import { CategoryCard } from "./category-card";
 import { useGetList } from "../../service/query/useGetList";
 import { categoriesEndPoints } from "../../config/endpoints";
@@ -39,6 +39,11 @@ export const CategoriesList = () => {
         {currentCategories.map((category) => (
           <CategoryCard key={category.id} category={category} />
         ))}
+        {totalCount == 0 || undefined ? (
+          <Empty description="Malumotlar yo'q" />
+        ) : (
+          ""
+        )}
       </Flex>
 
       <Flex justify="center" align="center" className="mt-4">

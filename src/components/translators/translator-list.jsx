@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Pagination, message, Flex, Spin } from "antd";
+import { Pagination, message, Flex, Spin, Empty } from "antd";
 import { TranslatorCard } from "../translators/translator-card";
 import { useGetList } from "../../service/query/useGetList";
 import { tarnslatorsEndPoints } from "../../config/endpoints";
@@ -18,6 +18,8 @@ export const TranslatorList = () => {
   );
 
   const totalCount = data?.count;
+
+  console.log(totalCount);
 
   const handlePageChange = (page, pageSize) => {
     setCurrentPage(page);
@@ -48,10 +50,11 @@ export const TranslatorList = () => {
       </Flex>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        {data?.translators.map((translator) => (
+        {data?.translators?.map((translator) => (
           <TranslatorCard key={translator.id} translator={translator} />
         ))}
       </div>
+      {totalCount == undefined || 0 ? <Empty description="Malumotlar yo'q" /> : ""}
 
       <Flex justify="center" className="mt-4">
         <Pagination

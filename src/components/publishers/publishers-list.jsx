@@ -78,9 +78,9 @@ export const PublishersList = () => {
               <PublisherCard publisher={publisher} />
             </Col>
           ))}
+        {totalCount == 0 ? <Empty description="Malumotlar yo'q" /> : ""}
         </Row>
 
-        {totalCount == 0 ? <Empty description="No data" /> : ""}
       </Flex>
 
       <Flex justify="center" className="mt-4">

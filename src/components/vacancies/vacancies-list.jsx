@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Spin, Pagination, List, message, Flex } from "antd";
+import { Spin, Pagination, List, message, Flex, Empty } from "antd";
 import { VacancyCard } from "./vacancies-card";
 import { useGetList } from "../../service/query/useGetList";
 import { vacanciesEndPoints } from "../../config/endpoints";
@@ -30,7 +30,7 @@ export const VacanciesList = () => {
   }
 
   return (
-    <Flex vertical gap={24}>
+    <Flex vertical gap={24} className="w-full">
       <Flex
         justify="space-between"
         align="center"
@@ -47,7 +47,7 @@ export const VacanciesList = () => {
           <Spin size="large" />
         </div>
       ) : (
-        <>
+        <Flex vertical className="w-full">
           <List
             grid={{ gutter: 16, column: 1 }}
             dataSource={data?.vacancies || []}
@@ -56,9 +56,9 @@ export const VacanciesList = () => {
                 <VacancyCard vacancy={vacancy} />
               </List.Item>
             )}
-            locale={{ emptyText: "No vacancies found" }}
+            locale={{ emptyText: <Empty description="Malumotlar yo'q" /> }}
           />
-          <Flex justify="center" className="mt-4">
+          <Flex justify="center" className="mt-4 w-full">
             <Pagination
               current={currentPage}
               pageSize={limit}
@@ -69,7 +69,7 @@ export const VacanciesList = () => {
               showQuickJumper
             />
           </Flex>
-        </>
+        </Flex>
       )}
     </Flex>
   );

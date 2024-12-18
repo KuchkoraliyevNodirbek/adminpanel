@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Flex, Pagination } from "antd";
+import { Empty, Flex, Pagination } from "antd";
 import { Loading } from "../loading/loading";
 import { DistrictsCard } from "./districts-card";
 import { useGetList } from "../../service/query/useGetList";
@@ -34,6 +34,12 @@ export const DistrictsList = ({ city_id }) => {
         {currentCategories.map((category) => (
           <DistrictsCard key={category.id} category={category} />
         ))}
+
+        {totalCount == 0 || undefined ? (
+          <Empty description="Malumotlar yo'q" />
+        ) : (
+          ""
+        )}
       </Flex>
 
       <Flex justify="center" align="center" className="mt-4">

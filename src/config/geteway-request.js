@@ -1,8 +1,10 @@
 import axios from "axios";
 import { loadState } from "./stroge";
 
+const API_URL_GATEWAY = import.meta.env.VITE_API_URL_GATEWAY;
+
 const gatewayRequest = axios.create({
-  baseURL: "https://gateway.axadjonovsardorbek.uz",
+  baseURL: API_URL_GATEWAY,
 });
 
 gatewayRequest.interceptors.request.use((config) => {

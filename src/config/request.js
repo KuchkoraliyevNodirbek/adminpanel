@@ -1,7 +1,9 @@
 import axios from "axios";
 import { loadState } from "./stroge";
 
-const request = axios.create({ baseURL: "https://auth.axadjonovsardorbek.uz" });
+const API_URL_AUTH = import.meta.env.VITE_API_URL_AUTH;
+
+const request = axios.create({ baseURL: API_URL_AUTH });
 
 request.interceptors.request.use((config) => {
   const token = loadState("user")?.access_token;

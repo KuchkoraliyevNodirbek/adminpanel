@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Flex, Pagination, Spin } from "antd";
+import { Empty, Flex, Pagination, Spin } from "antd";
 import { BookCard } from "./BookCard";
 import { useGetList } from "../../service/query/useGetList";
 import { booksEndPoints } from "../../config/endpoints";
@@ -33,6 +33,7 @@ export const BookList = () => {
         {currentBooks.map((book) => (
           <BookCard key={book.id} book={book} />
         ))}
+        {totalCount == 0 ? <Empty description="Malumotlar yo'q" /> : ""}
       </Flex>
 
       <Flex justify="center" className="mt-4">

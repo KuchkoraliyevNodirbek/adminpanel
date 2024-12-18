@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Flex, Pagination, Spin } from "antd";
+import { Empty, Flex, Pagination, Spin } from "antd";
 import { AuthorsCard } from "./authors-card";
 import { useGetList } from "../../service/query/useGetList";
 import { authorsEndPoints } from "../../config/endpoints";
@@ -39,6 +39,12 @@ export const AuthorsList = () => {
           <AuthorsCard key={author.id} author={author} />
         ))}
       </div>
+      
+      {totalCount == 0 || undefined ? (
+        <Empty description="Malumotlar yo'q" />
+      ) : (
+        ""
+      )}
 
       <Flex justify="center" align="center" className="mt-4">
         <Pagination

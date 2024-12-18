@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Pagination, List, Flex, Spin } from "antd";
+import { Pagination, List, Flex, Spin, Empty } from "antd";
 import { UserCard } from "../users/userCard";
 import { useGetList } from "../../service/query/useGetList";
 import { usersEndPoints } from "../../config/endpoints";
@@ -42,6 +42,7 @@ export const AdminChange = () => {
       </Flex>
 
       <List
+        locale={{ emptyText: <Empty description="Malumotlar yo'q" /> }}
         grid={{ gutter: 10, xs: 1, sm: 1, md: 1, lg: 1, column: 1 }}
         dataSource={data?.users || []}
         renderItem={(user) => (

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Flex, Pagination, Spin } from "antd";
+import { Empty, Flex, Pagination, Spin } from "antd";
 import { CitiesCard } from "./cities-card";
 import { useGetList } from "../../service/query/useGetList";
 import { citiesEndPoints } from "../../config/endpoints";
@@ -32,6 +32,11 @@ export const CitiesList = () => {
         {currentCategories?.map((category) => (
           <CitiesCard key={category.id} category={category} />
         ))}
+        {totalCount == 0 || undefined ? (
+          <Empty description="Malumotlar yo'q" />
+        ) : (
+          ""
+        )}
       </Flex>
 
       <Flex justify="center" align="center" className="mt-4">

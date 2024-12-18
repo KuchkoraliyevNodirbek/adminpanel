@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Flex, Pagination, Spin } from "antd";
+import { Empty, Flex, Pagination, Spin } from "antd";
 import { LanguagesCard } from "./languages-card";
 import { useGetList } from "../../service/query/useGetList";
 import { languagesEndPoints } from "../../config/endpoints";
@@ -39,6 +39,12 @@ export const LanguagesList = () => {
         {currentlanguages.map((category) => (
           <LanguagesCard key={category.id} category={category} />
         ))}
+
+        {totalCount == 0 || undefined ? (
+          <Empty description="Malumotlar yo'q" />
+        ) : (
+          ""
+        )}
       </Flex>
 
       <Flex justify="center" className="mt-4">

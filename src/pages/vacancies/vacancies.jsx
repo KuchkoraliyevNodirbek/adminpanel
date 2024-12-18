@@ -4,7 +4,7 @@ import { Flex } from "antd";
 
 export const Vacancies = () => {
   return (
-    <Flex className="w-fit">
+    <Flex justify="center">
       <VacanciesList />
     </Flex>
   );

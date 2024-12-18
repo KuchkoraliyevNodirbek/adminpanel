@@ -48,6 +48,7 @@ import {
   SolutionOutlined,
   UserAddOutlined,
   TeamOutlined,
+  TranslationOutlined,
 } from "@ant-design/icons";
 
 export const publicRoutes = [
@@ -135,6 +136,10 @@ export const menuItems = [
     icon: <SolutionOutlined />,
     label: "Vakansiyalar",
   },
-  { key: "/admin/translator", icon: <UserOutlined />, label: "Tarjimonlar" },
+  {
+    key: "/admin/translator",
+    icon: <TranslationOutlined />,
+    label: "Tarjimonlar",
+  },
   { key: "/admin/profile", icon: <UserOutlined />, label: "Profil" },
 ];

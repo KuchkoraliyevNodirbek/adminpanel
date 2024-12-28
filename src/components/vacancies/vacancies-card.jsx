@@ -12,15 +12,6 @@ export const VacancyCard = ({ vacancy }) => {
   const vacancyId = vacancy.id;
   const detailLink = `/admin/vacancies-detail/${vacancyId}`;
 
-  const { data: cityData } = useGetById(
-    "/cities/get",
-    vacancy.location?.city_id
-  );
-  const { data: districtData } = useGetById(
-    "/districts/get",
-    vacancy.location?.district_id
-  );
-
   return (
     <div className="border-2 w-full rounded-md shadow-sm hover:shadow-md transition-shadow duration-200">
       <div className="vacancy-card w-full p-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-5">
@@ -44,8 +35,8 @@ export const VacancyCard = ({ vacancy }) => {
         </p>
 
         <p className="text-gray-500">
-          {cityData ? cityData.name.en : "City N/A"},{" "}
-          {districtData ? districtData.name.en : "District N/A"}
+          {vacancy.city_name.uz ? vacancy.city_name.uz : "City N/A"},{" "}
+          {vacancy.district_name.uz ? vacancy.district_name.uz : "District N/A"}
         </p>
 
         <div className="flex gap-2">

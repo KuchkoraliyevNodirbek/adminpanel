@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Spin, Pagination, List, message, Flex, Empty } from "antd";
-import { VacancyCard } from "./vacancies-card";
+import { Spin, Pagination, message, Flex, Table, Button } from "antd";
 import { useGetList } from "../../service/query/useGetList";
 import { vacanciesEndPoints } from "../../config/endpoints";
+import { Link } from "react-router-dom";
+import { InfoCircleOutlined } from "@ant-design/icons";
 
 export const VacanciesList = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -25,9 +26,11 @@ export const VacanciesList = () => {
   };
 
   if (isError) {
-    message.error("Failed to load vacancies. Please try again.");
+    message.error("Vakansiyalar yuklanmadi. Iltimos qayta urinib ko'ring.");
     console.error("Error fetching vacancies:", error);
   }
+
+  if (isLoading) return <Spin />;
 
   return (
     <Flex vertical gap={24} className="w-full">
@@ -42,22 +45,43 @@ export const VacanciesList = () => {
           <span className="text-xl">Jami:</span> {totalCount}
         </p>
       </Flex>
-      {isLoading ? (
-        <div className="flex justify-center items-center h-64">
-          <Spin size="large" />
-        </div>
-      ) : (
-        <Flex vertical className="w-full">
-          <List
-            grid={{ gutter: 16, column: 1 }}
-            dataSource={data?.vacancies || []}
-            renderItem={(vacancy) => (
-              <List.Item>
-                <VacancyCard vacancy={vacancy} />
-              </List.Item>
-            )}
-            locale={{ emptyText: <Empty description="Malumotlar yo'q" /> }}
-          />
+
+      <Table
+        dataSource={data?.vacancies || []}
+        columns={[
+          {
+            title: "Sarlavha",
+            dataIndex: "title",
+            key: "title",
+          },
+          {
+            title: "Maosh",
+            dataIndex: "salary_from",
+            key: "salary_from",
+            render: (text, record) => (
+              <span>
+                {record.salary_from} - {record.salary_to} UZS
+              </span>
+            ),
+          },
+          {
+            width: "0px",
+            title: "Harakat",
+            dataIndex: "id",
+            key: "id",
+            render: (text, record) => (
+              <Link to={`/admin/vacancies-detail/${text}`}>
+                <Button
+                  className="bg-blue-500 text-white"
+                  icon={<InfoCircleOutlined />}
+                  type="primary"
+                />
+              </Link>
+            ),
+          },
+        ]}
+        pagination={false}
+        footer={() => (
           <Flex justify="center" className="mt-4 w-full">
             <Pagination
               current={currentPage}
@@ -69,8 +93,8 @@ export const VacanciesList = () => {
               showQuickJumper
             />
           </Flex>
-        </Flex>
-      )}
+        )}
+      />
     </Flex>
   );
 };

@@ -3,12 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Card, Spin, Typography, Divider, Button, Flex } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { useGetById } from "../../service/query/useGetById";
-import {
-  citiesEndPoints,
-  districtsEndPoints,
-  publishersEndPoints,
-  vacanciesEndPoints,
-} from "../../config/endpoints";
+import { vacanciesEndPoints } from "../../config/endpoints";
 
 const { Title, Text } = Typography;
 
@@ -16,49 +11,26 @@ export const VacanciesDetail = () => {
   const navigate = useNavigate();
   const { id: vacancyId } = useParams();
 
-  const {
-    data: vacancy,
-    isLoading: loadingVacancy,
-    isError: errorVacancy,
-  } = useGetById(vacanciesEndPoints.get, vacancyId);
-
-  const {
-    data: publisher,
-    isLoading: loadingPublisher,
-    isError: errorPublisher,
-  } = useGetById(publishersEndPoints.get, vacancy?.publisher_id || null);
-
-  const {
-    data: city,
-    isLoading: loadingCity,
-    isError: errorCity,
-  } = useGetById(citiesEndPoints.get, vacancy?.location?.city_id || null);
-
-  const {
-    data: district,
-    isLoading: loadingDistrict,
-    isError: errorDistrict,
-  } = useGetById(
-    districtsEndPoints.get,
-    vacancy?.location?.district_id || null
+  const { data, isLoading, isError } = useGetById(
+    vacanciesEndPoints.get,
+    vacancyId
   );
 
-  if (loadingVacancy || loadingPublisher || loadingCity || loadingDistrict) {
+  if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-screen">
+      <Flex justify="center" align="center" className="h-screen">
         <Spin size="large" />
-      </div>
+      </Flex>
     );
   }
 
-  if (errorVacancy || errorPublisher || errorCity || errorDistrict) {
+  if (isError) {
     return (
-      <div className="flex justify-center items-center h-screen">
+      <Flex justify="center" align="center" className="h-screen">
         <Text type="danger">
-          Tafsilotlarni yuklashda xatolik yuz berdi. Keyinroq qayta urinib
-          ko'ring.
+          Tafsilotlarni yuklashda xatolik yuz berdi. Qayta urinib ko'ring.
         </Text>
-      </div>
+      </Flex>
     );
   }
 
@@ -77,46 +49,44 @@ export const VacanciesDetail = () => {
       <Card
         title={
           <Title className="border-2 text-center rounded" level={3}>
-            {vacancy?.title || "Mavjud emas"}
+            {data?.title || "Mavjud emas"}
           </Title>
         }
         className="max-w-2xl w-full shadow-md shadow-dark"
         bordered={true}
       >
         <Text strong>Ta'rif: </Text>
-        <Text>{vacancy?.description || "Mavjud emas"}</Text>
+        <Text>{data?.description || "Mavjud emas"}</Text>
         <Divider />
         <Text strong>Oylik: </Text>
-        <Text>{`${vacancy.salary_from || 0} - ${
-          vacancy.salary_to || 0
-        } UZS`}</Text>
+        <Text>{`${data.salary_from || 0} - ${data.salary_to || 0} UZS`}</Text>
         <Divider />
         <Text strong>Joylashuv: </Text>
         <Text>
-          {city?.name?.uz || "Mavjud emas"},{" "}
-          {district?.name?.uz || "Mavjud emas"}
+          {data.city_name?.uz || "Mavjud emas"},{" "}
+          {data.district_name?.uz || "Mavjud emas"}
         </Text>
         <Divider />
         <Text strong>Telefon: </Text>
-        <Text>{vacancy.phone_number || "Aloqa ma'lumoti yo'q"}</Text>
+        <Text>{data.phone_number || "Aloqa ma'lumoti yo'q"}</Text>
         <Divider />
         <Text strong>Ish turi: </Text>
-        <Text>{vacancy.working_styles || "Mavjud emas"}</Text>
+        <Text>{data.working_styles || "Mavjud emas"}</Text>
         <Divider />
         <Text strong>Ish sharoitlari: </Text>
-        <Text>{vacancy.working_types || "Mavjud emas"}</Text>
+        <Text>{data.working_types || "Mavjud emas"}</Text>
         <Divider />
         <Text strong>Ko'rishlar soni: </Text>
-        <Text>{vacancy.view_count || 0}</Text>
+        <Text>{data.view_count || 0}</Text>
         <Divider />
         <Text strong>Holat: </Text>
-        <Text>{vacancy.status || "Mavjud emas"}</Text>
+        <Text>{data.status || "Mavjud emas"}</Text>
         <Divider />
         <Text strong>Chop etuvchi: </Text>
-        <Text>{publisher?.name || "Mavjud emas"}</Text>
+        <Text>{data.publisher_name || "Mavjud emas"}</Text>
         <Divider />
         <Text strong>Yaratilgan vaqti: </Text>
-        <Text>{vacancy.created_at || "Mavjud emas"}</Text>
+        <Text>{data.created_at || "Mavjud emas"}</Text>
       </Card>
     </Flex>
   );
